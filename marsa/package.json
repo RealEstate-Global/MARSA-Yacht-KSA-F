@@ -15,7 +15,7 @@
     "@angular/cli": "^20.3.36",
     "@angular/compiler-cli": "^20.3.30",
     "@types/node": "^20.0.0",
-    "autoprefixer": "^10.5.6",
+    "autoprefixer": "^10.6.0",
     "postcss": "^8.5.28",
     "tailwindcss": "^3.4.19",
     "typescript": "~5.9.3"
