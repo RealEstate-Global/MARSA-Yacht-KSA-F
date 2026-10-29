@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, OnInit, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { copy } from '../../../data/content';
@@ -17,19 +17,37 @@ export class HeroComponent implements OnInit, OnDestroy {
 
   // The former second entry duplicated marsa-hero.jpg byte-for-byte, making
   // the first auto-advance a no-op (issue #38). Each slide is now distinct.
+  // AVIF cuts every slide to ~40% of its former JPEG weight.
   slides = [
-    '/assets/marsa-hero.jpg',
-    '/assets/marsa-deck.jpg',
-    '/assets/marsa-marina.jpg',
-    '/assets/marsa-coastline.jpg',
+    '/assets/marsa-hero.avif',
+    '/assets/marsa-deck.avif',
+    '/assets/marsa-marina.avif',
+    '/assets/marsa-coastline.avif',
   ];
-  activeSlideIndex = 0;
+
+  // Signal so the zoneless scheduler picks up timer-driven slide changes.
+  activeSlideIndex = signal(0);
   private slideInterval: ReturnType<typeof setInterval> | undefined;
 
   constructor(public preferences: SitePreferencesService) {}
 
   ngOnInit() {
     this.startSlider();
+  }
+
+  /**
+   * Only the active slide and its successor may download. Binding the others
+   * to `null` removes their background image, so the browser fetches one
+   * slide at a time instead of eager-downloading the whole slider on page
+   * load; the successor is fetched while the active slide is displayed so
+   * advancement stays seamless.
+   */
+  slideLoads(index: number): boolean {
+    return index === this.activeSlideIndex() || index === this.successorIndex();
+  }
+
+  private successorIndex(): number {
+    return (this.activeSlideIndex() + 1) % this.slides.length;
   }
 
   ngOnDestroy() {
@@ -58,11 +76,14 @@ export class HeroComponent implements OnInit, OnDestroy {
   }
 
   nextSlide() {
-    this.activeSlideIndex = (this.activeSlideIndex + 1) % this.slides.length;
+    this.activeSlideIndex.update(index => (index + 1) % this.slides.length);
   }
 
+  /**
+   * Manual selection restarts the timer so the shown slide gets its full turn.
+   */
   setSlide(index: number) {
-    this.activeSlideIndex = index;
+    this.activeSlideIndex.set(index);
     // Manual selection restarts the timer so the shown slide gets its full turn.
     this.startSlider();
   }
