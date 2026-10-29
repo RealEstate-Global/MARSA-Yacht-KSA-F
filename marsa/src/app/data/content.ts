@@ -14,14 +14,6 @@ export interface ServiceItem {
   accent: string;
 }
 
-export interface ProductItem {
-  category: LocalizedText;
-  name: LocalizedText;
-  description: LocalizedText;
-  image: string;
-  price: string;
-}
-
 export interface DestinationItem {
   name: LocalizedText;
   description: LocalizedText;
@@ -40,6 +32,9 @@ export interface SiteCopy {
     menu: LocalizedText;
     close: LocalizedText;
     switchTheme: LocalizedText;
+    home: LocalizedText;
+    language: LocalizedText;
+    slides: LocalizedText;
   };
   hero: {
     eyebrow: LocalizedText;
@@ -61,6 +56,11 @@ export interface SiteCopy {
     marinaEyebrow: LocalizedText;
     marinaTitle: LocalizedText;
     marinaBody: LocalizedText;
+    marinaBulletDelivery: LocalizedText;
+    marinaBulletSupport: LocalizedText;
+    marinaBulletCrew: LocalizedText;
+    marinaBulletSpecial: LocalizedText;
+    marinaImageAlt: LocalizedText;
     hospitalityEyebrow: LocalizedText;
     hospitalityTitle: LocalizedText;
     hospitalityBody: LocalizedText;
@@ -104,9 +104,25 @@ export interface SiteCopy {
     crew: LocalizedText;
     name: LocalizedText;
     phone: LocalizedText;
+    email: LocalizedText;
     yacht: LocalizedText;
+    howCanWeHelp: LocalizedText;
     chef: LocalizedText;
     submit: LocalizedText;
+    modalEyebrow: LocalizedText;
+    receivedEyebrow: LocalizedText;
+    receivedTitle: LocalizedText;
+    receivedBody: LocalizedText;
+    sending: LocalizedText;
+    fieldRequired: LocalizedText;
+    invalidEmail: LocalizedText;
+    submissionUnavailable: LocalizedText;
+    submissionFailed: LocalizedText;
+    submissionErrorTitle: LocalizedText;
+    tryAgain: LocalizedText;
+  };
+  slider: {
+    goToSlide: LocalizedText;
   };
   footer: {
     descriptor: LocalizedText;
@@ -115,7 +131,10 @@ export interface SiteCopy {
     contact: LocalizedText;
     location: LocalizedText;
     email: LocalizedText;
+    emailLabel: LocalizedText;
     phone: LocalizedText;
+    phoneLabel: LocalizedText;
+    builtFor: LocalizedText;
     rights: LocalizedText;
   };
 }
@@ -131,6 +150,9 @@ export const copy: SiteCopy = {
     menu: { en: 'Menu', ar: 'القائمة' },
     close: { en: 'Close', ar: 'إغلاق' },
     switchTheme: { en: 'Switch theme', ar: 'تغيير المظهر' },
+    home: { en: 'MARSA home', ar: 'الرئيسية' },
+    language: { en: 'Change language', ar: 'تغيير اللغة' },
+    slides: { en: 'Hero slides', ar: 'شرائح الواجهة' },
   },
   hero: {
     eyebrow: { en: 'Saudi marine hospitality', ar: 'ضيافة بحرية سعودية' },
@@ -163,6 +185,14 @@ export const copy: SiteCopy = {
     marinaBody: {
       en: 'A discreet local team for the moments that make a voyage feel effortless.',
       ar: 'فريق محلي متكامل للتفاصيل التي تجعل الرحلة أكثر سلاسة.',
+    },
+    marinaBulletDelivery: { en: 'Marina delivery', ar: 'التسليم في المرسى' },
+    marinaBulletSupport: { en: 'Yacht support', ar: 'دعم اليخت' },
+    marinaBulletCrew: { en: 'Crew assistance', ar: 'مساعدة الطاقم' },
+    marinaBulletSpecial: { en: 'Special requests', ar: 'طلبات خاصة' },
+    marinaImageAlt: {
+      en: 'Marina at dusk',
+      ar: 'مرسى اليخوت عند الغروب',
     },
     hospitalityEyebrow: { en: 'A Saudi welcome', ar: 'ترحيب سعودي' },
     hospitalityTitle: { en: 'Where every detail becomes part of the journey.', ar: 'حيث التفاصيل تصنع التجربة.' },
@@ -216,9 +246,34 @@ export const copy: SiteCopy = {
     crew: { en: 'Crew supplies', ar: 'مستلزمات الطاقم' },
     name: { en: 'Name*', ar: 'الاسم*' },
     phone: { en: 'Phone Number*', ar: 'رقم الهاتف*' },
+    email: { en: 'Email*', ar: 'البريد الإلكتروني*' },
     yacht: { en: 'Yacht Name*', ar: 'اسم اليخت*' },
+    howCanWeHelp: { en: 'How can we help?', ar: 'كيف نساعدك؟' },
     chef: { en: 'Chef', ar: 'الشيف' },
     submit: { en: 'Submit', ar: 'إرسال' },
+    modalEyebrow: { en: 'How it works', ar: 'كيف نعمل' },
+    receivedEyebrow: { en: 'Request received', ar: 'تم الاستلام' },
+    receivedTitle: { en: "We'll be in touch shortly.", ar: 'سنعود إليك قريباً.' },
+    receivedBody: {
+      en: 'Our concierge team will follow up with the right details for your voyage.',
+      ar: 'سيتواصل معك فريق الكونسيرج في أقرب وقت.',
+    },
+    sending: { en: 'Sending…', ar: 'جارٍ الإرسال…' },
+    fieldRequired: { en: 'This field is required.', ar: 'هذا الحقل مطلوب.' },
+    invalidEmail: { en: 'Please enter a valid email address.', ar: 'يرجى إدخال بريد إلكتروني صالح.' },
+    submissionUnavailable: {
+      en: 'Online submission is not configured yet. Please contact the concierge team directly.',
+      ar: 'الإرسال الإلكتروني غير مُعدّ بعد. يرجى التواصل مع فريق الكونسيرج مباشرةً.',
+    },
+    submissionFailed: {
+      en: 'Something went wrong while sending your request. Please try again.',
+      ar: 'حدث خطأ أثناء إرسال طلبك. يرجى المحاولة مرة أخرى.',
+    },
+    submissionErrorTitle: { en: 'Request not sent', ar: 'لم يُرسل الطلب' },
+    tryAgain: { en: 'Try again', ar: 'حاول مجدداً' },
+  },
+  slider: {
+    goToSlide: { en: 'Go to slide', ar: 'الانتقال إلى الشريحة' },
   },
   footer: {
     descriptor: { en: 'Saudi Marine Hospitality & Provisioning', ar: 'الضيافة والتموين البحري السعودي' },
@@ -227,7 +282,10 @@ export const copy: SiteCopy = {
     contact: { en: 'Contact', ar: 'تواصل' },
     location: { en: 'Jeddah, Saudi Arabia', ar: 'جدة، المملكة العربية السعودية' },
     email: { en: 'concierge@marsa.sa', ar: 'concierge@marsa.sa' },
+    emailLabel: { en: 'Email the concierge team', ar: 'راسل فريق الكونسيرج' },
     phone: { en: '+966 12 000 0000', ar: '+966 12 000 0000' },
+    phoneLabel: { en: 'Call the concierge team', ar: 'اتصل بفريق الكونسيرج' },
+    builtFor: { en: 'Built for the Red Sea', ar: 'صُنع للبحر الأحمر' },
     rights: { en: '© 2026 MARSA. All rights reserved.', ar: '© ٢٠٢٦ مرسى. جميع الحقوق محفوظة.' },
   },
 };
@@ -263,30 +321,6 @@ export const services: ServiceItem[] = [
   },
 ];
 
-export const products: ProductItem[] = [
-  {
-    category: { en: 'Fresh produce', ar: 'منتجات طازجة' },
-    name: { en: 'Red Sea morning', ar: 'صباح البحر الأحمر' },
-    description: { en: 'Seasonal fruit, pressed citrus, mint.', ar: 'فواكه موسمية، حمضيات طازجة، ونعناع.' },
-    image: '/assets/marsa-produce.jpg',
-    price: 'From SAR 180',
-  },
-  {
-    category: { en: 'Seafood', ar: 'مأكولات بحرية' },
-    name: { en: 'Coastal catch', ar: 'صيد الساحل' },
-    description: { en: 'A chef-ready selection from the coast.', ar: 'اختيارات طازجة جاهزة للطاهي.' },
-    image: '/assets/marsa-seafood.jpg',
-    price: 'From SAR 420',
-  },
-  {
-    category: { en: 'Yacht essentials', ar: 'أساسيات اليخت' },
-    name: { en: 'The deck edit', ar: 'مختارات السطح' },
-    description: { en: 'The considered details for easy days onboard.', ar: 'تفاصيل مختارة لأيام هادئة على متن اليخت.' },
-    image: '/assets/marsa-deck.jpg',
-    price: 'From SAR 260',
-  },
-];
-
 export const destinations: DestinationItem[] = [
   {
     name: { en: 'Jeddah', ar: 'جدة' },
@@ -306,11 +340,4 @@ export const destinations: DestinationItem[] = [
     detail: { en: '27° 42′ N · 35° 15′ E', ar: '٢٧° ٤٢′ شمالاً · ٣٥° ١٥′ شرقاً' },
     image: '/assets/marsa-amaala.jpg',
   },
-];
-
-export const steps: LocalizedText[] = [
-  { en: 'Tell us what you need', ar: 'أخبرنا بما تحتاج' },
-  { en: 'We source the finest products', ar: 'نختار لك أفضل المنتجات' },
-  { en: 'We prepare your order', ar: 'نجهز طلبك بعناية' },
-  { en: 'We deliver directly to your yacht', ar: 'نوصله مباشرة إلى يختك' },
 ];
