@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { copy } from '../../../data/content';
@@ -35,6 +35,8 @@ export class Header {
   @Output() requestService = new EventEmitter<void>();
   @Output() menuToggled = new EventEmitter<boolean>();
 
+  @ViewChild('menuToggle') private menuToggle?: ElementRef<HTMLButtonElement>;
+
   constructor(preferences: SitePreferencesService) {
     this.preferences = preferences;
   }
@@ -49,8 +51,24 @@ export class Header {
   }
 
   closeMenu(): void {
+    if (!this.isMenuOpen) {
+      return;
+    }
     this.isMenuOpen = false;
     this.menuToggled.emit(this.isMenuOpen);
+  }
+
+  /** Escape closes the open overlay and returns focus to the menu toggle. */
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    if (this.isMenuOpen) {
+      this.closeMenu();
+      window.setTimeout(() => this.menuToggle?.nativeElement.focus(), 0);
+    }
+  }
+
+  isLightTheme(): boolean {
+    return this.preferences.theme() === 'light';
   }
 
   openRequest(): void {
