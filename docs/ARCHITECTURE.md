@@ -2,7 +2,7 @@
 
 ## Overview
 
-MARSA is built using a modular Angular architecture with standalone components, reactive programming with RxJS, and a service-based pattern for state management.
+MARSA is built using a modular Angular architecture with standalone components, signals-based state, and a service-based pattern for application configuration and side effects.
 
 ## Core Architecture
 
@@ -35,13 +35,12 @@ export class ButtonComponent {}
 ```
 
 #### Services Pattern
-Application state and side effects are managed through services with RxJS observables.
+Application state is managed through services with Angular signals; observables are used only for true async flows (HTTP submissions).
 
 ```typescript
 @Injectable({ providedIn: 'root' })
 export class SitePreferencesService {
-  private locale$ = new BehaviorSubject<'en' | 'ar'>('en');
-  locale = this.locale$.asObservable();
+  readonly locale = signal<Locale>(this.readLocale());
 }
 ```
 
@@ -65,22 +64,20 @@ The application uses Angular Router with lazy loading for optimal performance.
 ## State Management
 
 ### Pattern
-- Services with BehaviorSubjects for reactive state
+- Angular **signals** for reactive state (`SitePreferencesService`)
 - OnPush change detection for performance
-- Unsubscription handled automatically through async pipe or takeUntil
+- Subscriptions stored in fields and cleaned up in `ngOnDestroy`
 
-### Example
+### Example (actual implementation)
 ```typescript
-export class UserService {
-  private users$ = new BehaviorSubject<User[]>([]);
-  
-  getUsers() {
-    return this.users$.asObservable();
-  }
-  
-  addUser(user: User) {
-    const current = this.users$.value;
-    this.users$.next([...current, user]);
+@Injectable({ providedIn: 'root' })
+export class SitePreferencesService {
+  readonly locale = signal<Locale>(this.readLocale());
+  readonly theme = signal<Theme>(this.readTheme());
+
+  toggleLocale(): void {
+    this.locale.update((value) => (value === 'en' ? 'ar' : 'en'));
+    localStorage.setItem('marsa-locale', this.locale());
   }
 }
 ```
@@ -101,10 +98,11 @@ export class UserService {
 
 ## Testing Strategy
 
-- Unit tests for services using Jasmine
-- Component tests with TestBed
-- E2E tests for critical user flows
-- Mock services for isolated testing
+- Unit tests run with the `@angular/build:unit-test` builder (Vitest, jsdom)
+- Specs live next to their sources (`*.spec.ts`) and run via `npm run test`
+- CI executes typecheck, tests, and the production build on every PR
+- Covered areas today: routing/anchors, locale resolution, honest form
+  submission behaviour, reduced-motion slider gating
 
 ## Bilingual Support
 
