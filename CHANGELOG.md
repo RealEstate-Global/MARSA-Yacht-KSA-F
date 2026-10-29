@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/compare/v1.0.2...v1.0.3) (2026-10-29)
+
+
+### Bug Fixes
+
+* resolve verified MARSA application audit findings ([#44](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/issues/44)) ([0d65f43](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/commit/0d65f4339e4d1c2c6e3784d02911c0fa5e3b96e7)), closes [#33](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/issues/33) [#34](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/issues/34) [#35](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/issues/35) [#36](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/issues/36) [#37](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/issues/37) [#39](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/issues/39) [#38](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/issues/38) [#39](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/issues/39) [#41](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/issues/41) [#40](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/issues/40) [#41](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/issues/41) [#42](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/issues/42)
+
 ## [1.0.2](https://github.com/Mostafa-SAID7/MARSA-Yacht-KSA-F/compare/v1.0.1...v1.0.2) (2026-09-11)
 
 
