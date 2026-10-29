@@ -64,8 +64,8 @@ describe('HomeComponent request modal', () => {
   it('blocks submission and marks touched when the form is invalid', () => {
     const component = createComponent();
     component.submitRequest(activeForm);
-    expect(component.submissionState).not.toBe('sending');
-    expect(component.requestReceived).toBe(false);
+    expect(component.submissionState()).not.toBe('sending');
+    expect(component.requestReceived()).toBe(false);
     expect(activeForm.form.get('name')!.touched).toBe(true);
   });
 
@@ -74,18 +74,18 @@ describe('HomeComponent request modal', () => {
     activeForm.form.get('name')!.setValue('Guest');
     activeForm.form.get('email')!.setValue('guest@example.com');
     component.submitRequest(activeForm);
-    expect(component.submissionState).toBe('error');
-    expect(component.requestReceived).toBe(false);
-    expect(component.requestError).toBe(copy.form.submissionUnavailable.en);
+    expect(component.submissionState()).toBe('error');
+    expect(component.requestReceived()).toBe(false);
+    expect(component.requestError()).toBe(copy.form.submissionUnavailable.en);
   });
 
   it('starts every open from a clean state without retained data', () => {
     const component = createComponent();
-    component.requestName = 'stale';
-    component.requestEmail = 'stale@example.com';
+    component.requestName.set('stale');
+    component.requestEmail.set('stale@example.com');
     component.openRequest();
-    expect(component.requestName).toBe('');
-    expect(component.requestEmail).toBe('');
-    expect(component.isRequestOpen).toBe(true);
+    expect(component.requestName()).toBe('');
+    expect(component.requestEmail()).toBe('');
+    expect(component.isRequestOpen()).toBe(true);
   });
 });

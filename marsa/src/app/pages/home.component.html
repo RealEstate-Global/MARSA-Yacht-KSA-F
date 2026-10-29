@@ -2,7 +2,7 @@
   #page
   class="min-h-screen overflow-hidden bg-marsa-pearl dark:bg-marsa-dark-canvas text-marsa-ink dark:text-marsa-dark-ink"
   [class.menu-open]="isMenuOpen"
-  [class.modal-open]="isRequestOpen"
+  [class.modal-open]="isRequestOpen()"
   [attr.dir]="preferences.locale() === 'ar' ? 'rtl' : 'ltr'"
 >
   <!-- ═══════════════════════════════ HEADER ═══════════════════════════════ -->
@@ -25,7 +25,7 @@
 
   <!-- ═══════════════════════════════ REQUEST MODAL ═══════════════════════════════ -->
   <div
-    *ngIf="isRequestOpen"
+    *ngIf="isRequestOpen()"
     class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-marsa-deep/60 backdrop-blur-md"
     (click)="closeRequest()"
     (keydown.escape)="closeRequest()">
@@ -44,10 +44,10 @@
 
       <!-- Polite live region: announces success/errors to assistive technology -->
       <p class="sr-only" aria-live="polite">
-        {{ requestReceived ? text(copy.form.receivedEyebrow) : requestError }}
+        {{ requestReceived() ? text(copy.form.receivedEyebrow) : requestError() }}
       </p>
 
-      <ng-container *ngIf="!requestReceived; else thankYou">
+      <ng-container *ngIf="!requestReceived(); else thankYou">
         <div class="p-8">
           <p class="eyebrow mb-3"><span class="eyebrow-line"></span>{{ text(copy.form.modalEyebrow) }}</p>
           <h2 id="request-title" class="text-2xl font-bold mb-3 -tracking-[0.03em]">{{ text(copy.sections.request) }}</h2>
@@ -56,7 +56,8 @@
           <form #requestForm="ngForm" (ngSubmit)="submitRequest(requestForm)" novalidate class="space-y-5">
             <div>
               <label class="block text-[10px] font-bold mb-2 opacity-70 tracking-widest uppercase" for="request-name">{{ text(copy.form.name) }}</label>
-              <input #requestFirstField id="request-name" name="name" type="text" [(ngModel)]="requestName" required
+              <input #requestFirstField id="request-name" name="name" type="text"
+                [ngModel]="requestName()" (ngModelChange)="requestName.set($event)" required
                 class="w-full px-4 py-3 border border-marsa-warm dark:border-white/10 rounded-marsa-sm bg-transparent focus:border-marsa-sea dark:focus:border-marsa-dark-sea transition-colors text-sm outline-none"
                 [attr.aria-invalid]="fieldError(requestForm, 'name') ? 'true' : null"
                 [attr.aria-describedby]="fieldError(requestForm, 'name') ? 'request-name-error' : null" />
@@ -66,7 +67,8 @@
             </div>
             <div>
               <label class="block text-[10px] font-bold mb-2 opacity-70 tracking-widest uppercase" for="request-email">{{ text(copy.form.email) }}</label>
-              <input id="request-email" name="email" type="email" [(ngModel)]="requestEmail" required
+              <input id="request-email" name="email" type="email"
+                [ngModel]="requestEmail()" (ngModelChange)="requestEmail.set($event)" required
                 pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                 class="w-full px-4 py-3 border border-marsa-warm dark:border-white/10 rounded-marsa-sm bg-transparent focus:border-marsa-sea dark:focus:border-marsa-dark-sea transition-colors text-sm outline-none"
                 [attr.aria-invalid]="fieldError(requestForm, 'email') ? 'true' : null"
@@ -77,21 +79,22 @@
             </div>
             <div>
               <label class="block text-[10px] font-bold mb-2 opacity-70 tracking-widest uppercase" for="request-notes">{{ text(copy.form.howCanWeHelp) }}</label>
-              <textarea id="request-notes" name="notes" rows="3" [(ngModel)]="requestNotes"
+              <textarea id="request-notes" name="notes" rows="3"
+                [ngModel]="requestNotes()" (ngModelChange)="requestNotes.set($event)"
                 class="w-full px-4 py-3 border border-marsa-warm dark:border-white/10 rounded-marsa-sm bg-transparent focus:border-marsa-sea dark:focus:border-marsa-dark-sea transition-colors resize-none text-sm outline-none"></textarea>
             </div>
 
-            @if (submissionState === 'error' && requestError) {
+            @if (submissionState() === 'error' && requestError()) {
               <p role="alert" class="text-sm text-red-500 leading-relaxed">
-                <strong class="font-bold">{{ text(copy.form.submissionErrorTitle) }}:</strong> {{ requestError }}
+                <strong class="font-bold">{{ text(copy.form.submissionErrorTitle) }}:</strong> {{ requestError() }}
               </p>
             }
 
             <button
               class="w-full py-3.5 bg-marsa-sand hover:bg-marsa-sand-deep text-marsa-deep font-bold text-[12px] tracking-wide rounded-full transition-all hover:scale-[1.02] flex items-center justify-center gap-2 disabled:opacity-60 disabled:hover:scale-100 disabled:cursor-not-allowed"
-              type="submit" [disabled]="submissionState === 'sending'">
-              {{ submissionState === 'sending' ? text(copy.form.sending) : text(copy.sections.request) }}
-              @if (submissionState !== 'sending') {
+              type="submit" [disabled]="submissionState() === 'sending'">
+              {{ submissionState() === 'sending' ? text(copy.form.sending) : text(copy.sections.request) }}
+              @if (submissionState() !== 'sending') {
                 <svg lucideArrowUpRight class="w-3.5 h-3.5" aria-hidden="true"></svg>
               }
             </button>

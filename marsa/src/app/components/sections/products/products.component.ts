@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -44,9 +44,11 @@ export class ProductsComponent {
   requestPhone = '';
   requestYacht = '';
   requestChef = '';
-  requestError = '';
+  requestError = signal('');
 
-  submissionState: SubmissionState = 'idle';
+  // Signal: written by the HTTP subscription, not a template listener, so
+  // zoneless change detection needs a signal notification.
+  submissionState = signal<SubmissionState>('idle');
 
   private readonly submission = inject(RequestSubmissionService);
   private readonly preferences: SitePreferencesService;
@@ -84,15 +86,15 @@ export class ProductsComponent {
 
   submitForm(form: NgForm, event: Event): void {
     event.preventDefault();
-    if (this.submissionState === 'sending') {
+    if (this.submissionState() === 'sending') {
       return; // ignore double submissions
     }
     if (form.invalid) {
       form.form.markAllAsTouched();
       return;
     }
-    this.requestError = '';
-    this.submissionState = 'sending';
+    this.requestError.set('');
+    this.submissionState.set('sending');
     this.sendSubscription?.unsubscribe();
     this.sendSubscription = this.submission
       .submit({
@@ -105,12 +107,12 @@ export class ProductsComponent {
       })
       .subscribe({
         next: () => {
-          this.submissionState = 'received';
+          this.submissionState.set('received');
           this.resetForm();
         },
         error: (error: unknown) => {
-          this.submissionState = 'error';
-          this.requestError = this.errorMessage();
+          this.submissionState.set('error');
+          this.requestError.set(this.errorMessage());
           console.error('Directory submission failed:', error);
         },
       });
@@ -124,6 +126,6 @@ export class ProductsComponent {
     for (const key of Object.keys(this.checked)) {
       this.checked[key] = false;
     }
-    this.requestError = '';
+    this.requestError.set('');
   }
 }

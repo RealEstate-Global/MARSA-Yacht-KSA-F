@@ -7,7 +7,7 @@
       <p class="text-base opacity-70 max-w-xl leading-relaxed">{{ text(copy.form.subtitle) }}</p>
     </div>
 
-    @if (submissionState !== 'received') {
+    @if (submissionState() !== 'received') {
     <form #directoryForm="ngForm" (ngSubmit)="submitForm(directoryForm, $event)" novalidate class="reveal-up delay-200 relative z-10">
 
       <hr class="border-t border-marsa-warm/50 dark:border-white/10 mb-12" />
@@ -94,16 +94,16 @@
             [placeholder]="text(copy.form.chef)" />
         </div>
         <button type="submit" class="w-full bg-marsa-sand hover:bg-marsa-sand-deep text-marsa-deep font-bold text-xs tracking-wide rounded-md py-4 transition-colors uppercase disabled:opacity-50 disabled:cursor-not-allowed h-fit self-end"
-          [disabled]="directoryForm.invalid || submissionState === 'sending'">
-          {{ submissionState === 'sending' ? text(copy.form.sending) : text(copy.form.submit) }}
+          [disabled]="directoryForm.invalid || submissionState() === 'sending'">
+          {{ submissionState() === 'sending' ? text(copy.form.sending) : text(copy.form.submit) }}
         </button>
       </div>
 
       <!-- Honest failure state: persist the form so nothing the guest typed is lost -->
-      @if (submissionState === 'error') {
+      @if (submissionState() === 'error') {
       <p role="alert" class="mt-6 text-sm text-red-500 leading-relaxed flex flex-wrap items-center gap-3">
-        <span><strong class="font-bold">{{ text(copy.form.submissionErrorTitle) }}:</strong> {{ requestError }}</span>
-        <button type="button" class="link-accent" (click)="submissionState = 'idle'">
+        <span><strong class="font-bold">{{ text(copy.form.submissionErrorTitle) }}:</strong> {{ requestError() }}</span>
+        <button type="button" class="link-accent" (click)="submissionState.set('idle')">
           {{ text(copy.form.tryAgain) }}
         </button>
       </p>
@@ -112,7 +112,7 @@
     }
 
     <!-- Polite live region: the success state is announced without stealing focus -->
-    @if (submissionState === 'received') {
+    @if (submissionState() === 'received') {
     <div aria-live="polite"
       class="py-16 flex flex-col items-center justify-center text-center relative z-10 animate-fade reveal-scale">
       <div class="w-16 h-16 rounded-full bg-marsa-sand text-marsa-deep flex items-center justify-center mb-6 shadow-marsa-glow" aria-hidden="true">

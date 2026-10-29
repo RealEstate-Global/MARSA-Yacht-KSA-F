@@ -5,14 +5,16 @@ import {
   withComponentInputBinding,
 } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
-import { provideZoneChangeDetection } from '@angular/core';
+import { provideZonelessChangeDetection } from '@angular/core';
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
 
 bootstrapApplication(AppComponent, {
   providers: [
-    // Coalesce multiple events into single change detection — reduces CD cycles
-    provideZoneChangeDetection({ eventCoalescing: true }),
+    // Zoneless change detection: no zone.js polyfill (~36 kB) and message-based
+    // CD driven by signals/template events only. Everything that changes state
+    // outside a template listener (slider timer, HTTP submission) uses signals.
+    provideZonelessChangeDetection(),
     // HttpClient backs the request-service submission flow
     provideHttpClient(),
     provideRouter(

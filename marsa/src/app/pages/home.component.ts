@@ -6,6 +6,7 @@ import {
   OnDestroy,
   ViewChild,
   inject,
+  signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -61,15 +62,15 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   readonly copy = copy;
   readonly preferences: SitePreferencesService;
   isMenuOpen = false;
-  isRequestOpen = false;
 
-  /** Modal form state */
-  requestName = '';
-  requestEmail = '';
-  requestNotes = '';
-  requestError = '';
-  requestReceived = false;
-  submissionState: SubmissionState = 'idle';
+  /** Modal form state — signals because zoneless scheduling reads them. */
+  readonly isRequestOpen = signal(false);
+  readonly requestName = signal('');
+  readonly requestEmail = signal('');
+  readonly requestNotes = signal('');
+  readonly requestError = signal('');
+  readonly requestReceived = signal(false);
+  readonly submissionState = signal<SubmissionState>('idle');
 
   private readonly submission = inject(RequestSubmissionService);
   private readonly route: ActivatedRoute;
@@ -120,16 +121,16 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
     // Reopening always starts from a clean, error-free state (no retained data).
     this.resetRequestForm();
-    this.isRequestOpen = true;
+    this.isRequestOpen.set(true);
     window.setTimeout(() => this.requestFirstField?.nativeElement.focus(), 0);
   }
 
   closeRequest(): void {
-    if (!this.isRequestOpen) {
+    if (!this.isRequestOpen()) {
       return;
     }
     this.sendSubscription?.unsubscribe();
-    this.isRequestOpen = false;
+    this.isRequestOpen.set(false);
     this.lastTrigger?.focus();
     this.lastTrigger = null;
   }
@@ -150,47 +151,47 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   }
 
   submitRequest(form: NgForm): void {
-    if (this.submissionState === 'sending') {
+    if (this.submissionState() === 'sending') {
       return; // ignore double submissions
     }
     if (form.invalid) {
       form.form.markAllAsTouched();
-      this.requestError = '';
+      this.requestError.set('');
       return;
     }
-    this.requestError = '';
-    this.submissionState = 'sending';
+    this.requestError.set('');
+    this.submissionState.set('sending');
     this.sendSubscription?.unsubscribe();
     this.sendSubscription = this.submission
       .submit({
-        name: this.requestName,
-        email: this.requestEmail,
-        notes: this.requestNotes,
+        name: this.requestName(),
+        email: this.requestEmail(),
+        notes: this.requestNotes(),
         locale: this.preferences.locale(),
       })
       .subscribe({
         next: () => {
-          this.submissionState = 'idle';
+          this.submissionState.set('idle');
           // A confirmed delivery ends the interaction; clear collected data.
           this.resetRequestForm();
-          this.requestReceived = true;
+          this.requestReceived.set(true);
         },
         error: (error: unknown) => {
-          this.submissionState = 'error';
-          this.requestError = RequestSubmissionService.isConfigurationError(error)
+          this.submissionState.set('error');
+          this.requestError.set(RequestSubmissionService.isConfigurationError(error)
             ? this.text(copy.form.submissionUnavailable)
-            : this.text(copy.form.submissionFailed);
+            : this.text(copy.form.submissionFailed));
           console.error('Request submission failed:', error);
         },
       });
   }
 
   private resetRequestForm(): void {
-    this.requestName = '';
-    this.requestEmail = '';
-    this.requestNotes = '';
-    this.requestError = '';
-    this.submissionState = 'idle';
-    this.requestReceived = false;
+    this.requestName.set('');
+    this.requestEmail.set('');
+    this.requestNotes.set('');
+    this.requestError.set('');
+    this.submissionState.set('idle');
+    this.requestReceived.set(false);
   }
 }

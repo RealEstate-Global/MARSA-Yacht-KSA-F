@@ -8,5 +8,16 @@
       "source": "/(.*)",
       "destination": "/index.html"
     }
+  ],
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=2592000, s-maxage=31536000, stale-while-revalidate=86400"
+        }
+      ]
+    }
   ]
 }

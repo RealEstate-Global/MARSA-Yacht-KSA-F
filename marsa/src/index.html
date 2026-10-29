@@ -13,6 +13,9 @@
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="MARSA" />
     <meta property="og:image" content="/assets/marsa-hero.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1024" />
+    <meta property="og:image:height" content="1024" />
     <meta property="og:image:alt" content="Yachts moored at the MARSA marina on the Saudi Red Sea coast" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:locale:alternate" content="ar_SA" />
@@ -26,22 +29,24 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <!-- ② Fonts loaded async via media trick — non-render-blocking -->
+    <!-- ② Fonts loaded async via media trick — non-render-blocking.
+         Only the weights actually used by the app are requested; each unused
+         weight saved is one fewer subset file for the browser to download. -->
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&family=Cairo:wght@400;500;600;700&display=swap"
       media="print"
       onload="this.media='all'"
     />
     <!-- Fallback for JS-disabled browsers -->
     <noscript>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800&display=swap" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&family=Cairo:wght@400;500;600;700&display=swap" />
     </noscript>
 
-    <!-- ③ Preload LCP hero image — browser fetches it immediately -->
-    <link rel="preload" as="image" href="/assets/marsa-hero.jpg" fetchpriority="high" />
-
-    <!-- ④ (Removed: Hardcoded Google Fonts URLs rotate, causing 404s. The preconnects above are sufficient) -->
+    <!-- ③ Preload the LCP hero image — must match the slide-0 URL in
+         hero.component.ts byte-for-byte so the browser reuses the preloaded
+         resource instead of downloading it twice. -->
+    <link rel="preload" as="image" href="/assets/marsa-hero.avif" fetchpriority="high" />
 
     <!-- ⑤ Inline critical above-the-fold CSS — prevents FOUC before stylesheet loads -->
     <style>
