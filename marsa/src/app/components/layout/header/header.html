@@ -1,9 +1,12 @@
 <!-- ═══════════════════════════════ HEADER ═══════════════════════════════ -->
 <header class="fixed top-4 inset-x-0 mx-auto z-50 w-full max-w-5xl px-4 animate-rise delay-100">
-  <div class="marsa-nav flex items-center gap-4 px-4 md:px-5 h-14 rounded-marsa-pill">
+  <div class="marsa-nav relative flex items-center gap-4 px-4 md:px-5 h-14 rounded-marsa-pill">
 
-    <!-- Brand Logo -->
-    <a class="flex items-center gap-2.5 hover:opacity-75 transition-opacity shrink-0" routerLink="/" [attr.aria-label]="text(copy.nav.home)" (click)="closeMenu()">
+    <!-- Mobile: pinned to the physical right cluster (menu toggle owns the left,
+         toggles sit at right-3; right-16 <sm / right-40 sm..md keeps clear gaps
+         at 320px, 375px, and 640px). Desktop md+: back in flow. -->
+    <a class="flex items-center gap-2.5 hover:opacity-75 transition-opacity shrink-0 absolute right-16 sm:right-40 top-1/2 -translate-y-1/2 md:static md:translate-y-0"
+      routerLink="/" [attr.aria-label]="text(copy.nav.home)" (click)="closeMenu()">
       <span class="flex gap-[3px] items-end" aria-hidden="true">
         <span class="w-[3px] h-3.5 bg-marsa-sand rounded-full"></span>
         <span class="w-[3px] h-5 bg-marsa-sand rounded-full"></span>
@@ -22,7 +25,8 @@
     </nav>
 
     <!-- Actions -->
-    <div class="flex items-center gap-2 md:gap-3 ml-auto shrink-0">
+    <!-- Mobile: pinned to the physical right edge next to the brand; desktop: in flow at the end -->
+    <div class="flex items-center gap-2 md:gap-3 shrink-0 absolute right-3 top-1/2 -translate-y-1/2 md:static md:translate-y-0 md:ml-auto">
 
       <!-- Theme toggle -->
       <button class="flex items-center justify-center w-8 h-8 rounded-full hover:bg-white/10 transition-colors text-marsa-pearl/70 hover:text-marsa-pearl"
@@ -46,24 +50,30 @@
         {{ text(copy.nav.download) }}
         <svg lucideArrowUpRight class="w-3.5 h-3.5" aria-hidden="true"></svg>
       </a>
-
-      <!-- Mobile menu toggle -->
-      <button #menuToggle class="md:hidden flex items-center justify-center w-8 h-8 text-marsa-pearl hover:bg-white/10 rounded-full transition-colors"
-        type="button" (click)="toggleMenu()"
-        [attr.aria-expanded]="isMenuOpen"
-        aria-controls="mobile-menu"
-        [attr.aria-label]="isMenuOpen ? text(copy.nav.close) : text(copy.nav.menu)">
-        <svg *ngIf="!isMenuOpen" lucideMenu class="w-5 h-5" aria-hidden="true"></svg>
-        <svg *ngIf="isMenuOpen"  lucideX    class="w-5 h-5" aria-hidden="true"></svg>
-      </button>
     </div>
+
+    <!-- Mobile menu toggle — a direct child of the pill, pinned to the physical
+         LEFT edge in both locales (hamburger-left pattern). Being outside the
+         actions cluster keeps its left-3 anchor relative to the pill; the
+         header's z-50 stacking keeps it clickable above the z-45 overlay. -->
+    <button #menuToggle class="md:hidden absolute left-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-8 h-8 text-marsa-pearl hover:bg-white/10 rounded-full transition-colors"
+      type="button" (click)="toggleMenu()"
+      [attr.aria-expanded]="isMenuOpen"
+      aria-controls="mobile-menu"
+      [attr.aria-label]="isMenuOpen ? text(copy.nav.close) : text(copy.nav.menu)">
+      <svg *ngIf="!isMenuOpen" lucideMenu class="w-5 h-5" aria-hidden="true"></svg>
+      <svg *ngIf="isMenuOpen"  lucideX    class="w-5 h-5" aria-hidden="true"></svg>
+    </button>
   </div>
 </header>
 
 <!-- ═══════════════════════════════ MOBILE MENU ═══════════════════════════════ -->
-<!-- Rendered only while open so its links never sit in the tab order invisibly -->
+<!-- Rendered only while open so its links never sit in the tab order invisibly.
+     z-[45]: above the hero's z-40 slider dots + curved divider (they previously
+     painted OVER the open menu at equal z-index per DOM order) and below the
+     header's z-50 so the pill (with the close toggle) stays interactive. -->
 <div *ngIf="isMenuOpen" id="mobile-menu"
-  class="md:hidden fixed inset-0 z-40 bg-marsa-deep/95 backdrop-blur-lg pt-24 px-6 pb-6 overflow-y-auto
+  class="md:hidden fixed inset-0 z-[45] bg-marsa-deep/95 backdrop-blur-lg pt-24 px-6 pb-6 overflow-y-auto
          animate-[fade_0.4s_ease_both]">
   <div class="space-y-1">
     <p class="eyebrow text-marsa-pearl/50 mb-6">{{ text(copy.nav.menu) }}</p>

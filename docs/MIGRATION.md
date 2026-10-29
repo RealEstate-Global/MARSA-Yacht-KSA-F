@@ -123,3 +123,38 @@ plus browser smoke tests in EN and AR at desktop and mobile widths.
   the "keep dynamic data with the backend" rule.
 - Search Console verification/sitemap submission/analytics: owner-side task;
   see §Post-deployment in the PR description.
+
+## 10. Follow-up hardening (same PR, second batch)
+
+- **Mobile menu z-index:** the open menu overlay moved from `z-40` to
+  `z-[45]` — above the hero's `z-40` slider dots + curved divider (which
+  previously painted *over* the open menu per DOM order at equal z-index),
+  below the header pill's `z-50` so the close toggle stays clickable.
+- **Hamburger on the physical left:** the mobile menu toggle is a direct
+  child of the nav pill, pinned `absolute left-3` (non-logical, so RTL keeps
+  it physically left too). The brand mark and the theme/locale cluster are
+  pinned to the physical right (`right-16 sm:right-40` and `right-3`);
+  collision-checked at 320 px, 375 px, and 640 px — ≥20 px clear gap
+  everywhere, and the toggle stays left in AR (verified `dir="rtl"`).
+- **Favicon:** the official site's `favicon.ico` is **0 bytes** and its
+  `<head>` declares no icon at all, so there is nothing "identical" to copy.
+  `public/assets/favicon.svg` was instead recreated from the site's own
+  header brand mark: three baseline-aligned, fully-rounded sand bars
+  (`#e8d39c`) on the deep teal square (`#0d2a2d`), matching the pill's
+  3-px mark in shape and colors. Referenced as the only icon +
+  JSON-LD `logo`.
+- **Social profiles / store listings:** multiple fresh web searches surfaced
+  only *unrelated* businesses (Al Marsa Oman, a Kuwaiti seafood restaurant,
+  Dubai fisheries, the KAUST yacht club) and different apps (Waves,
+  Book-a-Boat). No verifiable social profile or App Store / Google Play
+  listing exists for this Al Marsa, so none were added — CTAs remain
+  pointed at the official site.
+- **Dead-code sweep:** orphaned provisioning-era CSS removed from
+  `styles.css` (`.btn`/`.btn-primary`/`.btn-light`/`.btn-outline`, `.field`,
+  `.card`/`.card-image`/`.card-content`, `.link-accent`,
+  `.section-wrap`/`.section`/`.section-panel`, `.grid-2/3/4`,
+  `.gradient-dark*`, `.hover-lift`, `.hover-brighten`, `.glass(-dark)`,
+  `.dark-only`/`.light-only`) plus the unreferenced `nav.slides` copy entry,
+  and the unused `menu-open` → `menuToggled` event chain across
+  `home.component` and the header. Styles bundle: 33.9 kB → 25.3 kB.
+  `.eyebrow` and `.marsa-nav` remain (still used).

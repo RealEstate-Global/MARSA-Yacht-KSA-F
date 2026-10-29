@@ -1,11 +1,10 @@
 <div
   #page
   class="min-h-screen overflow-hidden bg-marsa-pearl dark:bg-marsa-dark-canvas text-marsa-ink dark:text-marsa-dark-ink"
-  [class.menu-open]="isMenuOpen"
   [attr.dir]="preferences.locale() === 'ar' ? 'rtl' : 'ltr'"
 >
   <!-- ═══════════════════════════════ HEADER ═══════════════════════════════ -->
-  <marsa-header (menuToggled)="setMenuOpen($event)"></marsa-header>
+  <marsa-header></marsa-header>
 
   <!-- ═══════════════════════════════ MAIN: why → how → about → download ═══════════════════════════════ -->
   <main>

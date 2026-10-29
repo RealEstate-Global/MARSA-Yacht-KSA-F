@@ -1,19 +1,20 @@
-# 🛥️ MARSA — Saudi Marine Hospitality Platform
+# 🛥️ Al Marsa — المرسى · Gulf Vessel-Charter Lookbook
 
 [![CI Pipeline](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/actions/workflows/ci.yml/badge.svg)](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/actions/workflows/ci.yml)
 [![Release](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/actions/workflows/release.yml/badge.svg)](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/actions/workflows/release.yml)
 [![CodeQL Security Scan](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/actions/workflows/codeql-analysis.yml)
 [![Close stale issues and PRs](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/actions/workflows/stale.yml/badge.svg)](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/actions/workflows/stale.yml)
 
-> Premium bilingual Saudi Red Sea marine hospitality and yacht provisioning experience for owners, captains, crew, and VIP travelers.
+> The official "lookbook" for **Al Marsa (المرسى)** — a premium vessel-charter marketplace built for the Gulf, Saudi-first. Verified yachts, licensed captains, coastguard-cleared, clear pricing. Browsing happens on this site; **booking, payment, KYC, and coastguard clearance happen in the Al Marsa app** ([almarsa.app](https://almarsa.app/)).
 
 ## 🎯 Focus Points
 
-- **Bilingual Support** (English/Arabic) with RTL layout
-- **Premium UX** for luxury yacht provisioning and hospitality
-- **Modular Architecture** with standalone Angular components and signals
+- **Source-aligned bilingual content** (English/Arabic, Saudi dialect) with RTL layout — mirrored verbatim from [almarsa.app](https://almarsa.app/)
+- **No fabricated facts** — store CTAs link the official site until real store listings exist; no invented inventory, prices, or contact details
+- **Single-page lookbook architecture**: why → how → about → download, with accessible section anchors
+- **Zoneless Angular** (standalone components, signals) and production-grade bundle budgets
+- **Technical SEO + GEO**: canonical/OG metadata, JSON-LD Organization + WebSite, robots.txt, sitemap.xml
 - **Type-Safe** development with strict TypeScript configuration
-- **Production-Ready** build optimization and performance
 
 ## 📋 Quick Start
 
@@ -58,10 +59,12 @@ MARSA-Yacht-KSA-F/
 ├── .github/                      # GitHub workflows and templates
 │   ├── workflows/                # CI/CD pipelines
 │   └── ISSUE_TEMPLATE/           # Issue templates
-├── docs/                         # Documentation
+├── docs/
 │   ├── ARCHITECTURE.md           # System design
 │   ├── SETUP.md                  # Setup guide
-│   └── DEVELOPMENT.md            # Development guidelines
+│   ├── DEVELOPMENT.md            # Development guidelines
+│   ├── MIGRATION.md              # almarsa.app content migration + SEO/GEO notes
+│   └── TEAM.md                   # Governance and code ownership
 ├── LICENSE                       # Project license
 ├── CONTRIBUTING.md               # Contribution guidelines
 └── README.md                     # This file
@@ -110,4 +113,8 @@ For questions or support, please reach out to the development team.
 ---
 
 **Last Updated**: October 2026  
-**Version**: 1.0.2
+**Version**: 1.0.4
+
+## 🛒 Content source of truth
+
+All public copy is mirrored from the official brand site ([almarsa.app](https://almarsa.app/)) — see [docs/MIGRATION.md](./docs/MIGRATION.md) for the verified inventory, migration map, and known limitations (store-link placeholders, no real vessel inventory). Update both languages together and never invent prices, vessels, store URLs, or contact details.

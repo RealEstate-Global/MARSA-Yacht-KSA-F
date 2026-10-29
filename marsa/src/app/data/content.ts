@@ -47,7 +47,6 @@ export interface SiteCopy {
     switchTheme: LocalizedText;
     home: LocalizedText;
     language: LocalizedText;
-    slides: LocalizedText;
   };
   hero: {
     title: LocalizedText;
@@ -106,7 +105,6 @@ export const copy: SiteCopy = {
     switchTheme: { en: 'Switch theme', ar: 'تغيير المظهر' },
     home: { en: 'Al Marsa home', ar: 'الرئيسية' },
     language: { en: 'Change language', ar: 'تغيير اللغة' },
-    slides: { en: 'Hero slides', ar: 'شرائح الواجهة' },
   },
   hero: {
     title: { en: 'The Gulf, on your schedule.', ar: 'الخليج، على موعدك.' },

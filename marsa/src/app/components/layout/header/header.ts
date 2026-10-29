@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { copy } from '../../../data/content';
@@ -32,8 +32,6 @@ export class Header {
   readonly preferences: SitePreferencesService;
   isMenuOpen = false;
 
-  @Output() menuToggled = new EventEmitter<boolean>();
-
   @ViewChild('menuToggle') private menuToggle?: ElementRef<HTMLButtonElement>;
 
   constructor(preferences: SitePreferencesService) {
@@ -46,7 +44,6 @@ export class Header {
 
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
-    this.menuToggled.emit(this.isMenuOpen);
   }
 
   closeMenu(): void {
@@ -54,7 +51,6 @@ export class Header {
       return;
     }
     this.isMenuOpen = false;
-    this.menuToggled.emit(this.isMenuOpen);
   }
 
   /** Escape closes the open overlay and returns focus to the menu toggle. */

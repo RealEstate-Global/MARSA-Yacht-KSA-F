@@ -43,7 +43,6 @@ import { CtaComponent } from '../components/sections/cta/cta.component';
 export class HomeComponent implements AfterViewInit, OnDestroy {
   readonly copy = copy;
   readonly preferences: SitePreferencesService;
-  isMenuOpen = false;
 
   private readonly route: ActivatedRoute;
   private observer?: IntersectionObserver;
@@ -74,9 +73,5 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
   text(value: { en: string; ar: string }): string {
     return this.preferences.text(value);
-  }
-
-  setMenuOpen(isOpen: boolean): void {
-    this.isMenuOpen = isOpen;
   }
 }
