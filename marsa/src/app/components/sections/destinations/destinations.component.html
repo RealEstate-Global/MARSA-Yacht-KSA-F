@@ -8,7 +8,7 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          <article class="group relative h-80 rounded-marsa-md overflow-hidden reveal-scale cursor-pointer"
+          <article class="group relative h-80 rounded-marsa-md overflow-hidden reveal-scale"
             *ngFor="let destination of destinations; let i = index"
             [style.transition-delay]="(i * 100) + 'ms'">
             <img [src]="destination.image" [alt]="text(destination.name)" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
@@ -18,7 +18,7 @@
               <h3 class="text-2xl font-bold mb-2 -tracking-[0.02em]">{{ text(destination.name) }}</h3>
               <p class="text-sm opacity-70 mb-5 leading-relaxed">{{ text(destination.description) }}</p>
               <!-- link-accent handles sea-bright(light)/sand(dark) — no override -->
-              <a href="#contact" class="link-accent group/link">
+              <a routerLink="/" fragment="contact" class="link-accent group/link" [attr.aria-label]="text(copy.sections.explore) + ' — ' + text(destination.name)">
                 {{ text(copy.sections.explore) }}
                 <svg lucideArrowUpRight class="w-3.5 h-3.5 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" aria-hidden="true"></svg>
               </a>
