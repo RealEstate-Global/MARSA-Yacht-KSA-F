@@ -12,7 +12,6 @@ export default {
           deep: '#0d2a2d',
           'deep-soft': '#173a3c',
           field: '#173234',
-          surface: '#f7f4ed',
           'surface-muted': '#ece7dc',
           line: '#d4cec0',
           sea: '#1e5c5d',

@@ -4,6 +4,7 @@
 
 ### 1. Starting Development
 ```bash
+cd marsa
 npm run dev
 ```
 The dev server starts in watch mode, automatically recompiling on file changes.
@@ -12,72 +13,55 @@ The dev server starts in watch mode, automatically recompiling on file changes.
 
 #### Standalone Component
 ```typescript
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'marsa-card',
   standalone: true,
-  imports: [CommonModule],
-  template: `
-    <div class="card">
-      <ng-content></ng-content>
-    </div>
-  `,
-  styles: [`
-    .card {
-      background: white;
-      border-radius: 8px;
-      padding: 16px;
-    }
-  `],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  imports: [],
+  templateUrl: './card.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CardComponent {}
+export class CardComponent {
+  title = input.required<string>();
+}
 ```
 
-### 3. Creating Services
+### 3. Creating Services (signals-based)
+
+State in MARSA is managed with Angular signals — no RxJS subjects needed:
 
 ```typescript
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable, signal, computed } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class DataService {
-  private data$ = new BehaviorSubject<any>(null);
-  
-  constructor() {
-    this.loadData();
-  }
-  
-  getData(): Observable<any> {
-    return this.data$.asObservable();
-  }
-  
-  private loadData(): void {
-    // Load data logic
+  private readonly items = signal<Item[]>([]);
+
+  /** Derived state recomputes automatically. */
+  readonly count = computed(() => this.items().length);
+
+  addItem(item: Item): void {
+    this.items.update((current) => [...current, item]);
   }
 }
 ```
 
+See `src/app/services/site-preferences.service.ts` for the real implementation
+(locale + theme preferences backed by `localStorage`).
+
 ### 4. Using Services in Components
 
 ```typescript
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
 
 @Component({
   selector: 'marsa-page',
   standalone: true,
-  imports: [CommonModule],
-  template: `
-    <div>{{ (data$ | async)?.name }}</div>
-  `
+  template: `<div>{{ preferences.locale() }}</div>`,
 })
 export class PageComponent {
-  data$ = this.dataService.getData();
-  
-  constructor(private dataService: DataService) {}
+  readonly preferences = inject(SitePreferencesService);
 }
 ```
 
@@ -91,15 +75,15 @@ export class PageComponent {
 
 ### Components
 - Keep components focused and single-responsibility
-- Use OnPush change detection
-- Leverage OnDestroy for cleanup
-- Use async pipe to avoid manual subscriptions
+- Use `ChangeDetectionStrategy.OnPush`
+- Leverage `OnDestroy` for cleanup (observers, intervals, subscriptions)
+- Subscriptions must be stored and unsubscribed (`RequestSubmissionService` flows)
 
 ### Naming Conventions
-- **Components**: PascalCase + `Component` suffix (e.g., `UserCardComponent`)
-- **Services**: PascalCase + `Service` suffix (e.g., `UserService`)
-- **Files**: kebab-case matching the class name (e.g., `user-card.component.ts`)
-- **Interfaces**: PascalCase, prefixed with `I` or use `interface` keyword (e.g., `IUser` or `User`)
+- **Components**: PascalCase + `Component` suffix (e.g., `HeroComponent`)
+- **Services**: PascalCase + `Service` suffix (e.g., `RequestSubmissionService`)
+- **Files**: names matching the class (e.g., `hero.component.ts`, `header.ts`)
+- **Interfaces**: PascalCase (e.g., `MarsaRequest`, `LocalizedText`)
 
 ## File Organization
 
@@ -107,106 +91,68 @@ export class PageComponent {
 src/
 ├── app/
 │   ├── components/
-│   │   ├── ui/               # Reusable UI components
-│   │   │   ├── button.component.ts
-│   │   │   └── card.component.ts
-│   │   └── layout/           # Layout components
-│   │       └── header.component.ts
-│   ├── pages/                # Page/feature components
-│   │   ├── home.component.ts
-│   │   └── about.component.ts
-│   ├── services/             # Application services
-│   │   ├── user.service.ts
-│   │   └── data.service.ts
-│   ├── data/                 # Models and constants
-│   │   ├── models.ts
-│   │   └── constants.ts
+│   │   ├── layout/           # header, footer
+│   │   └── sections/         # hero, intro, products, services, destinations,
+│   │                         # about, testimonials, cta
+│   ├── pages/                # home.component.ts (+ templates)
+│   ├── services/             # site-preferences, request-submission
+│   ├── data/                 # content.ts — all bilingual copy
+│   ├── testing/              # shared test helpers
 │   ├── app.component.ts      # Root component
-│   └── app.routes.ts         # Route configuration
-└── styles/                   # Global styles
+│   └── app.routes.ts         # Route configuration (section anchors)
+├── environments/             # environment.ts (requestEndpoint)
+└── styles.css                # Global styles
 ```
 
 ## Working with Routes
 
-### Defining Routes
-```typescript
-// app.routes.ts
-import { Routes } from '@angular/router';
+Routes point at the single `HomeComponent` and scroll to section anchors:
 
+```typescript
 export const routes: Routes = [
-  {
-    path: '',
-    component: HomeComponent
-  },
-  {
-    path: 'about',
-    component: AboutComponent
-  }
+  { path: '', loadComponent: () => import('./pages/home.component').then(m => m.HomeComponent), pathMatch: 'full' },
+  { path: 'provisioning', loadComponent: ..., data: { anchor: 'provisioning' } },
+  { path: '**', redirectTo: '' },
 ];
 ```
 
-### Navigating
-```typescript
-constructor(private router: Router) {}
-
-navigate() {
-  this.router.navigate(['/about']);
-}
+Navigation must use `routerLink` with `fragment` (never raw `href="#..."`):
+```html
+<a routerLink="/" fragment="services">Services</a>
 ```
 
 ## Styling
 
 ### Global Styles
-Modify `src/styles.css` for global styles.
-
-### Component Styles
-Define styles in the `styles` array:
-```typescript
-@Component({
-  selector: 'marsa-button',
-  template: `<button>{{ label }}</button>`,
-  styles: [`
-    button {
-      background: blue;
-      color: white;
-      padding: 8px 16px;
-    }
-  `]
-})
-export class ButtonComponent {}
-```
+Modify `src/styles.css` for global styles (Tailwind layers + custom utilities).
 
 ### Tailwind CSS
-Use Tailwind classes in templates:
+Use Tailwind classes in templates; the theme tokens live in `tailwind.config.js`
+under `theme.extend.colors.marsa`:
 ```html
-<div class="flex items-center justify-between p-4 bg-gray-100">
+<div class="flex items-center justify-between p-4">
   <h1 class="text-2xl font-bold">Title</h1>
 </div>
 ```
 
 ## Bilingual Support
 
-### Accessing Locale
+All user-visible copy lives in `src/app/data/content.ts` as `LocalizedText`
+(`{ en, ar }`). Never inline user-facing strings in templates:
+
 ```typescript
-constructor(private preferences: SitePreferencesService) {}
+constructor(public preferences: SitePreferencesService) {}
 
-getText() {
-  const locale = this.preferences.text({ 
-    en: 'Hello', 
-    ar: 'مرحبا' 
+text() {
+  return this.preferences.text({
+    en: 'Hello',
+    ar: 'مرحباً',
   });
-  return locale;
 }
 ```
 
-### RTL Support
-RTL is automatically handled through CSS. Ensure your styles support both directions:
-```css
-.card {
-  margin-left: 16px;      /* Will flip in RTL */
-  padding: 16px;          /* Same in both */
-}
-```
+RTL is applied via `dir="rtl"` on the page container. Keep styles
+direction-safe (avoid physical `left/right` where logical properties work).
 
 ## Debugging
 
@@ -215,58 +161,42 @@ RTL is automatically handled through CSS. Ensure your styles support both direct
 - Inspect component tree and change detection
 - Monitor HTTP requests
 
-### Console Logging
-```typescript
-console.log('Debug:', data);  // Use sparingly in production code
-```
-
 ### Type Checking
 ```bash
 npm run typecheck
 ```
 
+### Tests
+```bash
+npm run test
+```
+
+Specs live next to their sources (`*.spec.ts`) and run with the
+`@angular/build:unit-test` builder (Vitest in jsdom — no browser needed).
+
 ## Common Patterns
 
 ### Async Operations
 ```typescript
-export class UserService {
-  constructor(private http: HttpClient) {}
-  
-  getUser(id: string): Observable<User> {
-    return this.http.get<User>(`/api/users/${id}`);
-  }
-}
-```
-
-### Error Handling
-```typescript
-this.userService.getUser(id)
-  .pipe(
-    catchError(error => {
-      console.error('Failed to load user', error);
-      return of(null);
-    })
-  )
-  .subscribe(user => {
-    this.user = user;
+this.submission
+  .submit(request)
+  .subscribe({
+    next: () => { /* confirmed delivery */ },
+    error: (error: unknown) => { /* honest failure state, never fake success */ },
   });
 ```
 
-### OnDestroy Cleanup
+### Subscription Cleanup
 ```typescript
-export class ComponentWithCleanup implements OnDestroy {
-  private destroy$ = new Subject<void>();
-  
-  ngOnInit() {
-    this.data$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(data => this.data = data);
-  }
-  
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
+private sendSubscription?: Subscription;
+
+submit(): void {
+  this.sendSubscription?.unsubscribe();
+  this.sendSubscription = service.submit(payload).subscribe({ ... });
+}
+
+ngOnDestroy(): void {
+  this.sendSubscription?.unsubscribe();
 }
 ```
 
@@ -280,17 +210,11 @@ body
 
 footer
 ```
-
 Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
 
 Example:
 ```
-feat(components): add user card component
-
-Implemented new reusable user card component with avatar,
-name, and email display.
-
-Closes #123
+fix(forms): handle request submission correctly
 ```
 
 ---

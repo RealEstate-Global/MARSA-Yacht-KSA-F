@@ -1,95 +1,53 @@
 # Accessibility
 
-<!--
-Include a brief statement describing why accessibility matters to your
-project, who should be able to use and contribute to it, and what this
-document covers, such as your accessibility commitments, contributor
-expectations, and issue-reporting process.
-
-Write for people who may read this after encountering a barrier. Use plain
-language and describe user experiences rather than relying on legal
-language, technical jargon, or standards codes.
--->
+MARSA is a bilingual (English/Arabic) booking and provisioning experience for
+yacht owners, captains, crew, and VIP travelers. People using keyboards only,
+screen readers, magnification, or reduced-motion settings should be able to
+complete the site's core tasks: reading content, navigating sections, and
+submitting a service or provisioning request.
 
 ## Priorities
 
-<!--
-Describe the outcomes the project prioritizes and how it works toward them.
-If you name a WCAG level as an accessibility target, make clear that it is
-an aspirational goal rather than a verified conformance claim. Only claim
-conformance after an evaluation, and identify the evaluated scope, date,
-method, and evaluator. Also describe the areas you prioritize, such as
-keyboard, screen reader, content, or language support.
--->
+- Keyboard operability for every interactive control, including the request
+  dialog and the mobile menu
+- Programmatic association of labels, errors, and result announcements with
+  the fields they describe
+- Honouring the `prefers-reduced-motion` setting (the hero autoplay stops)
+- Both languages receive the same information; Arabic layouts run RTL
 
-## Contributor expectations
+## How to report a barrier
 
-<!--
-Describe the accessibility guardrails that apply to contributions,
-including relevant testing, documentation, and continuous integration
-checks. Name specific tools only when the project uses them, and explain
-what evidence contributors should include with user-facing changes.
--->
+Open a GitHub issue using the `bug` label and include the word
+"accessibility" in the title or body. Describe the page, the control, what
+happened, and what you expected. Screenshots, screen-reader output, or short
+recordings help but are optional — you never need to disclose a disability.
 
-## Reporting accessibility issues
-
-<!--
-Provide a direct, accessible way to report a barrier or request help.
-Invite useful context such as the affected task, URL, observed behavior,
-browser, operating system, and assistive technology. Make screenshots or
-recordings optional and do not require disability disclosure.
--->
-
-### Severity
-
-<!--
-If your project uses severity levels, define them and give practical
-examples based on how strongly a barrier affects a user's ability to
-complete a task. Keep labels consistent with your issue template and
-resolution targets if those processes exist. Maintainers can assign or
-confirm severity during triage; reporters do not need to.
--->
-
-### How we respond
-
-<!--
-Explain what reporters can expect after submitting an accessibility issue,
-including acknowledgement, status updates, workarounds, expected timelines,
-and opportunities to verify a fix. Use commitments your project can
-consistently uphold.
--->
+Reporters can expect a maintainer response, and fixes are prioritised
+alongside functional bugs: barriers that block completing a task are treated
+as high severity (P1), significant-but-workable barriers as P2, and
+convenience issues as P3.
 
 ## Ownership and maintenance
 
-<!--
-Identify the team, role, or maintainer responsible for accessibility and
-describe their responsibilities to the project. Include the review cadence
-and how ownership transfers when responsibilities change.
--->
+Accessibility review is part of every PR that touches templates or styles.
+The maintainers listed in [.github/CODEOWNERS](.github/CODEOWNERS) review
+layout and interaction changes; accessibility issues are triaged with normal
+bug flow.
 
 ## Supported environments
 
-<!--
-List the platforms, devices, browsers, input methods, and assistive
-technologies the project supports or has tested. Include versions where
-useful, note partial support, and avoid implying support for combinations
-that have not been evaluated.
--->
+Development testing covers Chromium-based browsers, Firefox, and WebKit via
+manual passes on desktop and mobile viewports (360 px, 768 px, 1280 px, and
+wider) in both LTR and RTL. Assistance is verified with keyboard-only
+navigation and VoiceOver/NVDA spot checks rather than a formal audit
+combination. No WCAG conformance claim is made until a full evaluation is
+done.
 
 ## Known limitations
 
-<!--
-Describe known barriers in terms of the affected user experience, such as
-"videos do not have captions," rather than standards codes. Include
-available workarounds or equivalent access and link to tracked issues. If
-no limitations are currently documented, describe what has been tested
-instead of claiming that no barriers exist.
--->
-
-## Feedback and improvements
-
-<!--
-Explain how users and contributors can suggest improvements to this
-statement or the project's accessibility practices. Direct active
-accessibility barriers to the reporting process above.
--->
+- No formal third-party audit or WCAG 2.x AA certification has been
+  performed; the statements above reflect verified fixes and manual checks
+- Automated tests cover behaviour (focus, messaging, motion gating), not
+  visual contrast — colour changes should be contrast-checked manually
+- Share/social images (`og:image`) use relative URLs until the production
+  domain is confirmed; that affects previews, not accessibility on-site

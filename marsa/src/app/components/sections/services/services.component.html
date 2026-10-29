@@ -21,7 +21,7 @@
               <h3 class="text-lg font-bold mb-2 -tracking-[0.02em]">{{ text(service.title) }}</h3>
               <p class="text-sm opacity-60 mb-5 leading-relaxed">{{ text(service.description) }}</p>
               <!-- link-accent already sets text-marsa-sand — no duplicate needed -->
-              <a href="#provisioning" class="link-accent group/link" [attr.aria-label]="text(service.title)">
+              <a routerLink="/" fragment="provisioning" class="link-accent group/link" [attr.aria-label]="text(copy.sections.explore) + ' — ' + text(service.title)">
                 {{ text(copy.sections.explore) }}
                 <svg lucideArrowUpRight class="w-3.5 h-3.5 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" aria-hidden="true"></svg>
               </a>

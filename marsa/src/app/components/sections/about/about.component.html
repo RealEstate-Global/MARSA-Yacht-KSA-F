@@ -3,7 +3,7 @@
       <div class="max-w-5xl mx-auto px-6 md:px-8 py-20 md:py-28 bg-transparent text-marsa-ink dark:text-marsa-dark-ink border-t border-marsa-warm/50 dark:border-marsa-dark-pearl/10">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
         <div class="relative h-72 md:h-96 rounded-marsa-md overflow-hidden order-2 md:order-1 reveal-right">
-          <img src="/assets/marsa-marina.jpg" alt="Marina at dusk" loading="lazy" decoding="async" class="w-full h-full object-cover" />
+          <img src="/assets/marsa-marina.jpg" [alt]="text(copy.sections.marinaImageAlt)" loading="lazy" decoding="async" class="w-full h-full object-cover" />
           <div class="absolute inset-0 bg-gradient-to-t from-marsa-deep/50 to-transparent"></div>
           <span class="absolute bottom-4 left-4 px-3 py-1.5 bg-marsa-deep/80 backdrop-blur-sm text-marsa-pearl text-[9px] font-mono tracking-[0.14em] rounded">JEDDAH / 21° 32′ N</span>
         </div>
@@ -14,19 +14,19 @@
           <div class="grid grid-cols-2 gap-3 mb-10">
             <div class="flex items-center gap-2.5 text-sm font-medium opacity-70">
               <svg lucideAnchor class="w-3.5 h-3.5 text-marsa-sea-bright dark:text-marsa-sand-deep shrink-0" aria-hidden="true"></svg>
-              Marina delivery
+              {{ text(copy.sections.marinaBulletDelivery) }}
             </div>
             <div class="flex items-center gap-2.5 text-sm font-medium opacity-70">
               <svg lucideAnchor class="w-3.5 h-3.5 text-marsa-sand dark:text-marsa-sand-deep shrink-0" aria-hidden="true"></svg>
-              Yacht support
+              {{ text(copy.sections.marinaBulletSupport) }}
             </div>
             <div class="flex items-center gap-2.5 text-sm font-medium opacity-70">
               <svg lucideAnchor class="w-3.5 h-3.5 text-marsa-sand dark:text-marsa-sand-deep shrink-0" aria-hidden="true"></svg>
-              Crew assistance
+              {{ text(copy.sections.marinaBulletCrew) }}
             </div>
             <div class="flex items-center gap-2.5 text-sm font-medium opacity-70">
               <svg lucideAnchor class="w-3.5 h-3.5 text-marsa-sand dark:text-marsa-sand-deep shrink-0" aria-hidden="true"></svg>
-              Special requests
+              {{ text(copy.sections.marinaBulletSpecial) }}
             </div>
           </div>
           <button class="link-accent group/btn" type="button" (click)="requestService.emit()">

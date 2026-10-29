@@ -5,18 +5,20 @@ import {
   ElementRef,
   OnDestroy,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { copy, destinations, products, services, steps } from '../data/content';
+import { Subscription } from 'rxjs';
+import { copy } from '../data/content';
 import { SitePreferencesService } from '../services/site-preferences.service';
+import { RequestSubmissionService } from '../services/request-submission.service';
 import { Header } from '../components/layout/header/header';
 import { Footer } from '../components/layout/footer/footer';
 import { HeroComponent } from '../components/sections/hero/hero.component';
 import { IntroComponent } from '../components/sections/intro/intro.component';
 import { ServicesComponent } from '../components/sections/services/services.component';
-import { ProvisioningComponent } from '../components/sections/provisioning/provisioning.component';
 import { ProductsComponent } from '../components/sections/products/products.component';
 import { DestinationsComponent } from '../components/sections/destinations/destinations.component';
 import { AboutComponent } from '../components/sections/about/about.component';
@@ -27,6 +29,9 @@ import {
   LucideX,
   LucideCheck,
 } from '@lucide/angular';
+
+/** Lifecycle of a single request-service submission. */
+type SubmissionState = 'idle' | 'sending' | 'error';
 
 @Component({
   selector: 'marsa-home',
@@ -54,27 +59,32 @@ import {
 })
 export class HomeComponent implements AfterViewInit, OnDestroy {
   readonly copy = copy;
-  readonly services = services;
-  readonly products = products;
-  readonly destinations = destinations;
-  readonly steps = steps;
   readonly preferences: SitePreferencesService;
-  readonly sunRayDegrees = [0, 45, 90, 135, 180, 225, 270, 315];
   isMenuOpen = false;
   isRequestOpen = false;
-  requestSent = false;
+
+  /** Modal form state */
   requestName = '';
   requestEmail = '';
   requestNotes = '';
+  requestError = '';
+  requestReceived = false;
+  submissionState: SubmissionState = 'idle';
+
+  private readonly submission = inject(RequestSubmissionService);
+  private readonly route: ActivatedRoute;
   private observer?: IntersectionObserver;
+  private sendSubscription?: Subscription;
+  /** Element that opened the dialog, refocused when it closes. */
+  private lastTrigger: HTMLElement | null = null;
 
   @ViewChild('page') private page?: ElementRef<HTMLElement>;
+  @ViewChild('requestClose') private requestClose?: ElementRef<HTMLButtonElement>;
+  @ViewChild('requestFirstField') private requestFirstField?: ElementRef<HTMLInputElement>;
 
-  constructor(
-    preferences: SitePreferencesService,
-    private readonly route: ActivatedRoute,
-  ) {
+  constructor(preferences: SitePreferencesService, route: ActivatedRoute) {
     this.preferences = preferences;
+    this.route = route;
   }
 
   ngAfterViewInit(): void {
@@ -92,6 +102,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.observer?.disconnect();
+    this.sendSubscription?.unsubscribe();
   }
 
   text(value: { en: string; ar: string }): string {
@@ -103,19 +114,83 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   }
 
   openRequest(): void {
+    // Remember the invoking element so focus can return to it on close.
+    if (document.activeElement instanceof HTMLElement) {
+      this.lastTrigger = document.activeElement;
+    }
+    // Reopening always starts from a clean, error-free state (no retained data).
+    this.resetRequestForm();
     this.isRequestOpen = true;
-    this.requestSent = false;
+    window.setTimeout(() => this.requestFirstField?.nativeElement.focus(), 0);
   }
 
   closeRequest(): void {
+    if (!this.isRequestOpen) {
+      return;
+    }
+    this.sendSubscription?.unsubscribe();
     this.isRequestOpen = false;
+    this.lastTrigger?.focus();
+    this.lastTrigger = null;
   }
 
-  submitRequest(): void {
-    this.requestSent = true;
+  /** Localized message for a touched-and-invalid control; '' when valid. */
+  fieldError(form: NgForm, controlName: string): string {
+    const control = form.form.get(controlName);
+    if (!control || control.valid || !(control.touched || control.dirty)) {
+      return '';
+    }
+    if (control.errors?.['required']) {
+      return this.text(copy.form.fieldRequired);
+    }
+    if (control.errors?.['email'] || control.errors?.['pattern']) {
+      return this.text(copy.form.invalidEmail);
+    }
+    return this.text(copy.form.fieldRequired);
   }
 
-  navLink(path: string): string {
-    return path;
+  submitRequest(form: NgForm): void {
+    if (this.submissionState === 'sending') {
+      return; // ignore double submissions
+    }
+    if (form.invalid) {
+      form.form.markAllAsTouched();
+      this.requestError = '';
+      return;
+    }
+    this.requestError = '';
+    this.submissionState = 'sending';
+    this.sendSubscription?.unsubscribe();
+    this.sendSubscription = this.submission
+      .submit({
+        name: this.requestName,
+        email: this.requestEmail,
+        notes: this.requestNotes,
+        locale: this.preferences.locale(),
+      })
+      .subscribe({
+        next: () => {
+          this.submissionState = 'idle';
+          // A confirmed delivery ends the interaction; clear collected data.
+          this.resetRequestForm();
+          this.requestReceived = true;
+        },
+        error: (error: unknown) => {
+          this.submissionState = 'error';
+          this.requestError = RequestSubmissionService.isConfigurationError(error)
+            ? this.text(copy.form.submissionUnavailable)
+            : this.text(copy.form.submissionFailed);
+          console.error('Request submission failed:', error);
+        },
+      });
+  }
+
+  private resetRequestForm(): void {
+    this.requestName = '';
+    this.requestEmail = '';
+    this.requestNotes = '';
+    this.requestError = '';
+    this.submissionState = 'idle';
+    this.requestReceived = false;
   }
 }

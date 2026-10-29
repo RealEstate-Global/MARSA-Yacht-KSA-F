@@ -1,9 +1,9 @@
 # 🛥️ MARSA — Saudi Marine Hospitality Platform
 
-[![CI Pipeline](https://github.com/Mostafa-SAID7/MARSA-Yacht-KSA-F/actions/workflows/ci.yml/badge.svg)](https://github.com/Mostafa-SAID7/MARSA-Yacht-KSA-F/actions/workflows/ci.yml)
-[![Release](https://github.com/Mostafa-SAID7/MARSA-Yacht-KSA-F/actions/workflows/release.yml/badge.svg)](https://github.com/Mostafa-SAID7/MARSA-Yacht-KSA-F/actions/workflows/release.yml)
-[![CodeQL Security Scan](https://github.com/Mostafa-SAID7/MARSA-Yacht-KSA-F/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Mostafa-SAID7/MARSA-Yacht-KSA-F/actions/workflows/codeql-analysis.yml)
-[![Close stale issues and PRs](https://github.com/Mostafa-SAID7/MARSA-Yacht-KSA-F/actions/workflows/stale.yml/badge.svg)](https://github.com/Mostafa-SAID7/MARSA-Yacht-KSA-F/actions/workflows/stale.yml)
+[![CI Pipeline](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/actions/workflows/ci.yml/badge.svg)](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/actions/workflows/ci.yml)
+[![Release](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/actions/workflows/release.yml/badge.svg)](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/actions/workflows/release.yml)
+[![CodeQL Security Scan](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/actions/workflows/codeql-analysis.yml)
+[![Close stale issues and PRs](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/actions/workflows/stale.yml/badge.svg)](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/actions/workflows/stale.yml)
 
 > Premium bilingual Saudi Red Sea marine hospitality and yacht provisioning experience for owners, captains, crew, and VIP travelers.
 
@@ -11,7 +11,7 @@
 
 - **Bilingual Support** (English/Arabic) with RTL layout
 - **Premium UX** for luxury yacht provisioning and hospitality
-- **Modular Architecture** with standalone Angular components
+- **Modular Architecture** with standalone Angular components and signals
 - **Type-Safe** development with strict TypeScript configuration
 - **Production-Ready** build optimization and performance
 
@@ -38,28 +38,33 @@ Open [http://localhost:4200](http://localhost:4200) in your browser.
 npm run build
 ```
 
+### Tests
+```bash
+npm run test
+```
+
 ## 📁 Project Structure
 
 ```
-MARSA-Angular-Experience/
-├── marsa/                    # Main Angular application
+MARSA-Yacht-KSA-F/
+├── marsa/                        # Main Angular application
 │   ├── src/
-│   │   ├── app/             # Angular components and services
-│   │   ├── public/          # Static assets
-│   │   └── styles/          # Global styles
-│   ├── angular.json         # Angular configuration
-│   ├── tsconfig.json        # TypeScript configuration
-│   └── package.json         # Dependencies
-├── .github/                 # GitHub workflows and templates
-│   ├── workflows/           # CI/CD pipelines
-│   └── ISSUE_TEMPLATE/      # Issue templates
-├── docs/                    # Documentation
-│   ├── ARCHITECTURE.md      # System design
-│   ├── SETUP.md            # Setup guide
-│   └── DEVELOPMENT.md      # Development guidelines
-├── LICENSE                  # Project license
-├── CONTRIBUTING.md          # Contribution guidelines
-└── README.md               # This file
+│   │   ├── app/                  # Angular components and services
+│   │   ├── assets → public/      # Static assets (public/assets)
+│   │   └── styles.css            # Global styles
+│   ├── angular.json              # Angular configuration
+│   ├── tsconfig.json             # TypeScript configuration
+│   └── package.json              # Dependencies
+├── .github/                      # GitHub workflows and templates
+│   ├── workflows/                # CI/CD pipelines
+│   └── ISSUE_TEMPLATE/           # Issue templates
+├── docs/                         # Documentation
+│   ├── ARCHITECTURE.md           # System design
+│   ├── SETUP.md                  # Setup guide
+│   └── DEVELOPMENT.md            # Development guidelines
+├── LICENSE                       # Project license
+├── CONTRIBUTING.md               # Contribution guidelines
+└── README.md                     # This file
 ```
 
 ## 🛠️ Available Scripts
@@ -69,15 +74,16 @@ MARSA-Angular-Experience/
 | `npm run dev` | Start development server (port 4200) |
 | `npm run build` | Production build |
 | `npm run serve` | Serve production build |
-| `npm run typecheck` | TypeScript type checking |
+| `npm run typecheck` | TypeScript and template type checking |
+| `npm run test` | Unit tests (Vitest runner, `ng test`) |
 
 ## 🎨 Tech Stack
 
-- **Framework**: Angular 20.3
-- **Language**: TypeScript 5.9
-- **Build Tool**: Vite (Angular CLI)
-- **Styling**: CSS with Tailwind CSS
-- **State Management**: Angular Services + RxJS
+- **Framework**: Angular 22.2
+- **Language**: TypeScript ~6.0
+- **Build Tool**: Angular CLI (`@angular/build:application`)
+- **Styling**: Tailwind CSS (via PostCSS)
+- **State Management**: Angular signals (`SitePreferencesService`)
 - **Routing**: Angular Router
 
 ## 📚 Documentation
@@ -86,6 +92,8 @@ MARSA-Angular-Experience/
 - [Setup Guide](./docs/SETUP.md) - Local development setup
 - [Development Guide](./docs/DEVELOPMENT.md) - Development guidelines
 - [Contributing](./CONTRIBUTING.md) - How to contribute
+- [Security Policy](./SECURITY.md) - Reporting vulnerabilities
+- [Accessibility](./ACCESSIBILITY.md) - Accessibility commitments
 
 ## 🤝 Contributing
 
@@ -101,5 +109,5 @@ For questions or support, please reach out to the development team.
 
 ---
 
-**Last Updated**: September 2026  
-**Version**: 1.0.0
+**Last Updated**: October 2026  
+**Version**: 1.0.2

@@ -45,6 +45,22 @@
           },
           "defaultConfiguration": "production"
         },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "buildTarget": "marsa:build:development",
+            "tsConfig": "tsconfig.spec.json",
+            "watch": false
+          },
+          "configurations": {
+            "development": {
+              "buildTarget": "marsa:build:development"
+            },
+            "production": {
+              "buildTarget": "marsa:build:production"
+            }
+          }
+        },
         "serve": {
           "builder": "@angular/build:dev-server",
           "configurations": {
