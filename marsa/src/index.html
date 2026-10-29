@@ -2,28 +2,59 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8" />
-    <title>MARSA — Saudi Marine Hospitality</title>
+    <title>Al Marsa — المرسى</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Premium provisioning and marine hospitality, carefully delivered to your yacht across the Saudi Red Sea." />
-    <!-- Open Graph / social cards. og:url and canonical are intentionally omitted
-         until the production domain is confirmed (documented in issue #39). -->
-    <meta property="og:title" content="MARSA — Saudi Marine Hospitality" />
-    <meta property="og:description" content="Saudi hospitality, delivered at sea." />
+    <meta name="description" content="Verified yachts. Licensed captains. Coastguard-cleared. Clear pricing — pick the boat, book in the app." />
+    <link rel="canonical" href="https://marsa-yacht.vercel.app/" />
+    <!-- Open Graph / social cards. Single canonical URL: language is a client-side
+         toggle (EN/AR share one URL), so hreflang alternates don't apply. -->
+    <meta property="og:title" content="Al Marsa — المرسى" />
+    <meta property="og:description" content="Verified yachts. Licensed captains. Coastguard-cleared. Clear pricing — pick the boat, book in the app." />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="MARSA" />
-    <meta property="og:image" content="/assets/marsa-hero.jpg" />
+    <meta property="og:site_name" content="Al Marsa" />
+    <meta property="og:url" content="https://marsa-yacht.vercel.app/" />
+    <meta property="og:image" content="https://marsa-yacht.vercel.app/assets/marsa-hero.jpg" />
     <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1024" />
     <meta property="og:image:height" content="1024" />
-    <meta property="og:image:alt" content="Yachts moored at the MARSA marina on the Saudi Red Sea coast" />
+    <meta property="og:image:alt" content="Yacht on Gulf water — book verified yachts with licensed captains in the Al Marsa app" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:locale:alternate" content="ar_SA" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="MARSA — Saudi Marine Hospitality" />
-    <meta name="twitter:description" content="Saudi hospitality, delivered at sea." />
-    <meta name="twitter:image" content="/assets/marsa-hero.jpg" />
+    <meta name="twitter:title" content="Al Marsa — المرسى" />
+    <meta name="twitter:description" content="Verified yachts. Licensed captains. Coastguard-cleared. Clear pricing — pick the boat, book in the app." />
+    <meta name="twitter:image" content="https://marsa-yacht.vercel.app/assets/marsa-hero.jpg" />
     <meta name="theme-color" content="#071417" />
+
+    <!-- Structured data: entity definition only. No ratings, reviews,
+         addresses, phone numbers, or store URLs are claimed — none are
+         verifiable. Descriptions mirror the visible page copy (almarsa.app/en). -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://marsa-yacht.vercel.app/#organization",
+            "name": "Al Marsa",
+            "alternateName": "المرسى",
+            "url": "https://marsa-yacht.vercel.app/",
+            "description": "Premium vessel-charter marketplace built for the Gulf — Saudi-first. Connects customers with verified yachts and boats, licensed captains, and an app-based booking flow with clear pricing and coastguard clearance.",
+            "logo": "https://marsa-yacht.vercel.app/assets/favicon.svg",
+            "sameAs": ["https://almarsa.app/"]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://marsa-yacht.vercel.app/#website",
+            "url": "https://marsa-yacht.vercel.app/",
+            "name": "Al Marsa — المرسى",
+            "inLanguage": ["en", "ar"],
+            "publisher": { "@id": "https://marsa-yacht.vercel.app/#organization" }
+          }
+        ]
+      }
+    </script>
 
     <!-- ① Preconnect to Google Fonts — eliminates DNS/TLS latency -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

@@ -2,122 +2,21 @@
   #page
   class="min-h-screen overflow-hidden bg-marsa-pearl dark:bg-marsa-dark-canvas text-marsa-ink dark:text-marsa-dark-ink"
   [class.menu-open]="isMenuOpen"
-  [class.modal-open]="isRequestOpen()"
   [attr.dir]="preferences.locale() === 'ar' ? 'rtl' : 'ltr'"
 >
   <!-- ═══════════════════════════════ HEADER ═══════════════════════════════ -->
-  <marsa-header (requestService)="openRequest()" (menuToggled)="setMenuOpen($event)"></marsa-header>
+  <marsa-header (menuToggled)="setMenuOpen($event)"></marsa-header>
 
-  <!-- ═══════════════════════════════ MAIN ═══════════════════════════════ -->
+  <!-- ═══════════════════════════════ MAIN: why → how → about → download ═══════════════════════════════ -->
   <main>
-    <app-hero (requestService)="openRequest()"></app-hero>
+    <app-hero></app-hero>
     <app-intro></app-intro>
     <app-products></app-products>
-    <app-services></app-services>
-    <app-destinations></app-destinations>
-    <app-about (requestService)="openRequest()"></app-about>
-    <app-testimonials></app-testimonials>
-    <app-cta (requestService)="openRequest()"></app-cta>
+    <app-about></app-about>
+    <app-cta></app-cta>
   </main>
 
   <!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
   <marsa-footer></marsa-footer>
-
-  <!-- ═══════════════════════════════ REQUEST MODAL ═══════════════════════════════ -->
-  <div
-    *ngIf="isRequestOpen()"
-    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-marsa-deep/60 backdrop-blur-md"
-    (click)="closeRequest()"
-    (keydown.escape)="closeRequest()">
-    <section
-      class="bg-marsa-pearl dark:bg-marsa-dark-deep rounded-marsa-lg w-full max-w-md shadow-2xl relative overflow-hidden"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="request-title"
-      (click)="$event.stopPropagation()">
-
-      <button #requestClose
-        class="absolute top-4 right-4 flex items-center justify-center w-8 h-8 rounded-full hover:bg-marsa-warm dark:hover:bg-white/10 text-marsa-muted hover:text-marsa-ink dark:hover:text-marsa-pearl transition-all"
-        type="button" (click)="closeRequest()" [attr.aria-label]="text(copy.nav.close)">
-        <svg lucideX class="w-4 h-4" aria-hidden="true"></svg>
-      </button>
-
-      <!-- Polite live region: announces success/errors to assistive technology -->
-      <p class="sr-only" aria-live="polite">
-        {{ requestReceived() ? text(copy.form.receivedEyebrow) : requestError() }}
-      </p>
-
-      <ng-container *ngIf="!requestReceived(); else thankYou">
-        <div class="p-8">
-          <p class="eyebrow mb-3"><span class="eyebrow-line"></span>{{ text(copy.form.modalEyebrow) }}</p>
-          <h2 id="request-title" class="text-2xl font-bold mb-3 -tracking-[0.03em]">{{ text(copy.sections.request) }}</h2>
-          <p class="text-sm opacity-60 mb-7 leading-relaxed">{{ text(copy.sections.ctaBody) }}</p>
-
-          <form #requestForm="ngForm" (ngSubmit)="submitRequest(requestForm)" novalidate class="space-y-5">
-            <div>
-              <label class="block text-[10px] font-bold mb-2 opacity-70 tracking-widest uppercase" for="request-name">{{ text(copy.form.name) }}</label>
-              <input #requestFirstField id="request-name" name="name" type="text"
-                [ngModel]="requestName()" (ngModelChange)="requestName.set($event)" required
-                class="w-full px-4 py-3 border border-marsa-warm dark:border-white/10 rounded-marsa-sm bg-transparent focus:border-marsa-sea dark:focus:border-marsa-dark-sea transition-colors text-sm outline-none"
-                [attr.aria-invalid]="fieldError(requestForm, 'name') ? 'true' : null"
-                [attr.aria-describedby]="fieldError(requestForm, 'name') ? 'request-name-error' : null" />
-              @if (fieldError(requestForm, 'name'); as nameError) {
-                <p id="request-name-error" role="alert" class="text-xs text-red-500 mt-1.5">{{ nameError }}</p>
-              }
-            </div>
-            <div>
-              <label class="block text-[10px] font-bold mb-2 opacity-70 tracking-widest uppercase" for="request-email">{{ text(copy.form.email) }}</label>
-              <input id="request-email" name="email" type="email"
-                [ngModel]="requestEmail()" (ngModelChange)="requestEmail.set($event)" required
-                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-                class="w-full px-4 py-3 border border-marsa-warm dark:border-white/10 rounded-marsa-sm bg-transparent focus:border-marsa-sea dark:focus:border-marsa-dark-sea transition-colors text-sm outline-none"
-                [attr.aria-invalid]="fieldError(requestForm, 'email') ? 'true' : null"
-                [attr.aria-describedby]="fieldError(requestForm, 'email') ? 'request-email-error' : null" />
-              @if (fieldError(requestForm, 'email'); as emailError) {
-                <p id="request-email-error" role="alert" class="text-xs text-red-500 mt-1.5">{{ emailError }}</p>
-              }
-            </div>
-            <div>
-              <label class="block text-[10px] font-bold mb-2 opacity-70 tracking-widest uppercase" for="request-notes">{{ text(copy.form.howCanWeHelp) }}</label>
-              <textarea id="request-notes" name="notes" rows="3"
-                [ngModel]="requestNotes()" (ngModelChange)="requestNotes.set($event)"
-                class="w-full px-4 py-3 border border-marsa-warm dark:border-white/10 rounded-marsa-sm bg-transparent focus:border-marsa-sea dark:focus:border-marsa-dark-sea transition-colors resize-none text-sm outline-none"></textarea>
-            </div>
-
-            @if (submissionState() === 'error' && requestError()) {
-              <p role="alert" class="text-sm text-red-500 leading-relaxed">
-                <strong class="font-bold">{{ text(copy.form.submissionErrorTitle) }}:</strong> {{ requestError() }}
-              </p>
-            }
-
-            <button
-              class="w-full py-3.5 bg-marsa-sand hover:bg-marsa-sand-deep text-marsa-deep font-bold text-[12px] tracking-wide rounded-full transition-all hover:scale-[1.02] flex items-center justify-center gap-2 disabled:opacity-60 disabled:hover:scale-100 disabled:cursor-not-allowed"
-              type="submit" [disabled]="submissionState() === 'sending'">
-              {{ submissionState() === 'sending' ? text(copy.form.sending) : text(copy.sections.request) }}
-              @if (submissionState() !== 'sending') {
-                <svg lucideArrowUpRight class="w-3.5 h-3.5" aria-hidden="true"></svg>
-              }
-            </button>
-          </form>
-        </div>
-      </ng-container>
-
-      <ng-template #thankYou>
-        <div class="p-8 text-center">
-          <span class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-marsa-sea/15 text-marsa-sea dark:text-marsa-dark-sea mb-5"
-            aria-hidden="true">
-            <svg lucideCheck class="w-7 h-7" aria-hidden="true"></svg>
-          </span>
-          <p class="eyebrow mb-3 justify-center"><span class="eyebrow-line"></span>{{ text(copy.form.receivedEyebrow) }}</p>
-          <h2 class="text-2xl font-bold mb-3 -tracking-[0.03em]">{{ text(copy.form.receivedTitle) }}</h2>
-          <p class="text-sm opacity-60 mb-8 leading-relaxed">{{ text(copy.form.receivedBody) }}</p>
-          <button class="inline-flex items-center gap-2 px-6 py-3 border border-marsa-warm dark:border-white/[0.12] hover:border-marsa-sea dark:hover:border-marsa-dark-sea font-bold text-[12px] tracking-wide rounded-full transition-all"
-            type="button" (click)="closeRequest()">
-            {{ text(copy.nav.close) }}
-          </button>
-        </div>
-      </ng-template>
-    </section>
-  </div>
 
 </div>

@@ -1,23 +1,25 @@
-    <!-- ── CTA ── -->
-    <section class="relative bg-marsa-deep text-marsa-pearl py-24 md:py-36 section-offscreen overflow-hidden" id="contact" aria-labelledby="cta-title">
+    <!-- ── Take Al Marsa with you (source: almarsa.app/en#download) ── -->
+    <section class="relative bg-marsa-deep text-marsa-pearl py-24 md:py-36 section-offscreen overflow-hidden" id="download" aria-labelledby="download-title">
       <img src="/assets/marsa-coastline.avif" alt="" aria-hidden="true" loading="lazy" decoding="async" fetchpriority="low"
         class="absolute inset-0 z-0 w-full h-full object-cover" />
       <div class="absolute inset-0 bg-gradient-to-b from-marsa-deep/95 via-marsa-deep/75 to-marsa-deep/95 z-10"></div>
       <div class="relative z-20 max-w-3xl mx-auto px-6 md:px-8 text-center reveal-scale">
-        <p class="eyebrow mb-5 justify-center text-marsa-pearl/70"><span class="eyebrow-line"></span>{{ text(copy.sections.hospitalityEyebrow) }}</p>
-        <h2 id="cta-title" class="mb-6 text-marsa-pearl">{{ text(copy.sections.ctaTitle) }}</h2>
-        <p class="text-lg opacity-80 mb-14 leading-relaxed text-marsa-pearl/90">{{ text(copy.sections.ctaBody) }}</p>
+        <h2 id="download-title" class="mb-6 text-marsa-pearl">{{ text(copy.download.heading) }}</h2>
+        <p class="text-lg opacity-80 mb-14 leading-relaxed text-marsa-pearl/90">{{ text(copy.download.body) }}</p>
+        <!-- Store badges: the official site's own badges still point at
+             placeholder URLs, so we link the official site instead of
+             inventing store URLs. Real listings pending — see docs/MIGRATION.md. -->
         <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <button class="inline-flex items-center gap-2.5 px-8 py-3.5 bg-marsa-sand hover:bg-marsa-sand-deep text-marsa-deep font-bold text-[12px] tracking-wide rounded-full transition-all hover:scale-105"
-            type="button" (click)="requestService.emit()">
-            {{ text(copy.sections.request) }}
+          <a class="inline-flex items-center gap-2.5 px-8 py-3.5 bg-marsa-sand hover:bg-marsa-sand-deep text-marsa-deep font-bold text-[12px] tracking-wide rounded-full transition-all hover:scale-105"
+            [href]="copy.links.official" target="_blank" rel="noopener">
+            {{ text(copy.download.appStore) }}
             <svg lucideArrowUpRight class="w-3.5 h-3.5" aria-hidden="true"></svg>
-          </button>
-          <button class="inline-flex items-center gap-2.5 px-8 py-3.5 border-2 border-marsa-pearl/30 text-marsa-pearl hover:bg-white/10 hover:border-marsa-pearl font-bold text-[12px] tracking-wide rounded-full transition-all"
-            type="button" (click)="requestService.emit()">
-            {{ text(copy.sections.concierge) }}
+          </a>
+          <a class="inline-flex items-center gap-2.5 px-8 py-3.5 border-2 border-marsa-pearl/30 text-marsa-pearl hover:bg-white/10 hover:border-marsa-pearl font-bold text-[12px] tracking-wide rounded-full transition-all"
+            [href]="copy.links.official" target="_blank" rel="noopener">
+            {{ text(copy.download.googlePlay) }}
             <svg lucideArrowRight class="w-3.5 h-3.5" aria-hidden="true"></svg>
-          </button>
+          </a>
         </div>
       </div>
     </section>

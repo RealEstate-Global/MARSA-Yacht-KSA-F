@@ -1,3 +1,17 @@
+/**
+ * Al Marsa site copy.
+ *
+ * English and Arabic strings sourced verbatim from https://almarsa.app/ (EN and
+ * AR pages, captured 2026-10-29). The site is the "lookbook"; booking, payment,
+ * KYC, coastguard clearance, and check-in happen in the Al Marsa app. Every
+ * string here must stay consistent with the official site — do not invent
+ * prices, vessel inventory, contact details, or store URLs.
+ *
+ * Store badges: the official site itself points its App Store / Google Play
+ * badges at placeholder URLs, so CTAs here link to the official site while real
+ * store listings are pending. See docs/MIGRATION.md.
+ */
+
 export type Locale = 'en' | 'ar';
 export type Theme = 'light' | 'dark';
 
@@ -6,29 +20,28 @@ export interface LocalizedText {
   ar: string;
 }
 
-export interface ServiceItem {
-  eyebrow: string;
+export interface ValueItem {
   title: LocalizedText;
   description: LocalizedText;
-  image: string;
-  accent: string;
 }
 
-export interface DestinationItem {
-  name: LocalizedText;
+export interface StepItem {
+  title: LocalizedText;
   description: LocalizedText;
-  image: string;
-  detail: LocalizedText;
+}
+
+export interface VesselCategoryItem {
+  /** Stable key matching the official site's fleet filter (kebab-case). */
+  key: string;
+  label: LocalizedText;
 }
 
 export interface SiteCopy {
   nav: {
-    services: LocalizedText;
-    provisioning: LocalizedText;
-    destinations: LocalizedText;
+    why: LocalizedText;
+    how: LocalizedText;
     about: LocalizedText;
-    contact: LocalizedText;
-    request: LocalizedText;
+    download: LocalizedText;
     menu: LocalizedText;
     close: LocalizedText;
     switchTheme: LocalizedText;
@@ -37,307 +50,214 @@ export interface SiteCopy {
     slides: LocalizedText;
   };
   hero: {
-    eyebrow: LocalizedText;
     title: LocalizedText;
     body: LocalizedText;
     primary: LocalizedText;
-    secondary: LocalizedText;
     scroll: LocalizedText;
   };
-  sections: {
-    servicesEyebrow: LocalizedText;
-    servicesTitle: LocalizedText;
-    servicesBody: LocalizedText;
-    provisioningEyebrow: LocalizedText;
-    provisioningTitle: LocalizedText;
-    destinationsEyebrow: LocalizedText;
-    destinationsTitle: LocalizedText;
-    destinationsBody: LocalizedText;
-    marinaEyebrow: LocalizedText;
-    marinaTitle: LocalizedText;
-    marinaBody: LocalizedText;
-    marinaBulletDelivery: LocalizedText;
-    marinaBulletSupport: LocalizedText;
-    marinaBulletCrew: LocalizedText;
-    marinaBulletSpecial: LocalizedText;
-    marinaImageAlt: LocalizedText;
-    hospitalityEyebrow: LocalizedText;
-    hospitalityTitle: LocalizedText;
-    hospitalityBody: LocalizedText;
-    productsEyebrow: LocalizedText;
-    productsTitle: LocalizedText;
-    productsBody: LocalizedText;
-    testimonialsEyebrow: LocalizedText;
-    testimonialsTitle: LocalizedText;
-    ctaTitle: LocalizedText;
-    ctaBody: LocalizedText;
-    request: LocalizedText;
-    concierge: LocalizedText;
-    viewCollection: LocalizedText;
-    explore: LocalizedText;
+  why: {
+    heading: LocalizedText;
+    lead: LocalizedText;
+    cards: ValueItem[];
   };
-  featuresBand: {
-    col1Title: LocalizedText;
-    col1Body: LocalizedText;
-    col2Title: LocalizedText;
-    col2Body: LocalizedText;
-    col3Title: LocalizedText;
-    col3Body: LocalizedText;
+  how: {
+    heading: LocalizedText;
+    lead: LocalizedText;
+    steps: StepItem[];
+    categoriesHeading: LocalizedText;
   };
-  form: {
-    title: LocalizedText;
-    subtitle: LocalizedText;
-    galley: LocalizedText;
-    interior: LocalizedText;
-    meat: LocalizedText;
-    fish: LocalizedText;
-    dairy: LocalizedText;
-    fruit: LocalizedText;
-    bread: LocalizedText;
-    beverages: LocalizedText;
-    herbs: LocalizedText;
-    bespoke: LocalizedText;
-    general: LocalizedText;
-    toiletries: LocalizedText;
-    flowers: LocalizedText;
-    janitorial: LocalizedText;
-    crew: LocalizedText;
-    name: LocalizedText;
-    phone: LocalizedText;
-    email: LocalizedText;
-    yacht: LocalizedText;
-    howCanWeHelp: LocalizedText;
-    chef: LocalizedText;
-    submit: LocalizedText;
-    modalEyebrow: LocalizedText;
-    receivedEyebrow: LocalizedText;
-    receivedTitle: LocalizedText;
-    receivedBody: LocalizedText;
-    sending: LocalizedText;
-    fieldRequired: LocalizedText;
-    invalidEmail: LocalizedText;
-    submissionUnavailable: LocalizedText;
-    submissionFailed: LocalizedText;
-    submissionErrorTitle: LocalizedText;
-    tryAgain: LocalizedText;
+  about: {
+    heading: LocalizedText;
+    body1: LocalizedText;
+    body2: LocalizedText;
+    imageAlt: LocalizedText;
   };
+  download: {
+    heading: LocalizedText;
+    body: LocalizedText;
+    appStore: LocalizedText;
+    googlePlay: LocalizedText;
+  };
+  links: {
+    /** Official site — the only verified external destination for app CTAs. */
+    official: string;
+  };
+  vesselCategories: VesselCategoryItem[];
   slider: {
     goToSlide: LocalizedText;
   };
   footer: {
-    descriptor: LocalizedText;
+    brand: LocalizedText;
+    tagline: LocalizedText;
     navigation: LocalizedText;
-    services: LocalizedText;
-    contact: LocalizedText;
-    location: LocalizedText;
-    email: LocalizedText;
-    emailLabel: LocalizedText;
-    phone: LocalizedText;
-    phoneLabel: LocalizedText;
-    builtFor: LocalizedText;
+    download: LocalizedText;
     rights: LocalizedText;
   };
 }
 
 export const copy: SiteCopy = {
   nav: {
-    services: { en: 'Services', ar: 'الخدمات' },
-    provisioning: { en: 'Provisioning', ar: 'التموين' },
-    destinations: { en: 'Destinations', ar: 'الوجهات' },
-    about: { en: 'About MARSA', ar: 'عن مرسى' },
-    contact: { en: 'Contact', ar: 'تواصل معنا' },
-    request: { en: 'Request service', ar: 'اطلب خدمة' },
+    why: { en: 'Why Al Marsa', ar: 'ليش المرسى' },
+    how: { en: 'How it works', ar: 'كيف يشتغل' },
+    about: { en: 'About', ar: 'عنّا' },
+    download: { en: 'Get the app', ar: 'حمّل التطبيق' },
     menu: { en: 'Menu', ar: 'القائمة' },
     close: { en: 'Close', ar: 'إغلاق' },
     switchTheme: { en: 'Switch theme', ar: 'تغيير المظهر' },
-    home: { en: 'MARSA home', ar: 'الرئيسية' },
+    home: { en: 'Al Marsa home', ar: 'الرئيسية' },
     language: { en: 'Change language', ar: 'تغيير اللغة' },
     slides: { en: 'Hero slides', ar: 'شرائح الواجهة' },
   },
   hero: {
-    eyebrow: { en: 'Saudi marine hospitality', ar: 'ضيافة بحرية سعودية' },
-    title: { en: 'Saudi hospitality, delivered at sea.', ar: 'ضيافة سعودية بمعايير بحرية عالمية' },
+    title: { en: 'The Gulf, on your schedule.', ar: 'الخليج، على موعدك.' },
     body: {
-      en: 'Premium provisioning and marine services, carefully delivered to your yacht.',
-      ar: 'نوفر لك كل ما يحتاجه يختك من تموين وخدمات بحرية، بدقة تليق برحلتك.',
+      en: 'Verified yachts. Licensed captains. Coastguard-cleared. Clear pricing — pick the boat, book in the app.',
+      ar: 'يخوت موثّقة. كباتن مرخّصون. تخليص خفر السواحل. أسعار واضحة — اختَر القارب، واحجز من التطبيق.',
     },
-    primary: { en: 'Start your request', ar: 'ابدأ طلبك' },
-    secondary: { en: 'Explore services', ar: 'اكتشف خدماتنا' },
-    scroll: { en: 'Discover MARSA', ar: 'اكتشف مرسى' },
+    primary: { en: 'Get the app', ar: 'حمّل التطبيق' },
+    scroll: { en: 'Why Al Marsa', ar: 'ليش المرسى' },
   },
-  sections: {
-    servicesEyebrow: { en: 'The MARSA standard', ar: 'معيار مرسى' },
-    servicesTitle: { en: 'Everything your journey needs.', ar: 'كل ما تحتاجه رحلتك.' },
-    servicesBody: {
-      en: 'From the first list to the final delivery, every detail is sourced, prepared, and handled with calm precision.',
-      ar: 'من أول قائمة إلى لحظة التسليم، نختار كل تفصيلة ونجهزها ونتعامل معها بدقة وهدوء.',
+  why: {
+    heading: { en: 'Why Al Marsa', ar: 'ليش المرسى' },
+    lead: {
+      en: 'Premium charter without the fluff. Trust built in. Booking in the app.',
+      ar: 'تأجير فاخر بلا حشو. ثقة مدمجة. الحجز في التطبيق.',
     },
-    provisioningEyebrow: { en: 'How it works', ar: 'كيف نعمل' },
-    provisioningTitle: { en: 'From request to deck, without the noise.', ar: 'من الطلب إلى سطح اليخت، بكل سلاسة.' },
-    destinationsEyebrow: { en: 'Saudi Red Sea', ar: 'البحر الأحمر السعودي' },
-    destinationsTitle: { en: 'Your coast. Your pace.', ar: 'ساحلك. إيقاعك.' },
-    destinationsBody: {
-      en: 'A considered network along the Red Sea, ready for wherever the day takes you.',
-      ar: 'شبكة مدروسة على امتداد البحر الأحمر، جاهزة أينما أخذتك الرحلة.',
-    },
-    marinaEyebrow: { en: 'Marina support', ar: 'خدمات المرسى' },
-    marinaTitle: { en: 'From berth to deck, every detail is handled.', ar: 'من المرسى إلى سطح اليخت، نهتم بكل التفاصيل.' },
-    marinaBody: {
-      en: 'A discreet local team for the moments that make a voyage feel effortless.',
-      ar: 'فريق محلي متكامل للتفاصيل التي تجعل الرحلة أكثر سلاسة.',
-    },
-    marinaBulletDelivery: { en: 'Marina delivery', ar: 'التسليم في المرسى' },
-    marinaBulletSupport: { en: 'Yacht support', ar: 'دعم اليخت' },
-    marinaBulletCrew: { en: 'Crew assistance', ar: 'مساعدة الطاقم' },
-    marinaBulletSpecial: { en: 'Special requests', ar: 'طلبات خاصة' },
-    marinaImageAlt: {
-      en: 'Marina at dusk',
-      ar: 'مرسى اليخوت عند الغروب',
-    },
-    hospitalityEyebrow: { en: 'A Saudi welcome', ar: 'ترحيب سعودي' },
-    hospitalityTitle: { en: 'Where every detail becomes part of the journey.', ar: 'حيث التفاصيل تصنع التجربة.' },
-    hospitalityBody: {
-      en: 'A new expression of Saudi hospitality shaped by the coast, the sea, and the way we welcome people to both.',
-      ar: 'تجربة جديدة للضيافة السعودية، مستوحاة من الساحل والبحر وطريقتنا في الترحيب بضيوفهما.',
-    },
-    productsEyebrow: { en: 'Curated onboard', ar: 'مختارات على متن اليخت' },
-    productsTitle: { en: 'The good things, already considered.', ar: 'كل الأشياء الجميلة، مختارة بعناية.' },
-    productsBody: {
-      en: 'A glimpse of the ingredients and essentials we bring to your voyage.',
-      ar: 'لمحة من المكونات والمستلزمات التي نوفرها لرحلتك.',
-    },
-    testimonialsEyebrow: { en: 'Trusted at sea', ar: 'ثقة في البحر' },
-    testimonialsTitle: { en: 'Good service is felt in the details.', ar: 'الخدمة الجيدة تُشعر بها في التفاصيل.' },
-    ctaTitle: { en: 'Ready for your next voyage?', ar: 'جاهز لرحلتك القادمة؟' },
-    ctaBody: {
-      en: 'Tell us what would make your time on the Red Sea feel effortless.',
-      ar: 'أخبرنا بما يجعل وقتك في البحر الأحمر أكثر سلاسة.',
-    },
-    request: { en: 'Request provisioning', ar: 'اطلب التموين' },
-    concierge: { en: 'Talk to concierge', ar: 'تواصل مع خدمة الكونسيرج' },
-    viewCollection: { en: 'View collection', ar: 'استعرض المجموعة' },
-    explore: { en: 'Explore destination', ar: 'اكتشف الوجهة' },
+    cards: [
+      {
+        title: { en: 'Verified vessels', ar: 'قوارب ويخوت موثّقة' },
+        description: {
+          en: 'Yachts and boats that clear our listing bar — what you see is what you charter.',
+          ar: 'عروض تجاوزت شروط الإدراج — اللي تشوفه هو اللي تستأجره.',
+        },
+      },
+      {
+        title: { en: 'Licensed captains', ar: 'كباتن مرخّصون' },
+        description: {
+          en: 'When the vessel needs a captain, you get a licensed pro on the trip.',
+          ar: 'إذا القارب يحتاج كابتن، توصلك مع محترف مرخّص على الرحلة.',
+        },
+      },
+      {
+        title: { en: 'Clear pricing', ar: 'أسعار واضحة' },
+        description: {
+          en: 'Rates up front. No mystery math on the web — totals land in the app.',
+          ar: 'الأسعار ظاهرة من البداية. بدون حسابات غامضة على الموقع — الإجمالي في التطبيق.',
+        },
+      },
+      {
+        title: { en: 'Coastguard-cleared', ar: 'تخليص خفر السواحل' },
+        description: {
+          en: 'Regulatory clearance is part of the flow so you’re ready to cast off.',
+          ar: 'التخليص جزء من المسار عشان تكون جاهز للإبحار.',
+        },
+      },
+    ],
   },
-  featuresBand: {
-    col1Title: { en: '1 HR RESPONSE TIME', ar: 'استجابة خلال ساعة' },
-    col1Body: { en: 'Quick response. We are the most trusted provisioning company in the Red Sea.', ar: 'استجابة سريعة. نحن شركة التموين الأكثر ثقة في البحر الأحمر.' },
-    col2Title: { en: '48 HOURS DELIVERIES', ar: 'توصيل خلال ٤٨ ساعة' },
-    col2Body: { en: 'Get the provisions you need, when you need them. Offshore or anchored, we\'ve got you covered.', ar: 'احصل على التموين الذي تحتاجه متى شئت. في عرض البحر أو في المرسى، نحن نغطيك.' },
-    col3Title: { en: 'FRESH & HIGH QUALITY PRODUCTS', ar: 'منتجات طازجة وعالية الجودة' },
-    col3Body: { en: 'We pride ourselves on offering not only the best food and beverages available locally, but importing specialty items.', ar: 'نفتخر بتقديم أفضل الأطعمة والمشروبات المتاحة محليًا، واستيراد العناصر المتخصصة.' },
+  how: {
+    heading: { en: 'How it works', ar: 'كيف يشتغل' },
+    lead: {
+      en: 'Browse here. Book there. On the water in four moves.',
+      ar: 'عرض هنا. حجز هناك. على الماء بأربع خطوات.',
+    },
+    steps: [
+      {
+        title: { en: 'Browse', ar: 'تصفّح' },
+        description: {
+          en: 'Scroll the fleet on the web — photos, marina, capacity, hourly rate.',
+          ar: 'عرض القوارب واليخوت على الموقع — صور، مرسى، سعة، سعر الساعة.',
+        },
+      },
+      {
+        title: { en: 'Open the app', ar: 'افتح التطبيق' },
+        description: {
+          en: 'Lock your date, duration, and guests where booking actually lives.',
+          ar: 'ثبّت التاريخ والمدة والضيوف مكان الحجز الحقيقي.',
+        },
+      },
+      {
+        title: { en: 'Pay & clear', ar: 'ادفع وخلّص' },
+        description: {
+          en: 'Secure payment, KYC, and coastguard — handled in Al Marsa.',
+          ar: 'دفع آمن، تحقق الهوية، وخفر السواحل — كلها في المرسى.',
+        },
+      },
+      {
+        title: { en: 'Sail', ar: 'أبحر' },
+        description: {
+          en: 'Check in, board, and own the day on Gulf water.',
+          ar: 'سجّل وصولك، اركب، واملِك يومك على مياه الخليج.',
+        },
+      },
+    ],
+    categoriesHeading: {
+      // Our copy: introduces the real fleet filter taxonomy mirrored from the
+      // official fleet page — no vessel inventory is implied or promised.
+      en: 'On the web you can browse',
+      ar: 'على الموقع تقدر تتصفح',
+    },
   },
-  form: {
-    title: { en: 'What you need?', ar: 'ماذا تحتاج؟' },
-    subtitle: { en: 'Please complete this short form with your full details. On receipt we will forward our latest Provisions Directory.', ar: 'يرجى إكمال هذا النموذج القصير بتفاصيلك الكاملة. عند الاستلام، سنرسل أحدث دليل للتموين لدينا.' },
-    galley: { en: 'Galley >>', ar: 'المطبخ >>' },
-    interior: { en: 'Interior >>', ar: 'الداخلي >>' },
-    meat: { en: 'Meat & Poultry', ar: 'اللحوم والدواجن' },
-    fish: { en: 'Fish & SeaFood', ar: 'الأسماك والمأكولات البحرية' },
-    dairy: { en: 'Dairy & Cheese', ar: 'الألبان والأجبان' },
-    fruit: { en: 'Fruit & Vegetables', ar: 'الفواكه والخضروات' },
-    bread: { en: 'Bread & Baking', ar: 'المخبوزات' },
-    beverages: { en: 'Beverages & Bar Supplies', ar: 'المشروبات ومستلزمات البار' },
-    herbs: { en: 'Herbs & Spice', ar: 'الأعشاب والبهارات' },
-    bespoke: { en: 'A Bespoke Service', ar: 'خدمة مخصصة' },
-    general: { en: 'General Groceries', ar: 'بقالة عامة' },
-    toiletries: { en: 'Toiletries', ar: 'مستلزمات العناية الشخصية' },
-    flowers: { en: 'Flowers & Interior Essentials', ar: 'الزهور والمستلزمات الداخلية' },
-    janitorial: { en: 'Janitorial', ar: 'مستلزمات التنظيف' },
-    crew: { en: 'Crew supplies', ar: 'مستلزمات الطاقم' },
-    name: { en: 'Name*', ar: 'الاسم*' },
-    phone: { en: 'Phone Number*', ar: 'رقم الهاتف*' },
-    email: { en: 'Email*', ar: 'البريد الإلكتروني*' },
-    yacht: { en: 'Yacht Name*', ar: 'اسم اليخت*' },
-    howCanWeHelp: { en: 'How can we help?', ar: 'كيف نساعدك؟' },
-    chef: { en: 'Chef', ar: 'الشيف' },
-    submit: { en: 'Submit', ar: 'إرسال' },
-    modalEyebrow: { en: 'How it works', ar: 'كيف نعمل' },
-    receivedEyebrow: { en: 'Request received', ar: 'تم الاستلام' },
-    receivedTitle: { en: "We'll be in touch shortly.", ar: 'سنعود إليك قريباً.' },
-    receivedBody: {
-      en: 'Our concierge team will follow up with the right details for your voyage.',
-      ar: 'سيتواصل معك فريق الكونسيرج في أقرب وقت.',
+  about: {
+    heading: { en: 'About Al Marsa', ar: 'عن المرسى' },
+    body1: {
+      en: 'Al Marsa (المرسى) is a premium vessel-charter marketplace built for the Gulf — Saudi-first. We connect customers with verified yachts and boats, licensed captains, and a booking flow that respects transparent pricing and coastguard clearance.',
+      ar: 'المرسى (Al Marsa) سوق فاخر لتأجير القوارب واليخوت في الخليج — السعودية أولاً. نربط العملاء بقوارب ويخوت موثّقة، كباتن مرخّصين، ومسار حجز يحترم الأسعار الواضحة وتخليص خفر السواحل.',
     },
-    sending: { en: 'Sending…', ar: 'جارٍ الإرسال…' },
-    fieldRequired: { en: 'This field is required.', ar: 'هذا الحقل مطلوب.' },
-    invalidEmail: { en: 'Please enter a valid email address.', ar: 'يرجى إدخال بريد إلكتروني صالح.' },
-    submissionUnavailable: {
-      en: 'Online submission is not configured yet. Please contact the concierge team directly.',
-      ar: 'الإرسال الإلكتروني غير مُعدّ بعد. يرجى التواصل مع فريق الكونسيرج مباشرةً.',
+    body2: {
+      en: 'This site is your lookbook. The Al Marsa app is where you book, pay, and manage the trip.',
+      ar: 'هالموقع للعرض. تطبيق المرسى مكان الحجز والدفع وإدارة الرحلة.',
     },
-    submissionFailed: {
-      en: 'Something went wrong while sending your request. Please try again.',
-      ar: 'حدث خطأ أثناء إرسال طلبك. يرجى المحاولة مرة أخرى.',
+    imageAlt: {
+      en: 'Yacht deck on Gulf water',
+      ar: 'سطح يخت على مياه الخليج',
     },
-    submissionErrorTitle: { en: 'Request not sent', ar: 'لم يُرسل الطلب' },
-    tryAgain: { en: 'Try again', ar: 'حاول مجدداً' },
   },
+  download: {
+    heading: { en: 'Take Al Marsa with you', ar: 'خلّ المرسى معك' },
+    body: {
+      en: 'Book the boat. Own the day. iOS and Android.',
+      ar: 'احجز القارب. ملك يومك. على iOS وAndroid.',
+    },
+    appStore: { en: 'Download on the App Store', ar: 'حمّل من App Store' },
+    googlePlay: { en: 'Get it on Google Play', ar: 'حمّل من Google Play' },
+  },
+  links: {
+    official: 'https://almarsa.app/',
+  },
+  vesselCategories: [
+    { key: 'motorboat', label: { en: 'Motorboat', ar: 'قارب بمحرك' } },
+    { key: 'yacht', label: { en: 'Yacht', ar: 'يخت' } },
+    { key: 'sailboat', label: { en: 'Sailboat', ar: 'مركب شراعي' } },
+    { key: 'jet_ski', label: { en: 'Jet Ski', ar: 'جت سكي' } },
+    { key: 'luxury_charter', label: { en: 'Luxury Charter', ar: 'يخت فاخر' } },
+    { key: 'fishing_boat', label: { en: 'Fishing Boat', ar: 'قارب صيد' } },
+    { key: 'event_boat', label: { en: 'Event Boat', ar: 'قارب مناسبات' } },
+    { key: 'party_yacht', label: { en: 'Party Yacht', ar: 'يخت حفلات' } },
+    { key: 'kayak', label: { en: 'Kayak', ar: 'كاياك' } },
+    { key: 'windsurf', label: { en: 'Windsurf', ar: 'لوح تزلج شراعي' } },
+    { key: 'paddleboard', label: { en: 'Paddleboard', ar: 'لوح تجديف' } },
+    { key: 'waterski', label: { en: 'Waterski', ar: 'تزحلق على الماء' } },
+    { key: 'jetboat', label: { en: 'Jetboat', ar: 'زورق نفاث' } },
+    { key: 'speedboat', label: { en: 'Speedboat', ar: 'زورق سريع' } },
+    { key: 'catamaran', label: { en: 'Catamaran', ar: 'كاتاماران' } },
+    { key: 'bananaboat', label: { en: 'Bananaboat', ar: 'قارب الموز' } },
+    { key: 'dhow', label: { en: 'Dhow', ar: 'داو' } },
+    { key: 'diveboat', label: { en: 'Diveboat', ar: 'قارب غوص' } },
+  ],
   slider: {
     goToSlide: { en: 'Go to slide', ar: 'الانتقال إلى الشريحة' },
   },
   footer: {
-    descriptor: { en: 'Saudi Marine Hospitality & Provisioning', ar: 'الضيافة والتموين البحري السعودي' },
+    brand: { en: 'Al Marsa', ar: 'المرسى' },
+    tagline: {
+      en: 'Gulf water. Your clock. Premium charter, zero fluff.',
+      ar: 'مياه الخليج. وقتك أنت. تأجير فاخر بلا حشو.',
+    },
     navigation: { en: 'Navigate', ar: 'تصفح' },
-    services: { en: 'Services', ar: 'الخدمات' },
-    contact: { en: 'Contact', ar: 'تواصل' },
-    location: { en: 'Jeddah, Saudi Arabia', ar: 'جدة، المملكة العربية السعودية' },
-    email: { en: 'concierge@marsa.sa', ar: 'concierge@marsa.sa' },
-    emailLabel: { en: 'Email the concierge team', ar: 'راسل فريق الكونسيرج' },
-    phone: { en: '+966 12 000 0000', ar: '+966 12 000 0000' },
-    phoneLabel: { en: 'Call the concierge team', ar: 'اتصل بفريق الكونسيرج' },
-    builtFor: { en: 'Built for the Red Sea', ar: 'صُنع للبحر الأحمر' },
-    rights: { en: '© 2026 MARSA. All rights reserved.', ar: '© ٢٠٢٦ مرسى. جميع الحقوق محفوظة.' },
+    download: { en: 'Get the app', ar: 'حمّل التطبيق' },
+    rights: {
+      en: '© 2026 Al Marsa. All rights reserved.',
+      ar: '© ٢٠٢٦ المرسى. جميع الحقوق محفوظة.',
+    },
   },
 };
-
-export const services: ServiceItem[] = [
-  {
-    eyebrow: '01',
-    title: { en: 'Yacht provisioning', ar: 'تموين اليخوت' },
-    description: { en: 'Everything your yacht needs, sourced and delivered with precision.', ar: 'كل ما يحتاجه يختك، يتم اختياره وتجهيزه وتسليمه بدقة.' },
-    image: '/assets/marsa-provisioning.avif',
-    accent: 'teal',
-  },
-  {
-    eyebrow: '02',
-    title: { en: 'Marine concierge', ar: 'الكونسيرج البحري' },
-    description: { en: 'Personalized support for every detail of your journey.', ar: 'خدمة شخصية تهتم بكل تفاصيل رحلتك.' },
-    image: '/assets/marsa-concierge.avif',
-    accent: 'sand',
-  },
-  {
-    eyebrow: '03',
-    title: { en: 'Fresh food', ar: 'أطعمة طازجة' },
-    description: { en: 'Fresh produce and premium ingredients selected for your voyage.', ar: 'مكونات طازجة ومنتجات مختارة بعناية لرحلتك.' },
-    image: '/assets/marsa-produce.avif',
-    accent: 'coral',
-  },
-  {
-    eyebrow: '04',
-    title: { en: 'Yacht services', ar: 'خدمات اليخوت' },
-    description: { en: 'Reliable support across the Saudi Red Sea.', ar: 'خدمات بحرية موثوقة في أنحاء البحر الأحمر السعودي.' },
-    image: '/assets/marsa-seafood.avif',
-    accent: 'blue',
-  },
-];
-
-export const destinations: DestinationItem[] = [
-  {
-    name: { en: 'Jeddah', ar: 'جدة' },
-    description: { en: 'A city of movement, old souks, and open water.', ar: 'مدينة الحركة والأسواق القديمة والمياه المفتوحة.' },
-    detail: { en: '21° 32′ N · 39° 10′ E', ar: '٢١° ٣٢′ شمالاً · ٣٩° ١٠′ شرقاً' },
-    image: '/assets/marsa-jeddah.avif',
-  },
-  {
-    name: { en: 'Umluj', ar: 'أملج' },
-    description: { en: 'White islands, clear water, and the quiet edge of the Red Sea.', ar: 'جزر بيضاء ومياه صافية وحافة هادئة للبحر الأحمر.' },
-    detail: { en: '25° 02′ N · 37° 16′ E', ar: '٢٥° ٠٢′ شمالاً · ٣٧° ١٦′ شرقاً' },
-    image: '/assets/marsa-umluj.avif',
-  },
-  {
-    name: { en: 'AMAALA', ar: 'أمالا' },
-    description: { en: 'A new horizon for art, nature, and slow coastal living.', ar: 'أفق جديد للفن والطبيعة والحياة الساحلية الهادئة.' },
-    detail: { en: '27° 42′ N · 35° 15′ E', ar: '٢٧° ٤٢′ شمالاً · ٣٥° ١٥′ شرقاً' },
-    image: '/assets/marsa-amaala.avif',
-  },
-];

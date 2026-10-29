@@ -1,50 +1,22 @@
-    <!-- ── Features Band & Provisioning Form ── -->
-    <section class="w-full section-offscreen bg-transparent relative z-10 -mt-[1px]">
-      
-      <!-- Shared Light/Dark Container -->
-      <div class="max-w-5xl mx-auto bg-transparent text-marsa-ink dark:text-marsa-dark-ink">
-        
-        <!-- Features Band -->
-        <div class="w-full py-12 md:py-16 px-6 md:px-8 relative">
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-            
-            <!-- Col 1 -->
-            <div class="flex flex-col gap-4 reveal-up delay-100">
-              <h3 class="text-[13px] md:text-[14px] font-medium tracking-wide text-marsa-sand">
-                {{ text(copy.featuresBand.col1Title) }}
-              </h3>
-              <p class="text-[13px] md:text-[14px] leading-relaxed opacity-80 max-w-sm">
-                {{ text(copy.featuresBand.col1Body) }}
-              </p>
-            </div>
+    <!-- ── Why Al Marsa — four trust pillars (source: almarsa.app/en#why) ── -->
+    <section id="why" class="w-full section-offscreen bg-transparent" aria-labelledby="why-title">
+      <div class="max-w-5xl mx-auto px-6 md:px-8 py-20 md:py-28 bg-transparent text-marsa-ink dark:text-marsa-dark-ink">
 
-            <!-- Col 2 -->
-            <div class="flex flex-col gap-4 reveal-up delay-200">
-              <h3 class="text-[13px] md:text-[14px] font-medium tracking-wide text-marsa-sand">
-                {{ text(copy.featuresBand.col2Title) }}
-              </h3>
-              <p class="text-[13px] md:text-[14px] leading-relaxed opacity-80 max-w-sm">
-                {{ text(copy.featuresBand.col2Body) }}
-              </p>
-            </div>
+        <div class="mb-14 reveal-up">
+          <h2 id="why-title" class="mb-5">{{ text(copy.why.heading) }}</h2>
+          <p class="text-lg opacity-70 max-w-xl leading-relaxed">{{ text(copy.why.lead) }}</p>
+        </div>
 
-            <!-- Col 3 -->
-            <div class="flex flex-col gap-4 reveal-up delay-300">
-              <h3 class="text-[13px] md:text-[14px] font-medium tracking-wide text-marsa-sand">
-                {{ text(copy.featuresBand.col3Title) }}
-              </h3>
-              <p class="text-[13px] md:text-[14px] leading-relaxed opacity-80 max-w-sm">
-                {{ text(copy.featuresBand.col3Body) }}
-              </p>
-            </div>
-
-          </div>
-
-        <!-- Gold Square Button -->
-        <div class="absolute bottom-0 left-0 w-12 h-12 md:w-16 md:h-16 bg-marsa-sand hover:bg-marsa-sand-deep transition-colors cursor-pointer flex items-center justify-center text-marsa-deep">
-          <svg lucideArrowUpRight class="w-5 h-5 md:w-6 md:h-6" strokeWidth="2.5" aria-hidden="true"></svg>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <article
+            *ngFor="let card of copy.why.cards; let i = index"
+            class="reveal-up rounded-marsa-md border border-marsa-warm/60 dark:border-white/10 bg-marsa-card dark:bg-marsa-dark-card p-6 flex flex-col gap-3"
+            [style.transition-delay]="(i * 100) + 'ms'"
+            [attr.aria-labelledby]="'why-card-' + i">
+            <span class="text-[10px] font-mono tracking-[0.14em] text-marsa-sand-deep dark:text-marsa-dark-sand" aria-hidden="true">{{ (i + 1) < 10 ? '0' + (i + 1) : (i + 1) }}</span>
+            <h3 id="{{ 'why-card-' + i }}" class="text-base font-bold -tracking-[0.02em]">{{ text(card.title) }}</h3>
+            <p class="text-sm opacity-60 leading-relaxed">{{ text(card.description) }}</p>
+          </article>
         </div>
       </div>
-
-    </div>
-  </section>
+    </section>

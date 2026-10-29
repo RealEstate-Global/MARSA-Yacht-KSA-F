@@ -32,7 +32,6 @@ export class Header {
   readonly preferences: SitePreferencesService;
   isMenuOpen = false;
 
-  @Output() requestService = new EventEmitter<void>();
   @Output() menuToggled = new EventEmitter<boolean>();
 
   @ViewChild('menuToggle') private menuToggle?: ElementRef<HTMLButtonElement>;
@@ -69,10 +68,5 @@ export class Header {
 
   isLightTheme(): boolean {
     return this.preferences.theme() === 'light';
-  }
-
-  openRequest(): void {
-    this.requestService.emit();
-    this.closeMenu();
   }
 }

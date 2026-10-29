@@ -1,14 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { copy } from '../../../data/content';
 import { SitePreferencesService } from '../../../services/site-preferences.service';
-import { LucideArrowUpRight } from '@lucide/angular';
 
 @Component({
   selector: 'app-intro',
   standalone: true,
-  imports: [CommonModule, FormsModule, LucideArrowUpRight],
+  imports: [CommonModule],
   templateUrl: './intro.component.html',
 })
 export class IntroComponent {

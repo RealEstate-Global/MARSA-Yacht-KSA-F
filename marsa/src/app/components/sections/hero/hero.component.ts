@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, OnDestroy, signal } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { copy } from '../../../data/content';
@@ -13,7 +13,6 @@ import { LucideArrowUpRight, LucideArrowDown, LucideMouse } from '@lucide/angula
 })
 export class HeroComponent implements OnInit, OnDestroy {
   copy = copy;
-  @Output() requestService = new EventEmitter<void>();
 
   // The former second entry duplicated marsa-hero.jpg byte-for-byte, making
   // the first auto-advance a no-op (issue #38). Each slide is now distinct.

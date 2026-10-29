@@ -1,18 +1,16 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { copy } from '../../../data/content';
 import { SitePreferencesService } from '../../../services/site-preferences.service';
-import { LucideAnchor, LucideArrowUpRight } from '@lucide/angular';
 
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule, LucideAnchor, LucideArrowUpRight],
+  imports: [CommonModule],
   templateUrl: './about.component.html',
 })
 export class AboutComponent {
   copy = copy;
-  @Output() requestService = new EventEmitter<void>();
 
   constructor(public preferences: SitePreferencesService) {}
 
