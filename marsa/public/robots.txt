@@ -1,2 +1,9 @@
 User-agent: *
 Allow: /
+
+# Generative/AI crawler policy is intentionally not restricted beyond the
+# blanket Allow above; the content is a public marketing lookbook and its
+# facts are mirrored from the official brand site (https://almarsa.app/).
+# Revisit if the business wants training-signal restrictions.
+
+Sitemap: https://marsa-yacht.vercel.app/sitemap.xml

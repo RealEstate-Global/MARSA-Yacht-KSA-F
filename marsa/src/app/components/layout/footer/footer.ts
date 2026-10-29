@@ -1,19 +1,17 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { copy, services } from '../../../data/content';
+import { copy } from '../../../data/content';
 import { SitePreferencesService } from '../../../services/site-preferences.service';
-import { LucidePhone, LucideMail } from '@lucide/angular';
 
 @Component({
   selector: 'marsa-footer',
   standalone: true,
-  imports: [CommonModule, RouterLink, LucidePhone, LucideMail],
+  imports: [CommonModule, RouterLink],
   templateUrl: './footer.html',
 })
 export class Footer {
   readonly copy = copy;
-  readonly services = services;
   readonly preferences: SitePreferencesService;
 
   constructor(preferences: SitePreferencesService) {

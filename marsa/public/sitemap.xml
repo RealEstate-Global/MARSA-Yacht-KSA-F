@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Single canonical URL: the site is a one-page lookbook whose EN/AR
+     variants are a client-side language toggle, so there are no separate
+     per-language URLs to list. Legacy path URLs (/services, /about, …)
+     intentionally stay out of the sitemap — they deep-link to homepage
+     sections and canonicalize to '/'. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://marsa-yacht.vercel.app/</loc>
+    <lastmod>2026-10-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>

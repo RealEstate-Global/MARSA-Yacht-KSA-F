@@ -1,9 +1,9 @@
 <!-- ═══════════════════════════════ FOOTER (Split Layout) ═══════════════════════════════ -->
 <footer class="bg-marsa-pearl dark:bg-marsa-dark-card text-marsa-ink dark:text-marsa-pearl border-t border-marsa-warm/50 dark:border-white/[0.04]" dir="ltr">
-  <div class="flex flex-col md:flex-row min-h-[400px]">
+  <div class="flex flex-col md:flex-row min-h-[380px]">
 
     <!-- Left: Dark Brand Column (Always dark in both modes, but adjusted for depth) -->
-    <div class="w-full md:w-[32%] lg:w-[28%] bg-marsa-deep dark:bg-[#030809] text-marsa-pearl px-8 py-16 md:py-20 flex flex-col items-center justify-center text-center shadow-2xl z-10 rounded-[40px] m-4 md:m-8 lg:my-12 lg:ml-12 lg:mr-4 reveal-right">
+    <div class="w-full md:w-[38%] lg:w-[32%] bg-marsa-deep dark:bg-[#030809] text-marsa-pearl px-8 py-16 md:py-20 flex flex-col items-center justify-center text-center shadow-2xl z-10 rounded-[40px] m-4 md:m-8 lg:my-12 lg:ml-12 lg:mr-4 reveal-right">
       <a class="flex flex-col items-center gap-4 mb-8" routerLink="/" [attr.aria-label]="text(copy.nav.home)">
         <span class="flex gap-[4px] items-end justify-center mb-2" aria-hidden="true">
           <span class="w-[4px] h-4 bg-marsa-sand dark:bg-marsa-dark-sand rounded-full"></span>
@@ -11,74 +11,51 @@
           <span class="w-[4px] h-3.5 bg-marsa-sand dark:bg-marsa-dark-sand rounded-full"></span>
         </span>
         <div class="flex flex-col items-center">
-          <span class="font-bold text-2xl tracking-[0.2em] uppercase mb-1">MARSA</span>
-          <span class="text-marsa-sand dark:bg-marsa-dark-sand font-serif italic text-3xl">Provisions</span>
+          <span class="font-bold text-2xl tracking-[0.2em] uppercase mb-1">Al Marsa</span>
+          <span class="font-serif italic text-3xl">المرسى</span>
         </div>
       </a>
-      <p class="text-[13px] opacity-70 mb-8 leading-relaxed max-w-[240px]">{{ text(copy.footer.descriptor) }}</p>
-      <!-- Real, honest destinations: the concierge mailbox and phone line -->
-      <div class="mt-auto w-full flex justify-center gap-4">
-        <a href="tel:+966120000000" [attr.aria-label]="text(copy.footer.phoneLabel)"
-          class="flex items-center justify-center w-9 h-9 rounded-full border border-white/20 hover:border-marsa-sand dark:hover:border-marsa-dark-sand hover:text-marsa-deep hover:bg-marsa-sand dark:hover:bg-marsa-dark-sand text-white/60 transition-all">
-          <svg lucidePhone class="w-4 h-4" aria-hidden="true"></svg>
-        </a>
-        <a href="mailto:concierge@marsa.sa" [attr.aria-label]="text(copy.footer.emailLabel)"
-          class="flex items-center justify-center w-9 h-9 rounded-full border border-white/20 hover:border-marsa-sand dark:hover:border-marsa-dark-sand hover:text-marsa-deep hover:bg-marsa-sand dark:hover:bg-marsa-dark-sand text-white/60 transition-all">
-          <svg lucideMail class="w-4 h-4" aria-hidden="true"></svg>
+      <p class="text-[13px] opacity-70 mb-8 leading-relaxed max-w-[240px]">{{ text(copy.footer.tagline) }}</p>
+      <!-- Honest CTA (PR #49 review): no store branding until listings are
+           verified — one neutral "Visit Al Marsa" (see docs/MIGRATION.md §7). -->
+      <div class="mt-auto w-full flex flex-col gap-2.5">
+        <a [href]="copy.links.official" target="_blank" rel="noopener"
+          class="flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-marsa-sand hover:bg-marsa-sand-deep text-marsa-deep text-[11px] font-bold tracking-wide transition-all">
+          {{ text(copy.download.visit) }}
         </a>
       </div>
     </div>
 
     <!-- Right: Content Columns (Light in light mode, Dark in dark mode) -->
-    <div class="w-full md:w-[68%] lg:w-[72%] px-8 py-16 md:py-20 lg:px-16 flex flex-col reveal-left delay-200" [attr.dir]="preferences.locale() === 'ar' ? 'rtl' : 'ltr'">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16 mb-16 flex-1">
+    <div class="w-full md:w-[62%] lg:w-[68%] px-8 py-16 md:py-20 lg:px-16 flex flex-col reveal-left delay-200" [attr.dir]="preferences.locale() === 'ar' ? 'rtl' : 'ltr'">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-12 lg:gap-16 mb-16 flex-1">
 
-        <!-- Nav (Quick Menu) -->
+        <!-- Navigate -->
         <div>
-          <h4 class="text-marsa-sand-deep dark:text-marsa-dark-sand font-bold text-xl mb-6 tracking-wide">{{ text(copy.footer.navigation) }}</h4>
+          <h3 class="text-marsa-sand-deep dark:text-marsa-dark-sand font-bold text-xl mb-6 tracking-wide">{{ text(copy.footer.navigation) }}</h3>
           <nav class="flex flex-col gap-4">
-            <a routerLink="/" fragment="services"     class="text-[15px] text-marsa-ink/70 dark:text-marsa-pearl/70 hover:text-marsa-sand-deep dark:hover:text-marsa-dark-sand transition-all font-medium">{{ text(copy.nav.services) }}</a>
-            <a routerLink="/" fragment="provisioning" class="text-[15px] text-marsa-ink/70 dark:text-marsa-pearl/70 hover:text-marsa-sand-deep dark:hover:text-marsa-dark-sand transition-all font-medium">{{ text(copy.nav.provisioning) }}</a>
-            <a routerLink="/" fragment="destinations" class="text-[15px] text-marsa-ink/70 dark:text-marsa-pearl/70 hover:text-marsa-sand-deep dark:hover:text-marsa-dark-sand transition-all font-medium">{{ text(copy.nav.destinations) }}</a>
-            <a routerLink="/" fragment="about"        class="text-[15px] text-marsa-ink/70 dark:text-marsa-pearl/70 hover:text-marsa-sand-deep dark:hover:text-marsa-dark-sand transition-all font-medium">{{ text(copy.nav.about) }}</a>
+            <a routerLink="/" fragment="why"   class="text-[15px] text-marsa-ink/70 dark:text-marsa-pearl/70 hover:text-marsa-sand-deep dark:hover:text-marsa-dark-sand transition-all font-medium">{{ text(copy.nav.why) }}</a>
+            <a routerLink="/" fragment="how"   class="text-[15px] text-marsa-ink/70 dark:text-marsa-pearl/70 hover:text-marsa-sand-deep dark:hover:text-marsa-dark-sand transition-all font-medium">{{ text(copy.nav.how) }}</a>
+            <a routerLink="/" fragment="about" class="text-[15px] text-marsa-ink/70 dark:text-marsa-pearl/70 hover:text-marsa-sand-deep dark:hover:text-marsa-dark-sand transition-all font-medium">{{ text(copy.nav.about) }}</a>
           </nav>
         </div>
 
-        <!-- Services (Our Provisions) -->
+        <!-- About the brand -->
         <div>
-          <h4 class="text-marsa-sand-deep dark:text-marsa-dark-sand font-bold text-xl mb-6 tracking-wide">{{ text(copy.footer.services) }}</h4>
-          <nav class="flex flex-col gap-4">
-            <a *ngFor="let service of services" routerLink="/" fragment="services"
-              class="text-[15px] text-marsa-ink/70 dark:text-marsa-pearl/70 hover:text-marsa-sand-deep dark:hover:text-marsa-dark-sand transition-all font-medium">{{ text(service.title) }}</a>
-          </nav>
-        </div>
-
-        <!-- Contact -->
-        <div>
-          <h4 class="text-marsa-sand-deep dark:text-marsa-dark-sand font-bold text-xl mb-6 tracking-wide">{{ text(copy.footer.contact) }}</h4>
-          <div class="space-y-4">
-            <p class="flex items-start gap-3 text-[15px] text-marsa-ink/70 dark:text-marsa-pearl/70 font-medium">
-              {{ text(copy.footer.location) }}
-            </p>
-            <a href="tel:+966120000000" [attr.aria-label]="text(copy.footer.phoneLabel)"
-              class="flex items-center gap-3 text-[15px] text-marsa-ink/70 dark:text-marsa-pearl/70 hover:text-marsa-sand-deep dark:hover:text-marsa-dark-sand transition-all font-medium">
-              {{ text(copy.footer.phone) }}
-            </a>
-            <a href="mailto:concierge@marsa.sa" [attr.aria-label]="text(copy.footer.emailLabel)"
-              class="flex items-center gap-3 text-[15px] text-marsa-ink/70 dark:text-marsa-pearl/70 hover:text-marsa-sand-deep dark:hover:text-marsa-dark-sand transition-all font-medium break-all">
-              {{ text(copy.footer.email) }}
-            </a>
-          </div>
+          <h3 class="text-marsa-sand-deep dark:text-marsa-dark-sand font-bold text-xl mb-6 tracking-wide">{{ text(copy.about.heading) }}</h3>
+          <p class="text-[15px] text-marsa-ink/70 dark:text-marsa-pearl/70 leading-relaxed max-w-sm">
+            {{ text(copy.about.body2) }}
+          </p>
         </div>
 
       </div>
 
       <!-- Bottom bar -->
-      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-[11px] font-mono text-marsa-ink/50 dark:text-marsa-pearl/40 tracking-widest uppercase">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-[11px] font-mono text-marsa-ink/60 dark:text-marsa-pearl/75 tracking-widest uppercase">
         <span>{{ text(copy.footer.rights) }}</span>
         <div class="flex items-center gap-6">
           <span>EN / العربية</span>
-          <span>{{ text(copy.footer.builtFor) }}</span>
+          <a routerLink="/" fragment="download" class="hover:text-marsa-sand-deep dark:hover:text-marsa-dark-sand transition-colors">{{ text(copy.footer.download) }}</a>
         </div>
       </div>
     </div>

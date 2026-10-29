@@ -106,19 +106,21 @@ src/
 
 ## Working with Routes
 
-Routes point at the single `HomeComponent` and scroll to section anchors:
+Routes point at the single `HomeComponent` and scroll to section anchors
+(`#why`, `#how`, `#about`, `#download`); legacy provisioning-era paths map to
+the closest new section:
 
 ```typescript
 export const routes: Routes = [
   { path: '', loadComponent: () => import('./pages/home.component').then(m => m.HomeComponent), pathMatch: 'full' },
-  { path: 'provisioning', loadComponent: ..., data: { anchor: 'provisioning' } },
+  { path: 'services', loadComponent: ..., data: { anchor: 'how' } },
   { path: '**', redirectTo: '' },
 ];
 ```
 
 Navigation must use `routerLink` with `fragment` (never raw `href="#..."`):
 ```html
-<a routerLink="/" fragment="services">Services</a>
+<a routerLink="/" fragment="how">How it works</a>
 ```
 
 ## Styling

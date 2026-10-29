@@ -1,5 +1,13 @@
 import { Routes } from '@angular/router';
 
+/**
+ * Single-page lookbook: why → how → about → download.
+ *
+ * Legacy provisioning-era paths keep working by scrolling to the closest
+ * equivalent section on the new page (services/provisioning/destinations →
+ * "How it works", about → "About Al Marsa", contact → "Get the app").
+ * The canonical homepage is '' and the wildcard catches anything else.
+ */
 export const routes: Routes = [
   {
     path: '',
@@ -9,17 +17,17 @@ export const routes: Routes = [
   {
     path: 'services',
     loadComponent: () => import('./pages/home.component').then(m => m.HomeComponent),
-    data: { anchor: 'services' },
+    data: { anchor: 'how' },
   },
   {
     path: 'provisioning',
     loadComponent: () => import('./pages/home.component').then(m => m.HomeComponent),
-    data: { anchor: 'provisioning' },
+    data: { anchor: 'how' },
   },
   {
     path: 'destinations',
     loadComponent: () => import('./pages/home.component').then(m => m.HomeComponent),
-    data: { anchor: 'destinations' },
+    data: { anchor: 'how' },
   },
   {
     path: 'about',
@@ -29,7 +37,7 @@ export const routes: Routes = [
   {
     path: 'contact',
     loadComponent: () => import('./pages/home.component').then(m => m.HomeComponent),
-    data: { anchor: 'contact' },
+    data: { anchor: 'download' },
   },
   { path: '**', redirectTo: '' },
 ];

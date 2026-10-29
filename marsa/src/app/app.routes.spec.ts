@@ -1,6 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { routes } from './app.routes';
 
+/** Section anchors that exist on the aligned lookbook page. */
+const VALID_ANCHORS = new Set(['why', 'how', 'about', 'download']);
+
 describe('app routes', () => {
   it('redirects unknown paths to the home route', () => {
     const wildcard = routes.find((route) => route.path === '**');
@@ -8,20 +11,34 @@ describe('app routes', () => {
     expect(wildcard?.redirectTo).toBe('');
   });
 
-  it('maps every section route onto a section anchor', () => {
-    for (const route of routes) {
-      if (route.path === '' || route.path === '**') {
-        continue;
-      }
-      expect(route.data?.['anchor']).toBe(route.path!);
-      expect(typeof route.loadComponent).toBe('function');
+  it('maps legacy section routes onto real lookbook section anchors', () => {
+    const expectedAnchors: Record<string, string | undefined> = {
+      services: 'how',
+      provisioning: 'how',
+      about: 'about',
+      contact: 'download',
+      destinations: 'how',
+    };
+    for (const [path, anchor] of Object.entries(expectedAnchors)) {
+      const route = routes.find((r) => r.path === path);
+      expect(route, path).toBeDefined();
+      expect(route?.data?.['anchor'], path).toBe(anchor);
+      expect(typeof route?.loadComponent, path).toBe('function');
     }
   });
 
-  it('covers all navigation sections the header links to', () => {
-    const paths = routes.map((route) => route.path);
-    for (const section of ['provisioning', 'destinations', 'about', 'contact']) {
-      expect(paths).toContain(section);
+  it('never points an anchor at a section that no longer exists', () => {
+    for (const route of routes) {
+      const anchor = route.data?.['anchor'] as string | undefined;
+      if (anchor) {
+        expect(VALID_ANCHORS.has(anchor), `anchor "${anchor}"`).toBe(true);
+      }
     }
+  });
+
+  it('keeps the canonical single-page home route', () => {
+    const home = routes.find((route) => route.path === '');
+    expect(home?.pathMatch).toBe('full');
+    expect(typeof home?.loadComponent).toBe('function');
   });
 });
