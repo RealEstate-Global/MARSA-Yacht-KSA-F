@@ -1,28 +1,41 @@
-## What does this PR do?
+## Summary
 
-*(Provide a clear and concise description of what the PR accomplishes. Link to any related issues.)*
+<!-- Describe the change and the user or business problem it solves. -->
 
-Fixes # (issue)
+## Related issue
 
-## Type of change
+Fixes #
 
-Please delete options that are not relevant.
+## Change type
 
-- [ ] Bug fix (non-breaking change which fixes an issue)
-- [ ] New feature (non-breaking change which adds functionality)
-- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [ ] UI/UX Design update (changes to animations, layout, or components)
-- [ ] Dependency update
+- [ ] Feature
+- [ ] Bug fix
+- [ ] UI/UX or approved asset update
+- [ ] Content / SEO
+- [ ] Tests / QA
+- [ ] Documentation
+- [ ] CI/CD / dependency / security
 
-## Checklist
+## Implementation notes
 
-- [ ] My code follows the project's style and design guidelines.
-- [ ] I have performed a self-review of my own code.
-- [ ] I have checked my changes in both Light Mode and Dark Mode.
-- [ ] I have checked my changes in both LTR (English) and RTL (Arabic) layouts.
-- [ ] All new and existing tests passed (e.g., `npm run test` or `npm run typecheck`).
-- [ ] I have included visual proof (screenshots or video) for any UI changes.
+<!-- Explain important implementation choices, affected areas, and any follow-up work. -->
 
-## Screenshots (if appropriate)
+## Validation
 
-*(Add screenshots to demonstrate any visual changes here)*
+- [ ] Relevant tests pass (`npm run test` from `marsa/`)
+- [ ] Type checking passes (`npm run typecheck` from `marsa/`)
+- [ ] Production build passes (`npm run build` from `marsa/`)
+- [ ] Checked responsive layouts (if UI changed)
+- [ ] Checked Arabic/RTL and English/LTR (if UI/content changed)
+- [ ] Checked accessibility and empty/error/loading states where relevant
+- [ ] No secrets, credentials, or unapproved assets included
+
+## Screenshots / evidence
+
+<!-- Add screenshots, logs, or test evidence for user-facing changes. -->
+
+## Reviewer checklist
+
+- [ ] Scope and acceptance criteria are clear
+- [ ] Tests and documentation are sufficient
+- [ ] Security, accessibility, SEO, and performance implications considered where relevant
