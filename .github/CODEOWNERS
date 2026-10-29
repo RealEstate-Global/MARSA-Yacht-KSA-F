@@ -1,13 +1,29 @@
-# This file determines who automatically gets requested for review when a PR touches specific files.
+# CODEOWNERS routes review requests; it does not grant access or enforce approval by itself.
+# Owners listed here must have repository write access for GitHub to request them.
 
-# Global default: For any file not explicitly mentioned, request review from the main owner
-*       @Mostafa-SAID7
+# Default review: technical lead and architecture owner
+* @Mostafa-SAID7 @samir-akram
 
-# Infrastructure & CI/CD: Require owner review for GitHub configurations and Actions
-/.github/                  @Mostafa-SAID7
-/marsa/package.json        @Mostafa-SAID7
-/marsa/package-lock.json   @Mostafa-SAID7
+# GitHub workflows, release automation, and repository configuration
+/.github/ @dev-elbasha @Mostafa-SAID7
+/.releaserc.json @dev-elbasha @Mostafa-SAID7
 
-# Design & Core UI: Ensure design reviews are done by the owner
-/marsa/src/styles.css      @Mostafa-SAID7
-/marsa/tailwind.config.js  @Mostafa-SAID7
+# Angular application and visual system
+/marsa/src/app/ @eng-shimo @Mostafa-SAID7
+/marsa/src/styles.css @eng-shimo @Mostafa-SAID7
+/marsa/tailwind.config.js @eng-shimo @Mostafa-SAID7
+
+# Dependencies and build configuration
+/marsa/package.json @Mostafa-SAID7 @dev-elbasha
+/marsa/package-lock.json @Mostafa-SAID7 @dev-elbasha
+/marsa/angular.json @Mostafa-SAID7 @dev-elbasha
+/marsa/tsconfig.json @Mostafa-SAID7
+
+# Documentation, product decisions, and content/SEO
+/docs/ @samir-akram @cw-hakam
+/README.md @samir-akram @cw-hakam
+/ACCESSIBILITY.md @samir-akram @eng-shimo
+/SECURITY.md @samir-akram @dev-elbasha
+
+# Public assets and content (keep approved/licensed assets only)
+/marsa/public/ @eng-shimo @cw-hakam
