@@ -41,4 +41,22 @@ describe('SitePreferencesService', () => {
     const restored = new SitePreferencesService();
     expect(restored.locale()).toBe('ar');
   });
+
+  // PR #49 review: the app container's dir changes with the locale, and the
+  // document root must follow so assistive tech / browser UI match the locale.
+  it('updates document root lang/dir for the ar locale', () => {
+    service.toggleLocale(); // en → ar
+    expect(service.locale()).toBe('ar');
+    expect(document.documentElement.lang).toBe('ar');
+    expect(document.documentElement.dir).toBe('rtl');
+  });
+
+  it('updates document root lang/dir for the en locale', () => {
+    localStorage.setItem('marsa-locale', 'ar');
+    const restored = new SitePreferencesService();
+    expect(document.documentElement.dir).toBe('rtl');
+    restored.toggleLocale(); // ar → en
+    expect(document.documentElement.lang).toBe('en');
+    expect(document.documentElement.dir).toBe('ltr');
+  });
 });

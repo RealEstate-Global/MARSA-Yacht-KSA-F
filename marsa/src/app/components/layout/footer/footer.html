@@ -16,16 +16,12 @@
         </div>
       </a>
       <p class="text-[13px] opacity-70 mb-8 leading-relaxed max-w-[240px]">{{ text(copy.footer.tagline) }}</p>
-      <!-- App CTAs: the only verified destination is the official site
-           (store listings pending — see docs/MIGRATION.md). -->
+      <!-- Honest CTA (PR #49 review): no store branding until listings are
+           verified — one neutral "Visit Al Marsa" (see docs/MIGRATION.md §7). -->
       <div class="mt-auto w-full flex flex-col gap-2.5">
         <a [href]="copy.links.official" target="_blank" rel="noopener"
           class="flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-marsa-sand hover:bg-marsa-sand-deep text-marsa-deep text-[11px] font-bold tracking-wide transition-all">
-          {{ text(copy.download.appStore) }}
-        </a>
-        <a [href]="copy.links.official" target="_blank" rel="noopener"
-          class="flex items-center justify-center gap-2 px-5 py-2.5 rounded-full border border-white/25 hover:border-marsa-sand dark:hover:border-marsa-dark-sand text-[11px] font-bold tracking-wide transition-all">
-          {{ text(copy.download.googlePlay) }}
+          {{ text(copy.download.visit) }}
         </a>
       </div>
     </div>

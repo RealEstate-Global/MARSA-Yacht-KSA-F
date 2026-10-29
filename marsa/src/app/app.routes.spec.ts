@@ -17,7 +17,7 @@ describe('app routes', () => {
       provisioning: 'how',
       about: 'about',
       contact: 'download',
-      destinations: undefined,
+      destinations: 'how',
     };
     for (const [path, anchor] of Object.entries(expectedAnchors)) {
       const route = routes.find((r) => r.path === path);

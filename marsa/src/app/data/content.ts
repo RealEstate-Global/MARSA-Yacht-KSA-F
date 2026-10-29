@@ -7,9 +7,9 @@
  * string here must stay consistent with the official site — do not invent
  * prices, vessel inventory, contact details, or store URLs.
  *
- * Store badges: the official site itself points its App Store / Google Play
- * badges at placeholder URLs, so CTAs here link to the official site while real
- * store listings are pending. See docs/MIGRATION.md.
+ * Official-site links: the source's own App Store / Google Play badges point
+ * at placeholder URLs, so CTAs are a neutral "Visit Al Marsa" to the official
+ * site while real store listings are pending. See docs/MIGRATION.md.
  */
 
 export type Locale = 'en' | 'ar';
@@ -74,8 +74,7 @@ export interface SiteCopy {
   download: {
     heading: LocalizedText;
     body: LocalizedText;
-    appStore: LocalizedText;
-    googlePlay: LocalizedText;
+    visit: LocalizedText;
   };
   links: {
     /** Official site — the only verified external destination for app CTAs. */
@@ -162,8 +161,12 @@ export const copy: SiteCopy = {
       {
         title: { en: 'Browse', ar: 'تصفّح' },
         description: {
-          en: 'Scroll the fleet on the web — photos, marina, capacity, hourly rate.',
-          ar: 'عرض القوارب واليخوت على الموقع — صور، مرسى، سعة، سعر الساعة.',
+          // Aligned with what this lookbook actually shows (fleet category
+          // taxonomy, no inventory) per PR #49 review — the source's
+          // "photos, marina, capacity, hourly rate" wording describes
+          // listing data the page never displays, so it was not kept verbatim.
+          en: 'Look through the fleet categories on the web, then book in the app.',
+          ar: 'تتصفح فئات القوارب واليخوت على الموقع، وتحجز من التطبيق.',
         },
       },
       {
@@ -216,8 +219,10 @@ export const copy: SiteCopy = {
       en: 'Book the boat. Own the day. iOS and Android.',
       ar: 'احجز القارب. ملك يومك. على iOS وAndroid.',
     },
-    appStore: { en: 'Download on the App Store', ar: 'حمّل من App Store' },
-    googlePlay: { en: 'Get it on Google Play', ar: 'حمّل من Google Play' },
+    // Honest CTA (PR #49 review): the official site's own store badges are
+    // placeholders, so until verified listings exist the button is a neutral
+    // "Visit Al Marsa" that goes to the official site — no store branding.
+    visit: { en: 'Visit Al Marsa', ar: 'زيارة المرسى' },
   },
   links: {
     official: 'https://almarsa.app/',

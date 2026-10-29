@@ -53,7 +53,7 @@ and captured verbatim; EN/AR meta descriptions differ only by language.
 | About Al Marsa | `app-about` → `#about` | implemented verbatim |
 | Take Al Marsa with you | `app-cta` → `#download` | implemented verbatim |
 | Deleted sections (services cards/destinations/testimonials) | — | provisioning-era content, plus a fabricated review — removed |
-| Legacy routes `/services`, `/provisioning`, `/destinations`, `/about`, `/contact` | kept, deep-link to nearest section (`/#how`, `/#about`, `/#download`) | compatibility preserved |
+| Legacy routes `/services`, `/provisioning`, `/destinations`, `/about`, `/contact` | kept, deep-link to nearest section (`/#how` for all except about → `/#about`, contact → `/#download`) | compatibility preserved |
 
 ## 4. Technical SEO
 
@@ -98,15 +98,25 @@ and captured verbatim; EN/AR meta descriptions differ only by language.
   language switch (the same pattern the production deployment can realistically
   serve today). If/when the app ships real localized routes (`/en`, `/ar`),
   hreflang alternates should be added then.
+- **One documented deviation from verbatim (PR #49 review):** the source's
+  step-1 wording "photos, marina, capacity, hourly rate" describes listing
+  data this lookbook never displays (the page only ships the category
+  taxonomy). Per review, the copy was aligned to what the page actually
+  shows: "Look through the fleet categories on the web, then book in the
+  app" / "تتصفح فئات القوارب واليخوت على الموقع، وتحجز من التطبيق".
 
 ## 7. App store links — KNOWN LIMITATION
 
 The official site's own store badges are placeholders (`https://google.com/`).
-Inventing real App Store / Google Play URLs is not allowed, so all badges and
-"Get the app" CTAs link to the official site `https://almarsa.app/` with
-`rel="noopener"`. **Follow-up:** when the owner publishes the real listings,
-replace the `links.official` fallback in `src/app/data/content.ts` (and the
-badge `href`s) with the store URLs.
+Inventing real App Store / Google Play URLs is not allowed, and the PR review
+(correctly) flagged that store-labelled buttons pointing at the general
+website are misleading. The badges were therefore **removed** in favour of a
+single neutral CTA — "Visit Al Marsa" / "زيارة المرسى" — in both the
+`#download` section and the footer, linking `https://almarsa.app/` with
+`rel="noopener"`. The download heading/body (verbatim from the source) still
+state that the app is available on iOS and Android. **Follow-up:** when the
+owner publishes the real listings, re-introduce proper store badges with real
+URLs.
 
 ## 8. Validation
 
@@ -158,3 +168,20 @@ plus browser smoke tests in EN and AR at desktop and mobile widths.
   and the unused `menu-open` → `menuToggled` event chain across
   `home.component` and the header. Styles bundle: 33.9 kB → 25.3 kB.
   `.eyebrow` and `.marsa-nav` remain (still used).
+
+## 11. Review round (PR #49 — response to owner's change requests)
+
+Consolidated findings from the owner review and their resolutions:
+
+1. **Browse-step overpromise** — copy aligned to the actual lookbook
+   (category taxonomy only), see the deviation note in §6.
+2. **Store-labelled CTAs pointing at the general website** — both the
+   `#download` section and the footer now use a single neutral
+   "Visit Al Marsa" CTA; no store branding until listings are verified (§7).
+3. **Footer repeat of the same issue** — resolved with the same relabel.
+4. **Legacy `/destinations` loading at the top** — now deep-links to `/#how`
+   like the other legacy service paths; covered by `app.routes.spec.ts`
+   (which previously asserted `undefined` for it).
+5. **Root `lang`/`dir` regression test** — added to
+   `site-preferences.service.spec.ts`: toggling EN ↔ AR must move
+   `document.documentElement.lang` and `dir` in sync.
