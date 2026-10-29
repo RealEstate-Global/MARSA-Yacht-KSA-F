@@ -51,7 +51,8 @@
               'w-8 bg-marsa-sand': i === activeSlideIndex,
               'w-2.5 bg-white/30 hover:bg-white/60': i !== activeSlideIndex
             }"
-            [attr.aria-label]="'Go to slide ' + (i + 1)">
+            [attr.aria-label]="goToSlideLabel(i)"
+            [attr.aria-current]="i === activeSlideIndex ? 'true' : null">
           </button>
         </div>
       </div>
@@ -64,7 +65,7 @@
         
         <!-- Mouse Icon Container -->
         <div class="absolute top-5 left-1/2 -translate-x-1/2 pointer-events-auto text-marsa-deep dark:text-marsa-dark-ink">
-          <a href="#services" class="hover:text-marsa-sea dark:hover:text-marsa-dark-sea transition-colors flex flex-col items-center">
+          <a routerLink="/" fragment="services" [attr.aria-label]="text(copy.hero.scroll)" class="hover:text-marsa-sea dark:hover:text-marsa-dark-sea transition-colors flex flex-col items-center">
             <svg lucideMouse class="w-5 h-5 opacity-60 mb-1" strokeWidth="1.5" aria-hidden="true"></svg>
             <svg lucideArrowDown class="w-3 h-3 opacity-40 animate-bounce-slow" aria-hidden="true"></svg>
           </a>
