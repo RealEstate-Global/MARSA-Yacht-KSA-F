@@ -14,17 +14,15 @@
         <span>{{ text(notFoundData.badge) }}</span>
       </div>
 
-      <!-- 404 Visual Heading -->
-      <div class="relative mb-6 select-none" aria-hidden="true">
+      <!-- Decorative 404 numeral; the localized page title remains accessible below. -->
+      <div class="relative mb-3 select-none" aria-hidden="true">
         <span class="text-[clamp(90px,16vw,170px)] font-bold font-mono tracking-tighter text-marsa-sea/15 dark:text-white/10 leading-none block">
           404
         </span>
-        <div class="absolute inset-0 flex items-center justify-center">
-          <span class="text-3xl md:text-5xl font-bold tracking-tight text-marsa-ink dark:text-marsa-dark-ink drop-shadow-sm">
-            {{ text(notFoundData.title) }}
-          </span>
-        </div>
       </div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-marsa-ink dark:text-marsa-dark-ink drop-shadow-sm mb-6">
+        {{ text(notFoundData.title) }}
+      </h1>
 
       <!-- Description -->
       <p class="text-base md:text-lg text-marsa-ink/75 dark:text-marsa-dark-ink/70 leading-relaxed max-w-lg mx-auto mb-10">
