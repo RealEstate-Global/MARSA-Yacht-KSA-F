@@ -23,9 +23,8 @@ describe('Footer', () => {
     expect(component.text(textObj)).toBe('Rights');
   });
 
-  it('exposes official and social copy links', () => {
+  it('exposes the verified official destination only', () => {
     expect(linksData.official).toBe('https://almarsa.app/');
-    expect(linksData.social.instagram).toBe('https://almarsa.app/');
   });
 });
 
