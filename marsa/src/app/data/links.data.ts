@@ -11,10 +11,5 @@ import { LinksCopy } from '../models/content.model';
 export const linksData: LinksCopy = {
   /** Official site — the only verified external destination for app CTAs. */
   official: 'https://almarsa.app/',
-  social: {
-    instagram: 'https://almarsa.app/',
-    x: 'https://almarsa.app/',
-    linkedin: 'https://almarsa.app/',
-    share: 'https://almarsa.app/',
-  },
+
 };
