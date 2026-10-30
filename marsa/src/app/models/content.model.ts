@@ -84,25 +84,12 @@ export interface LinksCopy {
   official: string;
 }
 
-export interface FooterContactItem {
-  title: LocalizedText;
-  branchesLabel: LocalizedText;
-  branches: LocalizedText;
-  phonesLabel: LocalizedText;
-  phones: string[];
-  emailLabel: LocalizedText;
-  email: string;
-  hoursLabel: LocalizedText;
-  hours: LocalizedText;
-}
-
 export interface FooterCopy {
   brand: LocalizedText;
   tagline: LocalizedText;
   navigation: LocalizedText;
   download: LocalizedText;
   rights: LocalizedText;
-  contact?: FooterContactItem;
 }
 
 export interface SiteCopy {
