@@ -1,6 +1,0 @@
-completed	success	Merge origin/main (PR #54) into the local UI-primitives work	CI Pipeline	main	push	41125212465	1m27s	2026-10-30T20:41:44Z
-completed	success	Merge origin/main (PR #54) into the local UI-primitives work	CodeQL Advanced	main	push	41125212469	1m30s	2026-10-30T20:41:44Z
-completed	success	Merge origin/main (PR #54) into the local UI-primitives work	Release	main	push	41125212492	52s	2026-10-30T20:41:44Z
-completed	success	Merge origin/main (PR #54) into the local UI-primitives work	CodeQL Security Scan	main	push	41125212464	1m26s	2026-10-30T20:41:44Z
-completed	success	feat(ui): CAiR-Turbo header nav pattern, scrollbar arrows, #why gradi…	CodeQL Security Scan	main	push	41123147071	1m36s	2026-10-30T20:25:55Z
-completed	success	feat(ui): CAiR-Turbo header nav pattern, scrollbar arrows, #why gradi…	CI Pipeline	main	push	41123147249	1m45s	2026-10-30T20:25:55Z
