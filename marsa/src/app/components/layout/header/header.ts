@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, ViewChild, ElementRef, HostListener, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { navData } from '../../../data/navigation.data';
@@ -31,7 +31,13 @@ export class Header {
   readonly navData = navData;
   readonly preferences: SitePreferencesService;
   isMenuOpen = false;
-  scrolled = false;
+
+  /**
+   * Scroll-reactive nav (CAiR-Turbo pattern): transparent pill over the hero,
+   * frosted glass once the page scrolls past 20 px (also while the mobile
+   * menu overlay is open, so the pill keeps its surface).
+   */
+  readonly scrolled = signal(false);
 
   @ViewChild('menuToggle') private menuToggle?: ElementRef<HTMLButtonElement>;
 
@@ -40,10 +46,15 @@ export class Header {
   }
 
   @HostListener('window:scroll')
-  onWindowScroll(): void {
+  onScroll(): void {
     if (typeof window !== 'undefined') {
-      this.scrolled = window.scrollY > 20;
+      this.scrolled.set(window.scrollY > 20);
     }
+  }
+
+  /** True when the pill should carry its glass surface. */
+  pillGlass(): boolean {
+    return this.scrolled() || this.isMenuOpen;
   }
 
   text(value: { en: string; ar: string }): string {
@@ -72,9 +83,5 @@ export class Header {
 
   isLightTheme(): boolean {
     return this.preferences.theme() === 'light';
-  }
-
-  toggleTheme(event: MouseEvent): void {
-    this.preferences.toggleTheme(event);
   }
 }
