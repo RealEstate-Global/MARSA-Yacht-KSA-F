@@ -4,7 +4,7 @@
 
     <!-- Left: Dark Brand Column (Always dark in both modes, but adjusted for depth) -->
     <div class="w-full md:w-[38%] lg:w-[32%] bg-marsa-deep dark:bg-[#030809] text-marsa-pearl px-8 py-16 md:py-20 flex flex-col items-center justify-center text-center shadow-2xl z-10 rounded-[40px] m-4 md:m-8 lg:my-12 lg:ml-12 lg:mr-4 reveal-right">
-      <a class="flex flex-col items-center gap-4 mb-8" routerLink="/" [attr.aria-label]="text(copy.nav.home)">
+      <a class="flex flex-col items-center gap-4 mb-8" routerLink="/" [attr.aria-label]="text(navData.home)">
         <span class="flex gap-[4px] items-end justify-center mb-2" aria-hidden="true">
           <span class="w-[4px] h-4 bg-marsa-sand dark:bg-marsa-dark-sand rounded-full"></span>
           <span class="w-[4px] h-6 bg-marsa-sand dark:bg-marsa-dark-sand rounded-full"></span>
@@ -15,47 +15,113 @@
           <span class="font-serif italic text-3xl">المرسى</span>
         </div>
       </a>
-      <p class="text-[13px] opacity-70 mb-8 leading-relaxed max-w-[240px]">{{ text(copy.footer.tagline) }}</p>
+      <p class="text-[13px] opacity-70 mb-8 leading-relaxed max-w-[240px]">{{ text(footerData.tagline) }}</p>
       <!-- Honest CTA (PR #49 review): no store branding until listings are
            verified — one neutral "Visit Al Marsa" (see docs/MIGRATION.md §7). -->
       <div class="mt-auto w-full flex flex-col gap-2.5">
-        <a [href]="copy.links.official" target="_blank" rel="noopener"
+        <a [href]="linksData.official" target="_blank" rel="noopener"
           class="flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-marsa-sand hover:bg-marsa-sand-deep text-marsa-deep text-[11px] font-bold tracking-wide transition-all">
-          {{ text(copy.download.visit) }}
+          {{ text(downloadData.visit) }}
         </a>
+        <!-- Social icons — no verified profiles exist for almarsa.app (MIGRATION.md §10, PR #49);
+             icons link to the official site until real profiles are published. -->
+        <div class="flex items-center justify-center gap-2.5 mt-1" role="list" [attr.aria-label]="text({ en: 'Social links', ar: 'روابط التواصل' })">
+          <!-- Instagram -->
+          <a [href]="linksData.social.instagram" target="_blank" rel="noopener"
+            [attr.aria-label]="text(footerData.social.instagram)"
+            role="listitem"
+            class="flex items-center justify-center w-8 h-8 rounded-full border border-white/20 hover:border-marsa-sand hover:bg-marsa-sand/10 text-white/60 hover:text-marsa-sand transition-all">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+            </svg>
+          </a>
+          <!-- X (Twitter) -->
+          <a [href]="linksData.social.x" target="_blank" rel="noopener"
+            [attr.aria-label]="text(footerData.social.x)"
+            role="listitem"
+            class="flex items-center justify-center w-8 h-8 rounded-full border border-white/20 hover:border-marsa-sand hover:bg-marsa-sand/10 text-white/60 hover:text-marsa-sand transition-all">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </a>
+          <!-- LinkedIn -->
+          <a [href]="linksData.social.linkedin" target="_blank" rel="noopener"
+            [attr.aria-label]="text(footerData.social.linkedin)"
+            role="listitem"
+            class="flex items-center justify-center w-8 h-8 rounded-full border border-white/20 hover:border-marsa-sand hover:bg-marsa-sand/10 text-white/60 hover:text-marsa-sand transition-all">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+              <rect x="2" y="9" width="4" height="12"/>
+              <circle cx="4" cy="4" r="2"/>
+            </svg>
+          </a>
+        </div>
       </div>
     </div>
 
     <!-- Right: Content Columns (Light in light mode, Dark in dark mode) -->
     <div class="w-full md:w-[62%] lg:w-[68%] px-8 py-16 md:py-20 lg:px-16 flex flex-col reveal-left delay-200" [attr.dir]="preferences.locale() === 'ar' ? 'rtl' : 'ltr'">
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-12 lg:gap-16 mb-16 flex-1">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12 mb-16 flex-1">
 
         <!-- Navigate -->
         <div>
-          <h3 class="text-marsa-sand-deep dark:text-marsa-dark-sand font-bold text-xl mb-6 tracking-wide">{{ text(copy.footer.navigation) }}</h3>
-          <nav class="flex flex-col gap-4">
-            <a routerLink="/" fragment="why"   class="text-[15px] text-marsa-ink/70 dark:text-marsa-pearl/70 hover:text-marsa-sand-deep dark:hover:text-marsa-dark-sand transition-all font-medium">{{ text(copy.nav.why) }}</a>
-            <a routerLink="/" fragment="how"   class="text-[15px] text-marsa-ink/70 dark:text-marsa-pearl/70 hover:text-marsa-sand-deep dark:hover:text-marsa-dark-sand transition-all font-medium">{{ text(copy.nav.how) }}</a>
-            <a routerLink="/" fragment="about" class="text-[15px] text-marsa-ink/70 dark:text-marsa-pearl/70 hover:text-marsa-sand-deep dark:hover:text-marsa-dark-sand transition-all font-medium">{{ text(copy.nav.about) }}</a>
+          <h3 class="text-marsa-sea dark:text-marsa-dark-sand font-bold text-lg mb-5 tracking-wide">{{ text(footerData.navigation) }}</h3>
+          <nav class="flex flex-col gap-3.5">
+            <a routerLink="/" fragment="why"   class="text-[14px] text-marsa-ink/80 dark:text-marsa-pearl/75 hover:text-marsa-sea dark:hover:text-marsa-dark-sand transition-all font-medium">{{ text(navData.why) }}</a>
+            <a routerLink="/" fragment="how"   class="text-[14px] text-marsa-ink/80 dark:text-marsa-pearl/75 hover:text-marsa-sea dark:hover:text-marsa-dark-sand transition-all font-medium">{{ text(navData.how) }}</a>
+            <a routerLink="/" fragment="about" class="text-[14px] text-marsa-ink/80 dark:text-marsa-pearl/75 hover:text-marsa-sea dark:hover:text-marsa-dark-sand transition-all font-medium">{{ text(navData.about) }}</a>
           </nav>
+        </div>
+
+        <!-- Contact Us (Branches, Direct Lines, Email, Hours) -->
+        <div *ngIf="footerData.contact">
+          <h3 class="text-marsa-sea dark:text-marsa-dark-sand font-bold text-lg mb-5 tracking-wide">{{ text(footerData.contact.title) }}</h3>
+          <div class="flex flex-col gap-3 text-[13px] text-marsa-ink/80 dark:text-marsa-pearl/75 leading-relaxed">
+            <div>
+              <span class="text-xs font-semibold uppercase tracking-wider block text-marsa-sea/70 dark:text-marsa-dark-sand/70 mb-0.5">{{ text(footerData.contact.branchesLabel) }}</span>
+              <p class="font-medium">{{ text(footerData.contact.branches) }}</p>
+            </div>
+            <div>
+              <span class="text-xs font-semibold uppercase tracking-wider block text-marsa-sea/70 dark:text-marsa-dark-sand/70 mb-0.5">{{ text(footerData.contact.phonesLabel) }}</span>
+              <div class="flex flex-col gap-0.5 font-mono dir-ltr" dir="ltr">
+                <a *ngFor="let phone of footerData.contact.phones" [href]="'tel:' + phone.replace(' ', '')" class="hover:text-marsa-sea dark:hover:text-marsa-dark-sand transition-colors font-medium">
+                  {{ phone }}
+                </a>
+              </div>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-4 pt-1">
+              <div>
+                <span class="text-xs font-semibold uppercase tracking-wider block text-marsa-sea/70 dark:text-marsa-dark-sand/70 mb-0.5">{{ text(footerData.contact.emailLabel) }}</span>
+                <a [href]="'mailto:' + footerData.contact.email" class="hover:text-marsa-sea dark:hover:text-marsa-dark-sand transition-colors font-medium">
+                  {{ footerData.contact.email }}
+                </a>
+              </div>
+              <div>
+                <span class="text-xs font-semibold uppercase tracking-wider block text-marsa-sea/70 dark:text-marsa-dark-sand/70 mb-0.5">{{ text(footerData.contact.hoursLabel) }}</span>
+                <span class="font-medium">{{ text(footerData.contact.hours) }}</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- About the brand -->
         <div>
-          <h3 class="text-marsa-sand-deep dark:text-marsa-dark-sand font-bold text-xl mb-6 tracking-wide">{{ text(copy.about.heading) }}</h3>
-          <p class="text-[15px] text-marsa-ink/70 dark:text-marsa-pearl/70 leading-relaxed max-w-sm">
-            {{ text(copy.about.body2) }}
+          <h3 class="text-marsa-sea dark:text-marsa-dark-sand font-bold text-lg mb-5 tracking-wide">{{ text(aboutData.heading) }}</h3>
+          <p class="text-[13px] text-marsa-ink/80 dark:text-marsa-pearl/75 leading-relaxed max-w-sm">
+            {{ text(aboutData.body2) }}
           </p>
         </div>
 
       </div>
 
       <!-- Bottom bar -->
-      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-[11px] font-mono text-marsa-ink/60 dark:text-marsa-pearl/75 tracking-widest uppercase">
-        <span>{{ text(copy.footer.rights) }}</span>
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-[11px] font-mono text-marsa-ink/70 dark:text-marsa-pearl/75 tracking-widest uppercase">
+        <span>{{ text(footerData.rights) }}</span>
         <div class="flex items-center gap-6">
           <span>EN / العربية</span>
-          <a routerLink="/" fragment="download" class="hover:text-marsa-sand-deep dark:hover:text-marsa-dark-sand transition-colors">{{ text(copy.footer.download) }}</a>
+          <a routerLink="/" fragment="download" class="hover:text-marsa-sea dark:hover:text-marsa-dark-sand transition-colors">{{ text(footerData.download) }}</a>
         </div>
       </div>
     </div>

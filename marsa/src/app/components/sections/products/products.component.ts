@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { copy } from '../../../data/content';
+import { howData } from '../../../data/how.data';
+import { vesselCategoriesData } from '../../../data/vessels.data';
 import { SitePreferencesService } from '../../../services/site-preferences.service';
 
 /**
@@ -17,8 +18,8 @@ import { SitePreferencesService } from '../../../services/site-preferences.servi
   templateUrl: './products.component.html',
 })
 export class ProductsComponent {
-  readonly copy = copy;
-  readonly categories = copy.vesselCategories;
+  readonly howData = howData;
+  readonly categories = vesselCategoriesData;
 
   constructor(public preferences: SitePreferencesService) {}
 

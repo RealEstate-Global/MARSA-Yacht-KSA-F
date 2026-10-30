@@ -1,0 +1,71 @@
+<div
+  class="min-h-screen flex flex-col justify-between bg-marsa-pearl dark:bg-marsa-dark-canvas text-marsa-ink dark:text-marsa-dark-ink transition-colors duration-300"
+  [attr.dir]="preferences.locale() === 'ar' ? 'rtl' : 'ltr'"
+>
+  <!-- Header -->
+  <marsa-header></marsa-header>
+
+  <!-- 404 Main Content -->
+  <main class="flex-1 flex items-center justify-center pt-28 pb-16 px-6">
+    <div class="w-full max-w-2xl mx-auto text-center reveal-up">
+      <!-- Badge -->
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-marsa-sea/10 dark:bg-marsa-dark-sea/15 border border-marsa-sea/20 dark:border-marsa-dark-sea/30 text-marsa-sea dark:text-marsa-dark-sea text-xs font-semibold tracking-wider uppercase mb-8">
+        <svg lucideCompass class="w-4 h-4 animate-spin-slow" aria-hidden="true"></svg>
+        <span>{{ text(notFoundData.badge) }}</span>
+      </div>
+
+      <!-- 404 Visual Heading -->
+      <div class="relative mb-6 select-none" aria-hidden="true">
+        <span class="text-[clamp(90px,16vw,170px)] font-bold font-mono tracking-tighter text-marsa-sea/15 dark:text-white/10 leading-none block">
+          404
+        </span>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <span class="text-3xl md:text-5xl font-bold tracking-tight text-marsa-ink dark:text-marsa-dark-ink drop-shadow-sm">
+            {{ text(notFoundData.title) }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <p class="text-base md:text-lg text-marsa-ink/75 dark:text-marsa-dark-ink/70 leading-relaxed max-w-lg mx-auto mb-10">
+        {{ text(notFoundData.description) }}
+      </p>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-wrap items-center justify-center gap-4 mb-14">
+        <a
+          routerLink="/"
+          class="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-marsa-deep dark:bg-marsa-sand text-marsa-pearl dark:text-marsa-deep font-bold text-xs tracking-wide shadow-md hover:scale-105 transition-all">
+          <svg lucideHome class="w-4 h-4" aria-hidden="true"></svg>
+          {{ text(notFoundData.homeCta) }}
+        </a>
+        <a
+          routerLink="/"
+          fragment="how"
+          class="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-marsa-warm dark:border-white/15 bg-white/80 dark:bg-white/[0.04] text-marsa-ink dark:text-marsa-dark-ink hover:border-marsa-sea hover:text-marsa-sea dark:hover:border-marsa-dark-sand dark:hover:text-marsa-dark-sand font-semibold text-xs tracking-wide transition-all shadow-sm">
+          {{ text(notFoundData.exploreCta) }}
+          <svg lucideArrowUpRight class="w-3.5 h-3.5" aria-hidden="true"></svg>
+        </a>
+      </div>
+
+      <!-- Popular Charter Links -->
+      <div class="border-t border-marsa-warm/70 dark:border-white/10 pt-8 max-w-lg mx-auto">
+        <p class="text-xs uppercase tracking-wider font-semibold text-marsa-ink/60 dark:text-marsa-dark-ink/50 mb-4">
+          {{ text(howData.categoriesHeading) }}
+        </p>
+        <div class="flex flex-wrap justify-center gap-2">
+          <a
+            *ngFor="let cat of categories"
+            routerLink="/"
+            fragment="how"
+            class="px-3.5 py-1 rounded-full text-xs font-medium border border-marsa-warm dark:border-white/10 bg-white/70 dark:bg-white/[0.03] text-marsa-ink/80 dark:text-marsa-dark-ink/75 hover:bg-white hover:text-marsa-sea dark:hover:text-marsa-dark-sand transition-all">
+            {{ text(cat.label) }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <marsa-footer></marsa-footer>
+</div>

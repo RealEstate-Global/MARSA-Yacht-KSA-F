@@ -3,19 +3,19 @@
       <div class="max-w-5xl mx-auto px-6 md:px-8 py-20 md:py-28 bg-transparent text-marsa-ink dark:text-marsa-dark-ink">
 
         <div class="mb-14 reveal-up">
-          <h2 id="why-title" class="mb-5">{{ text(copy.why.heading) }}</h2>
-          <p class="text-lg opacity-70 max-w-xl leading-relaxed">{{ text(copy.why.lead) }}</p>
+          <h2 id="why-title" class="mb-5 text-marsa-ink dark:text-marsa-dark-ink">{{ text(whyData.heading) }}</h2>
+          <p class="text-lg text-marsa-ink/80 dark:text-marsa-dark-ink/70 max-w-xl leading-relaxed">{{ text(whyData.lead) }}</p>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           <article
-            *ngFor="let card of copy.why.cards; let i = index"
-            class="reveal-up rounded-marsa-md border border-marsa-warm/60 dark:border-white/10 bg-marsa-card dark:bg-marsa-dark-card p-6 flex flex-col gap-3"
+            *ngFor="let card of whyData.cards; let i = index"
+            class="reveal-up rounded-marsa-md border border-marsa-warm dark:border-white/10 bg-white dark:bg-marsa-dark-card shadow-[0_4px_24px_rgba(20,42,43,0.04)] p-6 flex flex-col gap-3 transition-transform hover:-translate-y-1 duration-300"
             [style.transition-delay]="(i * 100) + 'ms'"
             [attr.aria-labelledby]="'why-card-' + i">
-            <span class="text-[10px] font-mono tracking-[0.14em] text-marsa-sand-deep dark:text-marsa-dark-sand" aria-hidden="true">{{ (i + 1) < 10 ? '0' + (i + 1) : (i + 1) }}</span>
-            <h3 id="{{ 'why-card-' + i }}" class="text-base font-bold -tracking-[0.02em]">{{ text(card.title) }}</h3>
-            <p class="text-sm opacity-60 leading-relaxed">{{ text(card.description) }}</p>
+            <span class="text-xs font-mono font-semibold tracking-[0.14em] text-marsa-sea dark:text-marsa-dark-sand" aria-hidden="true">{{ (i + 1) < 10 ? '0' + (i + 1) : (i + 1) }}</span>
+            <h3 id="{{ 'why-card-' + i }}" class="text-base font-bold text-marsa-ink dark:text-marsa-dark-ink -tracking-[0.02em]">{{ text(card.title) }}</h3>
+            <p class="text-sm text-marsa-ink/75 dark:text-marsa-dark-ink/65 leading-relaxed">{{ text(card.description) }}</p>
           </article>
         </div>
       </div>

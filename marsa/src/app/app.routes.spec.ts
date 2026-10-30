@@ -5,10 +5,14 @@ import { routes } from './app.routes';
 const VALID_ANCHORS = new Set(['why', 'how', 'about', 'download']);
 
 describe('app routes', () => {
-  it('redirects unknown paths to the home route', () => {
+  it('routes unknown paths and /404 to NotFoundComponent', () => {
     const wildcard = routes.find((route) => route.path === '**');
     expect(wildcard).toBeDefined();
-    expect(wildcard?.redirectTo).toBe('');
+    expect(typeof wildcard?.loadComponent).toBe('function');
+
+    const notFound = routes.find((route) => route.path === '404');
+    expect(notFound).toBeDefined();
+    expect(typeof notFound?.loadComponent).toBe('function');
   });
 
   it('maps legacy section routes onto real lookbook section anchors', () => {

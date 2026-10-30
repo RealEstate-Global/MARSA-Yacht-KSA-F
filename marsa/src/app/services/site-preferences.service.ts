@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { Locale, Theme } from '../data/content';
+import { Locale, Theme } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class SitePreferencesService {

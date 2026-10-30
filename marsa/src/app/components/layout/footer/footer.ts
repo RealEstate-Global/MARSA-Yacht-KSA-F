@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { copy } from '../../../data/content';
+import { footerData } from '../../../data/footer.data';
+import { navData } from '../../../data/navigation.data';
+import { aboutData } from '../../../data/about.data';
+import { linksData } from '../../../data/links.data';
+import { downloadData } from '../../../data/download.data';
 import { SitePreferencesService } from '../../../services/site-preferences.service';
 
 @Component({
@@ -11,7 +15,11 @@ import { SitePreferencesService } from '../../../services/site-preferences.servi
   templateUrl: './footer.html',
 })
 export class Footer {
-  readonly copy = copy;
+  readonly footerData = footerData;
+  readonly navData = navData;
+  readonly aboutData = aboutData;
+  readonly linksData = linksData;
+  readonly downloadData = downloadData;
   readonly preferences: SitePreferencesService;
 
   constructor(preferences: SitePreferencesService) {

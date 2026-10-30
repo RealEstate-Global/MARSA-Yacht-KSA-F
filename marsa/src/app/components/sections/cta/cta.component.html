@@ -4,16 +4,16 @@
         class="absolute inset-0 z-0 w-full h-full object-cover" />
       <div class="absolute inset-0 bg-gradient-to-b from-marsa-deep/95 via-marsa-deep/75 to-marsa-deep/95 z-10"></div>
       <div class="relative z-20 max-w-3xl mx-auto px-6 md:px-8 text-center reveal-scale">
-        <h2 id="download-title" class="mb-6 text-marsa-pearl">{{ text(copy.download.heading) }}</h2>
-        <p class="text-lg opacity-80 mb-14 leading-relaxed text-marsa-pearl/90">{{ text(copy.download.body) }}</p>
+        <h2 id="download-title" class="mb-6 text-marsa-pearl">{{ text(downloadData.heading) }}</h2>
+        <p class="text-lg opacity-80 mb-14 leading-relaxed text-marsa-pearl/90">{{ text(downloadData.body) }}</p>
         <!-- Honest CTA (PR #49 review): the official site's own store badges
              point at placeholder URLs, so no store branding until the real
              listings exist — one neutral "Visit Al Marsa" to the official
              site. See docs/MIGRATION.md §7. -->
         <div class="flex justify-center">
           <a class="inline-flex items-center gap-2.5 px-8 py-3.5 bg-marsa-sand hover:bg-marsa-sand-deep text-marsa-deep font-bold text-[12px] tracking-wide rounded-full transition-all hover:scale-105"
-            [href]="copy.links.official" target="_blank" rel="noopener">
-            {{ text(copy.download.visit) }}
+            [href]="linksData.official" target="_blank" rel="noopener">
+            {{ text(downloadData.visit) }}
             <svg lucideArrowUpRight class="w-3.5 h-3.5" aria-hidden="true"></svg>
           </a>
         </div>
