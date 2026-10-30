@@ -201,208 +201,32 @@
     @apply flex items-center justify-center w-8 h-8 rounded-full border border-marsa-warm/80 dark:border-white/20 hover:border-marsa-sea dark:hover:border-marsa-sand hover:bg-marsa-sea/10 dark:hover:bg-marsa-sand/10 text-marsa-ink/65 dark:text-white/70 hover:text-marsa-sea dark:hover:text-marsa-sand transition-all duration-300;
   }
 
-  /* ── Why Al Marsa — Horizontal Image Slider ── */
-
-  /**
-   * Scroll track: horizontal overflow with hidden scrollbar.
-   * CSS scroll-snap-type: x mandatory ensures cards snap cleanly.
-   * padding-left/right create the "peek" effect (next card visible).
-   */
-  .why-track {
-    display: flex;
-    gap: 20px;
-    /* Left padding aligns to the page content grid; right padding ensures last card isn't clipped */
-    padding-inline-start: clamp(24px, 5vw, 64px);
-    padding-inline-end: clamp(24px, 5vw, 64px);
-    padding-bottom: 32px;
-    overflow-x: scroll;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    /* Hide scrollbar cross-browser */
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    cursor: grab;
-  }
-
-  .why-track::-webkit-scrollbar {
-    display: none;
-  }
-
-  .why-track:active {
-    cursor: grabbing;
-  }
-
-  /**
-   * Individual slide card.
-   * Width: 70vw on mobile → ~40% on large desktop, always capped at 420px.
-   * This ensures 2+ cards are always partially visible, creating scroll affordance.
-   */
-  .why-slide-card {
-    flex: 0 0 clamp(260px, 70vw, 360px);
-    scroll-snap-align: start;
-    border-radius: 20px;
-    overflow: hidden;
-    background-color: white;
-    border: 1px solid theme('colors.marsa.warm' / 80%);
-    box-shadow: 0 4px 24px rgba(20, 42, 43, 0.05);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-                box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-                border-color 0.3s ease;
-    will-change: transform;
-  }
-
-  .dark .why-slide-card {
-    background-color: theme('colors.marsa-dark.card');
-    border-color: rgba(255, 255, 255, 0.07);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  }
-
-  /* Active / hovered card lifts slightly */
-  .why-slide-card--active,
-  .why-slide-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 16px 40px rgba(20, 42, 43, 0.10);
-    border-color: theme('colors.marsa.warm');
-  }
-
-  .dark .why-slide-card--active,
-  .dark .why-slide-card:hover {
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
-    border-color: rgba(255, 255, 255, 0.12);
-  }
-
-  /* ── Image wrapper — portrait 3:4 aspect ratio ── */
-  .why-card-img-wrap {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 3 / 4;
-    overflow: hidden;
-    max-height: 420px;
-  }
-
-  .why-card-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .why-slide-card:hover .why-card-img {
-    transform: scale(1.04);
-  }
-
-  /* Subtle bottom gradient overlay for image — creates visual depth */
-  .why-card-img-overlay {
-    position: absolute;
-    bottom: 0;
-    inset-inline-start: 0;
-    width: 100%;
-    height: 40%;
-    background: linear-gradient(
-      to top,
-      rgba(13, 42, 45, 0.35) 0%,
-      transparent 100%
-    );
-    pointer-events: none;
-  }
-
-  /* ── Card text body ── */
-  .why-card-body {
-    padding: 20px 20px 24px;
+  /* ── Why Al Marsa — Hill Robinson Sticky Stacking Cards ── */
+  .all-cards {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    position: relative;
   }
 
-  .why-card-eyebrow {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: theme('colors.marsa.sea');
-    margin: 0;
+  .card1 {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 96px;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    transform-origin: center top;
+    will-change: transform, filter;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+                filter 0.3s ease,
+                box-shadow 0.3s ease;
   }
 
-  .dark .why-card-eyebrow {
-    color: theme('colors.marsa-dark.sand');
-  }
-
-  .why-card-title {
-    font-size: 18px;
-    font-weight: 700;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    color: theme('colors.marsa.ink');
-    margin: 0;
-  }
-
-  .dark .why-card-title {
-    color: theme('colors.marsa-dark.ink');
-  }
-
-  .why-card-desc {
-    font-size: 13px;
-    line-height: 1.65;
-    color: rgba(20, 42, 43, 0.70);
-    margin: 0;
-  }
-
-  .dark .why-card-desc {
-    color: rgba(244, 241, 231, 0.65);
-  }
-
-  /* ── Navigation: arrow buttons ── */
-  .why-nav-btn {
-    @apply flex items-center justify-center w-11 h-11 rounded-full border border-marsa-warm dark:border-white/15 bg-white dark:bg-white/[0.04] text-marsa-ink/70 dark:text-white/70 hover:border-marsa-sea hover:text-marsa-sea hover:bg-marsa-sea/8 dark:hover:border-marsa-dark-sand dark:hover:text-marsa-dark-sand dark:hover:bg-marsa-dark-sand/8 transition-all duration-200 shadow-sm hover:shadow-md disabled:pointer-events-none;
-  }
-
-  .why-nav-btn-sm {
-    @apply flex items-center justify-center w-9 h-9 rounded-full border border-marsa-warm dark:border-white/15 bg-white dark:bg-white/[0.04] text-marsa-ink/70 dark:text-white/70 hover:border-marsa-sea hover:text-marsa-sea dark:hover:border-marsa-dark-sand dark:hover:text-marsa-dark-sand transition-all duration-200 disabled:pointer-events-none;
-  }
-
-  /* ── Progress dots ── */
-  .why-dot {
-    display: block;
-    width: 6px;
-    height: 6px;
-    border-radius: 9999px;
-    background-color: theme('colors.marsa.warm');
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  .dark .why-dot {
-    background-color: rgba(255, 255, 255, 0.20);
-  }
-
-  .why-dot-active {
-    width: 24px;
-    background-color: theme('colors.marsa.sea');
-  }
-
-  .dark .why-dot-active {
-    background-color: theme('colors.marsa-dark.sand');
-  }
-
-  /* ── Responsive: large screens show wider cards ── */
-  @media (min-width: 768px) {
-    .why-slide-card {
-      flex: 0 0 clamp(300px, 34vw, 420px);
+  @media (max-width: 767px) {
+    .card1 {
+      top: 80px;
     }
   }
-
-  @media (min-width: 1280px) {
-    .why-slide-card {
-      flex: 0 0 clamp(340px, 28vw, 420px);
-    }
-  }
-
 }
 
 @layer utilities {

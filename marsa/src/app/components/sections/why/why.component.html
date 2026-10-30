@@ -1,174 +1,110 @@
-<!-- ── Why Al Marsa — Image-Led Horizontal Slider ── -->
+<!-- ── Why Al Marsa — Hill Robinson-Style Sticky Stacking Cards ── -->
 <section
   id="why"
-  class="w-full overflow-hidden bg-marsa-pearl dark:bg-marsa-dark-canvas"
+  class="w-full bg-marsa-pearl dark:bg-marsa-dark-canvas py-20 md:py-28 px-4 sm:px-6 md:px-10 lg:px-16"
   [attr.dir]="isRtl ? 'rtl' : 'ltr'"
   aria-labelledby="why-title"
-  tabindex="0"
 >
+  <!-- ── Section Header (Hill Robinson Editorial Style) ── -->
+  <div class="max-w-4xl mx-auto text-center mb-16 md:mb-24 reveal-up">
+    <!-- Eyebrow (Hill Robinson "Beyond management" style) -->
+    <p class="inline-flex items-center justify-center gap-2.5 text-xs md:text-sm font-mono uppercase tracking-[0.25em] text-marsa-sea dark:text-marsa-sand font-semibold mb-4">
+      <span class="w-8 h-[1px] bg-marsa-sea/40 dark:bg-marsa-sand/40"></span>
+      <span>{{ text(whyData.heading) }}</span>
+      <span class="w-8 h-[1px] bg-marsa-sea/40 dark:bg-marsa-sand/40"></span>
+    </p>
 
-  <!-- ── Section Header ─────────────────────────────────────────────────── -->
-  <div class="px-6 md:px-12 lg:px-16 pt-20 md:pt-28 pb-10 md:pb-14 flex flex-col md:flex-row md:items-end md:justify-between gap-6 reveal-up">
+    <!-- Main Title (Hill Robinson "What we do" style) -->
+    <h2
+      id="why-title"
+      class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-marsa-ink dark:text-marsa-dark-ink leading-[1.08] mb-6"
+    >
+      {{ text(whyData.lead) }}
+    </h2>
 
-    <div class="max-w-xl">
-      <!-- Eyebrow -->
-      <p class="eyebrow mb-4">
-        <span class="eyebrow-line"></span>
-        Why Al Marsa
-      </p>
-      <!-- Heading -->
-      <h2
-        id="why-title"
-        class="text-marsa-ink dark:text-marsa-dark-ink leading-[0.95] mb-5"
-      >
-        {{ text(whyData.heading) }}
-      </h2>
-      <!-- Lead -->
-      <p class="text-base md:text-lg text-marsa-ink/70 dark:text-marsa-dark-ink/65 leading-relaxed max-w-lg">
-        {{ text(whyData.lead) }}
-      </p>
-    </div>
-
-    <!-- Arrow controls (desktop) -->
-    <div class="hidden md:flex items-center gap-3 shrink-0 pb-1 reveal-right delay-200">
-      <button
-        id="why-slider-prev"
-        (click)="prev()"
-        [disabled]="!canPrev"
-        [attr.aria-label]="isRtl ? 'التالي' : 'Previous'"
-        class="why-nav-btn"
-        [class.opacity-30]="!canPrev"
-        [class.cursor-not-allowed]="!canPrev"
-      >
-        <!-- Left arrow (flipped to right in RTL via dir) -->
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M15 18l-6-6 6-6"/>
-        </svg>
-      </button>
-
-      <!-- Progress dots -->
-      <div class="flex items-center gap-1.5" role="tablist" [attr.aria-label]="isRtl ? 'البطاقات' : 'Slider cards'">
-        <button
-          *ngFor="let card of whyData.cards; let i = index"
-          role="tab"
-          [attr.aria-selected]="i === activeIndex"
-          [attr.aria-label]="(isRtl ? 'بطاقة' : 'Card') + ' ' + (i + 1)"
-          (click)="goToCard(i)"
-          class="why-dot transition-all duration-300"
-          [class.why-dot-active]="i === activeIndex"
-        ></button>
-      </div>
-
-      <button
-        id="why-slider-next"
-        (click)="next()"
-        [disabled]="!canNext"
-        [attr.aria-label]="isRtl ? 'السابق' : 'Next'"
-        class="why-nav-btn"
-        [class.opacity-30]="!canNext"
-        [class.cursor-not-allowed]="!canNext"
-      >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M9 18l6-6-6-6"/>
-        </svg>
-      </button>
-    </div>
-
+    <p class="text-base sm:text-lg text-marsa-ink/75 dark:text-marsa-dark-ink/70 leading-relaxed max-w-2xl mx-auto">
+      {{ isRtl ? 'تجربة حجز وتنقل استثنائية مصممة للخليج العربي والبحر الأحمر، معتمدة بالكامل ومنظمة عبر التطبيق.' : 'Curated private yacht journeys across Saudi waters, certified by maritime authorities and seamlessly managed in the app.' }}
+    </p>
   </div>
 
-  <!-- ── Horizontal Slider Track ────────────────────────────────────────── -->
-  <!--
-    The track uses:
-    - overflow-x: scroll with scrollbar hidden
-    - scroll-snap-type: x mandatory for snapping
-    - CSS gap for card spacing
-    - Padding left so first card aligns with page content edge;
-      padding right so last card doesn't hard-cut the viewport.
-  -->
-  <div
-    #track
-    class="why-track"
-    role="region"
-    aria-label="Why Al Marsa cards"
-    [attr.dir]="isRtl ? 'rtl' : 'ltr'"
-  >
+  <!-- ── Stacking Cards Container (.all-cards) ── -->
+  <div #cardsContainer class="all-cards max-w-6xl mx-auto flex flex-col gap-16 md:gap-24 pb-24">
     <article
-      *ngFor="let card of whyData.cards; let i = index"
-      class="why-slide-card"
+      *ngFor="let card of whyData.cards; let i = index; let last = last"
+      #cardElement
+      class="card1 group relative w-full rounded-[28px] md:rounded-[36px] border border-marsa-warm/80 dark:border-white/[0.08] bg-white dark:bg-[#071719] shadow-2xl overflow-hidden"
+      [style.z-index]="i + 1"
+      [attr.data-index]="i"
       [attr.aria-label]="text(card.title)"
-      [class.why-slide-card--active]="i === activeIndex"
     >
+      <div class="flex flex-col lg:flex-row items-center min-h-[460px] md:min-h-[500px] p-6 sm:p-8 md:p-10 lg:p-12 gap-8 lg:gap-14">
+        <!-- Media / Image Column (Left in LTR, Right in RTL) -->
+        <div class="w-full lg:w-[48%] xl:w-[46%] shrink-0">
+          <div class="relative w-full aspect-[4/3] sm:aspect-[16/11] lg:aspect-square rounded-2xl md:rounded-[26px] overflow-hidden bg-marsa-deep shadow-lg group-hover:shadow-2xl transition-shadow duration-500">
+            <img
+              [src]="card.image"
+              [alt]="text(card.title)"
+              class="w-full h-full object-cover transform transition-transform duration-700 ease-out group-hover:scale-105"
+              loading="lazy"
+            />
+            <!-- Gradient Overlay for Depth -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent pointer-events-none"></div>
+            
+            <!-- Number Badge in corner -->
+            <div class="absolute top-4 start-4 px-3.5 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white font-mono text-xs tracking-wider">
+              {{ text(card.eyebrow) }}
+            </div>
+          </div>
+        </div>
 
-      <!-- Image wrapper — fixed portrait aspect ratio 3:4 -->
-      <div class="why-card-img-wrap">
-        <img
-          [src]="card.image || ''"
-          [alt]="text(card.title)"
-          loading="lazy"
-          decoding="async"
-          class="why-card-img"
-          draggable="false"
-        />
-        <!-- Subtle gradient overlay at bottom for legibility -->
-        <div class="why-card-img-overlay" aria-hidden="true"></div>
+        <!-- Content Column (Right in LTR, Left in RTL) -->
+        <div class="w-full lg:w-[52%] xl:w-[54%] flex flex-col justify-center text-start">
+          <!-- Step indicator -->
+          <div class="flex items-center gap-2.5 mb-3.5">
+            <span class="text-xs uppercase tracking-[0.2em] font-mono text-marsa-sea dark:text-marsa-sand font-bold">
+              {{ text(card.eyebrow) }}
+            </span>
+            <span class="w-1.5 h-1.5 rounded-full bg-marsa-sea/40 dark:bg-marsa-sand/40"></span>
+            <span class="text-xs font-mono text-marsa-ink/40 dark:text-marsa-pearl/40">0{{ i + 1 }} / 04</span>
+          </div>
+
+          <!-- Card Title -->
+          <h3 class="text-2xl sm:text-3xl md:text-4xl font-bold text-marsa-ink dark:text-marsa-dark-ink tracking-tight mb-4 leading-snug">
+            {{ text(card.title) }}
+          </h3>
+
+          <!-- Card Description -->
+          <p class="text-base sm:text-lg text-marsa-ink/75 dark:text-marsa-pearl/75 leading-relaxed mb-8 max-w-xl">
+            {{ text(card.description) }}
+          </p>
+
+          <!-- Explore / Action CTA (Hill Robinson style button) -->
+          <div class="flex items-center gap-4 pt-2">
+            <a
+              routerLink="/"
+              fragment="how"
+              class="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-marsa-sea dark:bg-marsa-sand text-white dark:text-marsa-navy font-semibold text-sm tracking-wide shadow-md hover:shadow-lg hover:bg-marsa-navy dark:hover:bg-marsa-sand/90 transition-all duration-300 group/btn"
+            >
+              <span>{{ isRtl ? 'استكشف الفئات' : 'Explore Fleet' }}</span>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="transform transition-transform duration-300 group-hover/btn:translate-x-1 rtl:group-hover/btn:-translate-x-1 rtl:rotate-180"
+                aria-hidden="true"
+              >
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+        </div>
       </div>
-
-      <!-- Card content below image -->
-      <div class="why-card-body">
-        <!-- Eyebrow -->
-        <p class="why-card-eyebrow" *ngIf="card.eyebrow">
-          {{ text(card.eyebrow) }}
-        </p>
-        <!-- Title -->
-        <h3 class="why-card-title">
-          {{ text(card.title) }}
-        </h3>
-        <!-- Description -->
-        <p class="why-card-desc">
-          {{ text(card.description) }}
-        </p>
-      </div>
-
     </article>
   </div>
-
-  <!-- ── Mobile arrow controls + dots ──────────────────────────────────── -->
-  <div class="flex md:hidden items-center justify-between px-6 pt-6 pb-10 reveal-up delay-200">
-    <div class="flex items-center gap-2">
-      <button
-        (click)="prev()"
-        [disabled]="!canPrev"
-        [attr.aria-label]="isRtl ? 'التالي' : 'Previous'"
-        class="why-nav-btn-sm"
-        [class.opacity-30]="!canPrev"
-      >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M15 18l-6-6 6-6"/>
-        </svg>
-      </button>
-      <button
-        (click)="next()"
-        [disabled]="!canNext"
-        [attr.aria-label]="isRtl ? 'السابق' : 'Next'"
-        class="why-nav-btn-sm"
-        [class.opacity-30]="!canNext"
-      >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M9 18l6-6-6-6"/>
-        </svg>
-      </button>
-    </div>
-
-    <!-- Mobile dots -->
-    <div class="flex items-center gap-2">
-      <button
-        *ngFor="let card of whyData.cards; let i = index"
-        (click)="goToCard(i)"
-        [attr.aria-label]="(isRtl ? 'بطاقة' : 'Card') + ' ' + (i + 1)"
-        class="why-dot transition-all duration-300"
-        [class.why-dot-active]="i === activeIndex"
-      ></button>
-    </div>
-  </div>
-
 </section>
