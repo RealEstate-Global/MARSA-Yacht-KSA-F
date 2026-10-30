@@ -26,7 +26,7 @@
     </h2>
 
     <p class="mt-3 text-sm sm:text-base text-marsa-ink/70 dark:text-white/60 max-w-2xl mx-auto">
-      {{ isRtl ? 'اسحب شريط الصور أو استخدم الأسهم لمشاهدة لحظات وإمكانيات رحلتك القادمة.' : 'Drag the line or use the navigation arrows to glide through our fleet highlights and voyage moments.' }}
+      {{ isRtl ? 'اسحب شريط الصور أو انقر على أي بطاقة لاستعراض تجارب وخدمات المرسى.' : 'Drag the photo line or tap any print to glide through our fleet highlights and voyage moments.' }}
     </p>
   </div>
 
@@ -34,14 +34,13 @@
   <div class="relative w-full">
     <app-polaroid-line-carousel
       [slides]="slides"
-      [height]="'640px'"
-      [cardWidth]="290"
-      [sag]="44"
+      [height]="'560px'"
+      [cardWidth]="320"
+      [sag]="42"
       [swing]="1.1"
       [autoplay]="5000"
-      [string]="isRtl ? '#8a7f72' : '#8a7f72'"
+      [isRtl]="isRtl"
       [background]="'transparent'"
-      [ink]="'currentColor'"
       (onChange)="onCarouselChange($event)"
       [ariaLabel]="text(whyData.heading)"
     ></app-polaroid-line-carousel>
