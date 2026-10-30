@@ -19,45 +19,10 @@
       <!-- Honest CTA (PR #49 review): no store branding until listings are
            verified — one neutral "Visit Al Marsa" (see docs/MIGRATION.md §7). -->
       <div class="mt-auto w-full flex flex-col gap-2.5">
-        <a [href]="linksData.official" target="_blank" rel="noopener"
+        <a [href]="linksData.official" target="_blank" rel="noopener noreferrer"
           class="flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-marsa-sand hover:bg-marsa-sand-deep text-marsa-deep text-[11px] font-bold tracking-wide transition-all">
           {{ text(downloadData.visit) }}
         </a>
-        <!-- Social icons — no verified profiles exist for almarsa.app (MIGRATION.md §10, PR #49);
-             icons link to the official site until real profiles are published. -->
-        <div class="flex items-center justify-center gap-2.5 mt-1" role="list" [attr.aria-label]="text({ en: 'Social links', ar: 'روابط التواصل' })">
-          <!-- Instagram -->
-          <a [href]="linksData.social.instagram" target="_blank" rel="noopener"
-            [attr.aria-label]="text(footerData.social.instagram)"
-            role="listitem"
-            class="flex items-center justify-center w-8 h-8 rounded-full border border-white/20 hover:border-marsa-sand hover:bg-marsa-sand/10 text-white/60 hover:text-marsa-sand transition-all">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-            </svg>
-          </a>
-          <!-- X (Twitter) -->
-          <a [href]="linksData.social.x" target="_blank" rel="noopener"
-            [attr.aria-label]="text(footerData.social.x)"
-            role="listitem"
-            class="flex items-center justify-center w-8 h-8 rounded-full border border-white/20 hover:border-marsa-sand hover:bg-marsa-sand/10 text-white/60 hover:text-marsa-sand transition-all">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-            </svg>
-          </a>
-          <!-- LinkedIn -->
-          <a [href]="linksData.social.linkedin" target="_blank" rel="noopener"
-            [attr.aria-label]="text(footerData.social.linkedin)"
-            role="listitem"
-            class="flex items-center justify-center w-8 h-8 rounded-full border border-white/20 hover:border-marsa-sand hover:bg-marsa-sand/10 text-white/60 hover:text-marsa-sand transition-all">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-              <rect x="2" y="9" width="4" height="12"/>
-              <circle cx="4" cy="4" r="2"/>
-            </svg>
-          </a>
-        </div>
       </div>
     </div>
 
@@ -73,37 +38,6 @@
             <a routerLink="/" fragment="how"   class="text-[14px] text-marsa-ink/80 dark:text-marsa-pearl/75 hover:text-marsa-sea dark:hover:text-marsa-dark-sand transition-all font-medium">{{ text(navData.how) }}</a>
             <a routerLink="/" fragment="about" class="text-[14px] text-marsa-ink/80 dark:text-marsa-pearl/75 hover:text-marsa-sea dark:hover:text-marsa-dark-sand transition-all font-medium">{{ text(navData.about) }}</a>
           </nav>
-        </div>
-
-        <!-- Contact Us (Branches, Direct Lines, Email, Hours) -->
-        <div *ngIf="footerData.contact">
-          <h3 class="text-marsa-sea dark:text-marsa-dark-sand font-bold text-lg mb-5 tracking-wide">{{ text(footerData.contact.title) }}</h3>
-          <div class="flex flex-col gap-3 text-[13px] text-marsa-ink/80 dark:text-marsa-pearl/75 leading-relaxed">
-            <div>
-              <span class="text-xs font-semibold uppercase tracking-wider block text-marsa-sea/70 dark:text-marsa-dark-sand/70 mb-0.5">{{ text(footerData.contact.branchesLabel) }}</span>
-              <p class="font-medium">{{ text(footerData.contact.branches) }}</p>
-            </div>
-            <div>
-              <span class="text-xs font-semibold uppercase tracking-wider block text-marsa-sea/70 dark:text-marsa-dark-sand/70 mb-0.5">{{ text(footerData.contact.phonesLabel) }}</span>
-              <div class="flex flex-col gap-0.5 font-mono dir-ltr" dir="ltr">
-                <a *ngFor="let phone of footerData.contact.phones" [href]="'tel:' + phone.replace(' ', '')" class="hover:text-marsa-sea dark:hover:text-marsa-dark-sand transition-colors font-medium">
-                  {{ phone }}
-                </a>
-              </div>
-            </div>
-            <div class="flex flex-col sm:flex-row gap-4 pt-1">
-              <div>
-                <span class="text-xs font-semibold uppercase tracking-wider block text-marsa-sea/70 dark:text-marsa-dark-sand/70 mb-0.5">{{ text(footerData.contact.emailLabel) }}</span>
-                <a [href]="'mailto:' + footerData.contact.email" class="hover:text-marsa-sea dark:hover:text-marsa-dark-sand transition-colors font-medium">
-                  {{ footerData.contact.email }}
-                </a>
-              </div>
-              <div>
-                <span class="text-xs font-semibold uppercase tracking-wider block text-marsa-sea/70 dark:text-marsa-dark-sand/70 mb-0.5">{{ text(footerData.contact.hoursLabel) }}</span>
-                <span class="font-medium">{{ text(footerData.contact.hours) }}</span>
-              </div>
-            </div>
-          </div>
         </div>
 
         <!-- About the brand -->
