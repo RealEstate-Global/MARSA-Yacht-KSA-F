@@ -201,31 +201,45 @@
     @apply flex items-center justify-center w-8 h-8 rounded-full border border-marsa-warm/80 dark:border-white/20 hover:border-marsa-sea dark:hover:border-marsa-sand hover:bg-marsa-sea/10 dark:hover:bg-marsa-sand/10 text-marsa-ink/65 dark:text-white/70 hover:text-marsa-sea dark:hover:text-marsa-sand transition-all duration-300;
   }
 
-  /* ── Why Al Marsa — Hill Robinson Sticky Stacking Cards ── */
-  .all-cards {
-    display: flex;
-    flex-direction: column;
+  /* ── Why Al Marsa — Hill Robinson Sticky-Pinned Scroll ── */
+  .all-cards-pin {
     position: relative;
+    width: 100%;
   }
 
-  .card1 {
+  .all-cards-hor {
     position: -webkit-sticky;
     position: sticky;
-    top: 96px;
-    max-width: 1100px;
-    margin-left: auto;
-    margin-right: auto;
-    transform-origin: center top;
-    will-change: transform, filter;
-    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
-                filter 0.3s ease,
-                box-shadow 0.3s ease;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
   }
 
-  @media (max-width: 767px) {
-    .card1 {
-      top: 80px;
+  .cardHor {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: calc(100% - 2rem);
+    max-width: 1100px;
+    max-height: calc(100vh - 170px);
+    transform: translate3d(-50%, -50%, 0);
+    will-change: transform, filter;
+    transition: filter 0.25s ease;
+  }
+
+  @media (min-width: 768px) {
+    .cardHor {
+      width: min(90vw, 1100px);
+      max-height: calc(100vh - 160px);
     }
+  }
+
+  .all-cards-spacer {
+    display: block;
+    width: 100%;
+    pointer-events: none;
   }
 }
 
@@ -345,3 +359,72 @@
     transition: none;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Why Al Marsa — Hill Robinson Identical Sticky-Pinned Horizontal Scroll
+   Mirrors the exact architecture of Hill Robinson "Beyond management / What
+   we do": pinned stage + scroll runway + absolute card translate3d.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * 1. Pin container — establishes the positioning context.
+ *    overflow:visible so sticky children work correctly.
+ */
+.all-cards-pin {
+  position: relative;
+  overflow: visible;
+}
+
+/**
+ * 2. Sticky viewport stage — locks itself to top: 0 while the user scrolls
+ *    through the runway below.  Matches Hill Robinson's .all-cards-hor.
+ */
+.all-cards-hor {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* GPU promotion for smooth 60 fps compositing */
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/**
+ * 3. Individual slide cards — absolutely centered inside the sticky stage.
+ *    JavaScript drives the horizontal X offset via translate3d.
+ *    transform: translate3d(-50%, -50%, 0) translate3d(Xvw, 0, 0)
+ *
+ *    - top/left 50% centres the card in the stage.
+ *    - The first translate3d(-50%, -50%) shifts origin to the card's own centre.
+ *    - The second translate3d(Xvw) is the scroll-driven slide offset.
+ *    - transition only applied when JS sets it; initial paint is transform-only.
+ */
+.cardHor {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* Cards fill ~88% of viewport width; cap at 980px for ultra-wide screens */
+  width: min(88vw, 980px);
+  /* Initial state: first card centred, rest off-screen to the right */
+  transform: translate3d(-50%, -50%, 0) translate3d(100vw, 0, 0);
+  /* Smooth GPU-composited slide — 0 ms when JS sets explicit transform each rAF */
+  will-change: transform, filter;
+  backface-visibility: hidden;
+}
+
+/**
+ * 4. Runway spacer — provides the vertical scroll distance while the sticky
+ *    frame is locked.  Height is set dynamically by WhyComponent.measure().
+ */
+.all-cards-spacer {
+  display: block;
+  width: 100%;
+  pointer-events: none;
+  /* Minimum safety fallback — component overrides via [style.height.px] */
+  min-height: 200px;
+}
+
