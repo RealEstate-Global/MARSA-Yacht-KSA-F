@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { routes } from './app.routes';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 /** Section anchors that exist on the aligned lookbook page. */
 const VALID_ANCHORS = new Set(['why', 'how', 'about', 'download']);
@@ -16,7 +17,7 @@ describe('app routes', () => {
       notFound!.loadComponent!(),
     ]);
     expect(wildcardComponent).toBe(notFoundComponent);
-    expect(wildcardComponent).toHaveProperty('name', 'NotFoundComponent');
+    expect(wildcardComponent).toBe(NotFoundComponent);
   });
 
   it('maps legacy section routes onto real lookbook section anchors', () => {
