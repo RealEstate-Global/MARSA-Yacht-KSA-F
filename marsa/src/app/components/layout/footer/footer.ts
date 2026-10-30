@@ -22,6 +22,9 @@ export class Footer {
   readonly downloadData = downloadData;
   readonly preferences: SitePreferencesService;
 
+  /** Always reflects the real calendar year — never goes stale. */
+  readonly currentYear = new Date().getFullYear();
+
   constructor(preferences: SitePreferencesService) {
     this.preferences = preferences;
   }

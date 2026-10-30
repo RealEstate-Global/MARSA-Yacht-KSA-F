@@ -26,5 +26,10 @@ describe('Footer', () => {
   it('exposes the verified official destination only', () => {
     expect(linksData.official).toBe('https://almarsa.app/');
   });
+
+  it('exposes social media channels in linksData', () => {
+    expect(linksData.social.whatsapp).toBe('https://wa.me/966596068889');
+    expect(linksData.social.instagram).toBe('https://almarsa.app/');
+  });
 });
 

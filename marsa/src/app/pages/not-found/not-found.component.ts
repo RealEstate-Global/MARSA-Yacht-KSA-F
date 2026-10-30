@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { notFoundData } from '../../data/not-found.data';
@@ -23,12 +23,30 @@ import { LucideCompass, LucideHome, LucideArrowUpRight } from '@lucide/angular';
   ],
   templateUrl: './not-found.component.html',
 })
-export class NotFoundComponent {
+export class NotFoundComponent implements AfterViewInit, OnDestroy {
   readonly notFoundData = notFoundData;
   readonly howData = howData;
   readonly categories = vesselCategoriesData.slice(0, 6);
+  private observer?: IntersectionObserver;
 
-  constructor(public preferences: SitePreferencesService) {}
+  constructor(
+    public preferences: SitePreferencesService,
+    private el?: ElementRef<HTMLElement>,
+  ) {}
+
+  ngAfterViewInit(): void {
+    if (this.el && typeof IntersectionObserver !== 'undefined') {
+      this.observer = new IntersectionObserver(
+        (entries) => entries.forEach((entry) => entry.isIntersecting && entry.target.classList.add('is-visible')),
+        { threshold: 0.1 },
+      );
+      this.el.nativeElement.querySelectorAll('.reveal, .reveal-up, .reveal-scale').forEach((element) => this.observer?.observe(element));
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.observer?.disconnect();
+  }
 
   text(value: { en: string; ar: string }): string {
     return this.preferences.text(value);

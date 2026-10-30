@@ -80,16 +80,31 @@ export interface DownloadCopy {
 }
 
 export interface LinksCopy {
-  /** Official site — the only verified external destination for app CTAs. */
+  /** Official site — the verified external destination for app CTAs. */
   official: string;
+  social: {
+    whatsapp: string;
+    instagram: string;
+    x: string;
+    linkedin: string;
+    share: string;
+  };
 }
 
 export interface FooterCopy {
   brand: LocalizedText;
   tagline: LocalizedText;
   navigation: LocalizedText;
+  socialHeading: LocalizedText;
   download: LocalizedText;
   rights: LocalizedText;
+  social: {
+    whatsapp: LocalizedText;
+    instagram: LocalizedText;
+    x: LocalizedText;
+    linkedin: LocalizedText;
+    share: LocalizedText;
+  };
 }
 
 export interface SiteCopy {

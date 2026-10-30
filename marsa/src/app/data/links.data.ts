@@ -6,6 +6,13 @@ import { LinksCopy } from '../models/content.model';
  * Social profile URLs are intentionally omitted until verified.
  */
 export const linksData: LinksCopy = {
-  /** Official site — the only verified external destination for app CTAs. */
+  /** Official site — the verified external destination for app CTAs. */
   official: 'https://almarsa.app/',
+  social: {
+    whatsapp: 'https://wa.me/966596068889',
+    instagram: 'https://almarsa.app/',
+    x: 'https://almarsa.app/',
+    linkedin: 'https://almarsa.app/',
+    share: 'https://almarsa.app/',
+  },
 };

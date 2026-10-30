@@ -16,21 +16,24 @@
         </div>
       </a>
       <p class="text-[13px] opacity-70 mb-8 leading-relaxed max-w-[240px]">{{ text(footerData.tagline) }}</p>
-      <!-- Honest CTA (PR #49 review): no store branding until listings are
-           verified — one neutral "Visit Al Marsa" (see docs/MIGRATION.md §7). -->
-      <div class="mt-auto w-full flex flex-col gap-2.5">
+      <!-- Honest CTA: button is the LAST element in this card -->
+      <div class="mt-auto w-full pt-4">
         <a [href]="linksData.official" target="_blank" rel="noopener noreferrer"
-          class="flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-marsa-sand hover:bg-marsa-sand-deep text-marsa-deep text-[11px] font-bold tracking-wide transition-all">
+          class="marsa-btn-primary w-full shadow-lg text-xs">
           {{ text(downloadData.visit) }}
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="7" y1="17" x2="17" y2="7"/>
+            <polyline points="7 7 17 7 17 17"/>
+          </svg>
         </a>
       </div>
     </div>
 
     <!-- Right: Content Columns (Light in light mode, Dark in dark mode) -->
     <div class="w-full md:w-[62%] lg:w-[68%] px-8 py-16 md:py-20 lg:px-16 flex flex-col reveal-left delay-200" [attr.dir]="preferences.locale() === 'ar' ? 'rtl' : 'ltr'">
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-10 lg:gap-12 mb-16 flex-1">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12 mb-16 flex-1">
 
-        <!-- Navigate -->
+        <!-- Column 1: Navigate -->
         <div>
           <h3 class="text-marsa-sea dark:text-marsa-dark-sand font-bold text-lg mb-5 tracking-wide">{{ text(footerData.navigation) }}</h3>
           <nav class="flex flex-col gap-3.5">
@@ -40,7 +43,56 @@
           </nav>
         </div>
 
-        <!-- About the brand -->
+        <!-- Column 2: Social & Connect (Right Location) -->
+        <div>
+          <h3 class="text-marsa-sea dark:text-marsa-dark-sand font-bold text-lg mb-5 tracking-wide">{{ text(footerData.socialHeading) }}</h3>
+          <div class="flex flex-col gap-3 text-[14px]">
+            <!-- WhatsApp Direct Action -->
+            <a [href]="linksData.social.whatsapp" target="_blank" rel="noopener noreferrer"
+              class="inline-flex items-center gap-2.5 px-3.5 py-2 rounded-full bg-[#25D366]/15 hover:bg-[#25D366] text-[#25D366] hover:text-white border border-[#25D366]/30 transition-all font-medium duration-300 w-fit group">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.3A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-2.9.8.8-2.8-.2-.3A8 8 0 1 1 12 20zm4.2-5.7c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1-.2.2-.6.8-.7.9-.1.2-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5.1-.1.2-.3.4-.4.1-.1.2-.2.2-.4.1-.2 0-.3 0-.4-.1-.1-.5-1.3-.7-1.7-.2-.5-.4-.4-.5-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 2s.9 2.3 1 2.5c.1.2 1.7 2.6 4.1 3.7.6.3 1 .4 1.4.5.6.2 1.1.2 1.5.1.5-.1 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1 0-.1-.2-.2-.4-.3z"/>
+              </svg>
+              <span>WhatsApp</span>
+            </a>
+            <!-- Instagram -->
+            <a [href]="linksData.social.instagram" target="_blank" rel="noopener noreferrer"
+              class="inline-flex items-center gap-2.5 text-marsa-ink/80 dark:text-marsa-pearl/75 hover:text-marsa-sea dark:hover:text-marsa-dark-sand transition-all font-medium py-1">
+              <span class="marsa-social-btn !w-7 !h-7">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                </svg>
+              </span>
+              <span>Instagram</span>
+            </a>
+            <!-- X (Twitter) -->
+            <a [href]="linksData.social.x" target="_blank" rel="noopener noreferrer"
+              class="inline-flex items-center gap-2.5 text-marsa-ink/80 dark:text-marsa-pearl/75 hover:text-marsa-sea dark:hover:text-marsa-dark-sand transition-all font-medium py-1">
+              <span class="marsa-social-btn !w-7 !h-7">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+              </span>
+              <span>X (Twitter)</span>
+            </a>
+            <!-- LinkedIn -->
+            <a [href]="linksData.social.linkedin" target="_blank" rel="noopener noreferrer"
+              class="inline-flex items-center gap-2.5 text-marsa-ink/80 dark:text-marsa-pearl/75 hover:text-marsa-sea dark:hover:text-marsa-dark-sand transition-all font-medium py-1">
+              <span class="marsa-social-btn !w-7 !h-7">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                  <rect x="2" y="9" width="4" height="12"/>
+                  <circle cx="4" cy="4" r="2"/>
+                </svg>
+              </span>
+              <span>LinkedIn</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Column 3: About the brand -->
         <div>
           <h3 class="text-marsa-sea dark:text-marsa-dark-sand font-bold text-lg mb-5 tracking-wide">{{ text(aboutData.heading) }}</h3>
           <p class="text-[13px] text-marsa-ink/80 dark:text-marsa-pearl/75 leading-relaxed max-w-sm">
@@ -51,9 +103,19 @@
       </div>
 
       <!-- Bottom bar -->
-      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-[11px] font-mono text-marsa-ink/70 dark:text-marsa-pearl/75 tracking-widest uppercase">
-        <span>{{ text(footerData.rights) }}</span>
-        <div class="flex items-center gap-6">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-[11px] font-mono text-marsa-ink/70 dark:text-marsa-pearl/75 tracking-widest uppercase border-t border-marsa-warm/60 dark:border-white/10 pt-6">
+        <span>&#169;&nbsp;{{ currentYear }}&nbsp;{{ text(footerData.rights) }}</span>
+        <div class="flex flex-wrap items-center gap-4 sm:gap-6">
+          <div class="flex items-center gap-2">
+            <a [href]="linksData.social.whatsapp" target="_blank" rel="noopener noreferrer" [attr.aria-label]="text(footerData.social.whatsapp)" class="hover:text-[#25D366] transition-colors">WhatsApp</a>
+            <span class="opacity-30">·</span>
+            <a [href]="linksData.social.instagram" target="_blank" rel="noopener noreferrer" [attr.aria-label]="text(footerData.social.instagram)" class="hover:text-marsa-sea dark:hover:text-marsa-dark-sand transition-colors">Instagram</a>
+            <span class="opacity-30">·</span>
+            <a [href]="linksData.social.x" target="_blank" rel="noopener noreferrer" [attr.aria-label]="text(footerData.social.x)" class="hover:text-marsa-sea dark:hover:text-marsa-dark-sand transition-colors">X</a>
+            <span class="opacity-30">·</span>
+            <a [href]="linksData.social.linkedin" target="_blank" rel="noopener noreferrer" [attr.aria-label]="text(footerData.social.linkedin)" class="hover:text-marsa-sea dark:hover:text-marsa-dark-sand transition-colors">LinkedIn</a>
+          </div>
+          <span class="opacity-40">|</span>
           <span>EN / العربية</span>
           <a routerLink="/" fragment="download" class="hover:text-marsa-sea dark:hover:text-marsa-dark-sand transition-colors">{{ text(footerData.download) }}</a>
         </div>

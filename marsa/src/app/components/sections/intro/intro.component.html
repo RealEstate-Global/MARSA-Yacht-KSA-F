@@ -10,7 +10,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           <article
             *ngFor="let card of whyData.cards; let i = index"
-            class="reveal-up rounded-marsa-md border border-marsa-warm dark:border-white/10 bg-white dark:bg-marsa-dark-card shadow-[0_4px_24px_rgba(20,42,43,0.04)] p-6 flex flex-col gap-3 transition-transform hover:-translate-y-1 duration-300"
+            class="reveal-up marsa-card"
             [style.transition-delay]="(i * 100) + 'ms'"
             [attr.aria-labelledby]="'why-card-' + i">
             <span class="text-xs font-mono font-semibold tracking-[0.14em] text-marsa-sea dark:text-marsa-dark-sand" aria-hidden="true">{{ (i + 1) < 10 ? '0' + (i + 1) : (i + 1) }}</span>

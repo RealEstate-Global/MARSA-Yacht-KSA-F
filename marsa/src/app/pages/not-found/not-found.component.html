@@ -9,7 +9,7 @@
   <main class="flex-1 flex items-center justify-center pt-28 pb-16 px-6">
     <div class="w-full max-w-2xl mx-auto text-center reveal-up">
       <!-- Badge -->
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-marsa-sea/10 dark:bg-marsa-dark-sea/15 border border-marsa-sea/20 dark:border-marsa-dark-sea/30 text-marsa-sea dark:text-marsa-dark-sea text-xs font-semibold tracking-wider uppercase mb-8">
+      <div class="marsa-badge bg-marsa-sea/10 dark:bg-marsa-dark-sea/15 border border-marsa-sea/20 dark:border-marsa-dark-sea/30 text-marsa-sea dark:text-marsa-dark-sea mb-8">
         <svg lucideCompass class="w-4 h-4 animate-spin-slow" aria-hidden="true"></svg>
         <span>{{ text(notFoundData.badge) }}</span>
       </div>
@@ -33,14 +33,14 @@
       <div class="flex flex-wrap items-center justify-center gap-4 mb-14">
         <a
           routerLink="/"
-          class="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-marsa-deep dark:bg-marsa-sand text-marsa-pearl dark:text-marsa-deep font-bold text-xs tracking-wide shadow-md hover:scale-105 transition-all">
+          class="marsa-btn-primary">
           <svg lucideHome class="w-4 h-4" aria-hidden="true"></svg>
           {{ text(notFoundData.homeCta) }}
         </a>
         <a
           routerLink="/"
           fragment="how"
-          class="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-marsa-warm dark:border-white/15 bg-white/80 dark:bg-white/[0.04] text-marsa-ink dark:text-marsa-dark-ink hover:border-marsa-sea hover:text-marsa-sea dark:hover:border-marsa-dark-sand dark:hover:text-marsa-dark-sand font-semibold text-xs tracking-wide transition-all shadow-sm">
+          class="marsa-btn-secondary">
           {{ text(notFoundData.exploreCta) }}
           <svg lucideArrowUpRight class="w-3.5 h-3.5" aria-hidden="true"></svg>
         </a>
@@ -56,7 +56,7 @@
             *ngFor="let cat of categories"
             routerLink="/"
             fragment="how"
-            class="px-3.5 py-1 rounded-full text-xs font-medium border border-marsa-warm dark:border-white/10 bg-white/70 dark:bg-white/[0.03] text-marsa-ink/80 dark:text-marsa-dark-ink/75 hover:bg-white hover:text-marsa-sea dark:hover:text-marsa-dark-sand transition-all">
+            class="marsa-tag">
             {{ text(cat.label) }}
           </a>
         </div>
