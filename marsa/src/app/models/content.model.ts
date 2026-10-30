@@ -82,12 +82,6 @@ export interface DownloadCopy {
 export interface LinksCopy {
   /** Official site — the only verified external destination for app CTAs. */
   official: string;
-  social: {
-    instagram: string;
-    x: string;
-    linkedin: string;
-    share: string;
-  };
 }
 
 export interface FooterContactItem {
@@ -109,12 +103,6 @@ export interface FooterCopy {
   download: LocalizedText;
   rights: LocalizedText;
   contact?: FooterContactItem;
-  social: {
-    instagram: LocalizedText;
-    x: LocalizedText;
-    linkedin: LocalizedText;
-    share: LocalizedText;
-  };
 }
 
 export interface SiteCopy {
