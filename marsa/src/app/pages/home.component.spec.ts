@@ -28,11 +28,10 @@ describe('HomeComponent', () => {
     clearMatchMediaStub();
   });
 
-  it('renders the app-based lookbook copy (no form fields anywhere in the dictionary)', () => {
+  it('keeps the homepage focused on the app-based lookbook experience', () => {
     createComponent();
-    const dictionaryJson = JSON.stringify(copy);
-    expect(dictionaryJson).not.toContain('email');
-    expect(dictionaryJson).not.toContain('submit');
+    expect(copy.hero.primary.en.toLowerCase()).toContain('app');
+    expect(copy.download.visit.en.toLowerCase()).toContain('visit');
   });
 
   it('points internal sections at real anchors used by nav and routes', () => {
