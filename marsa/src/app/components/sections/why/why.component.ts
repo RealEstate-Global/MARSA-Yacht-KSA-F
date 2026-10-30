@@ -16,15 +16,31 @@ import { SitePreferencesService } from '../../../services/site-preferences.servi
 /**
  * Why Al Marsa — Hill Robinson Identical Sticky-Pinned Scroll.
  *
- * Exact implementation of Hill Robinson "Beyond management → What we do":
- * - Pin container (.all-cards-pin) with runway spacer (.all-cards-spacer).
- * - Sticky viewport stage (.all-cards-hor) pinned at top: 0 while scrolling.
- * - Each card (.cardHor) translates horizontally from the right (100vw -> 0vw)
- *   driven directly by vertical mouse-wheel / touch scroll progress:
- *   transform: translate3d(-50%, -50%, 0) translate3d(x + 'vw', 0, 0).
- * - Underlying cards scale down with depth perspective as incoming cards slide over.
- * - RTL-aware: Inverts slide direction for Arabic (enters from -100vw on the left).
- * - Accessible with prefers-reduced-motion fallback and keyboard jump points.
+ * Ported verbatim from Hill Robinson scripts.js lines 31-39:
+ *
+ *   var $pin = $('.all-cards-pin');
+ *   var $track = $pin.find('.all-cards-hor');
+ *   var $cards = $track.find('.cardHor');
+ *
+ *   function update() {
+ *     var scrollPerCard = $pin.data('scrollPerCard') || 1;
+ *     var y = Math.max(0, -$pin[0].getBoundingClientRect().top);
+ *     var progress = Math.max(0, Math.min(n - 1, y / scrollPerCard));
+ *     $cards.each(function(i) {
+ *       var local = Math.max(0, Math.min(1, progress - i + 1));
+ *       var x = 100 - local * 100;
+ *       this.style.transform =
+ *         "translate3d(-50%, -50%, 0) translate3d(" + x + "vw, 0, 0)";
+ *     });
+ *   }
+ *
+ * Key structural requirements (from their HTML):
+ *   .all-cards-pin   → position: relative  (scroll runway wrapper)
+ *   .all-cards-hor   → position: sticky; top: 0; height: 100vh  (locked viewport)
+ *   .cardHor         → position: absolute; top: 50%; left: 50%  (each card)
+ *   .all-cards-spacer → SIBLING of .all-cards-hor  (vertical runway length)
+ *
+ * RTL-aware: direction multiplied by -1 for Arabic locale.
  */
 @Component({
   selector: 'app-why',
@@ -35,14 +51,25 @@ import { SitePreferencesService } from '../../../services/site-preferences.servi
 export class WhyComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly whyData = whyData;
 
+  /** The outer pin container — used to read getBoundingClientRect().top */
   @ViewChild('pinContainer') private pinRef?: ElementRef<HTMLElement>;
+
+  /** The sticky stage — used only for height measurement */
+  @ViewChild('horStage') private stageRef?: ElementRef<HTMLElement>;
+
+  /** The individual card elements — JS drives their transform */
   @ViewChildren('cardRef') private cardElements!: QueryList<ElementRef<HTMLElement>>;
 
+  /** Active card index for dot nav */
   activeCardIndex = 0;
+
+  /** Vertical runway height (px) — bound to spacer [style.height.px] */
   lockDistance = 2400;
 
   private isDestroyed = false;
   private ticking = false;
+
+  /** Cached scroll-per-card distance (px) — updated on resize */
   private scrollPerCard = 650;
 
   constructor(public preferences: SitePreferencesService) {}
@@ -58,113 +85,152 @@ export class WhyComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-    if (typeof window !== 'undefined') {
-      this.measure();
-      window.addEventListener('scroll', this.onScroll, { passive: true });
-      window.addEventListener('resize', this.onResize, { passive: true });
-      // Initial positioning
-      this.updateCards();
-    }
+    if (typeof window === 'undefined') return;
+    this.measure();
+    this.update();
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    window.addEventListener('resize', this.onResize, { passive: true });
+    window.addEventListener('orientationchange', this.onResize, { passive: true });
   }
 
   ngOnDestroy(): void {
     this.isDestroyed = true;
-    if (typeof window !== 'undefined') {
-      window.removeEventListener('scroll', this.onScroll);
-      window.removeEventListener('resize', this.onResize);
-    }
+    if (typeof window === 'undefined') return;
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('orientationchange', this.onResize);
   }
+
+  // ─── Private event handlers ───────────────────────────────────────────────
 
   private onResize = (): void => {
     this.measure();
-    this.updateCards();
+    this.update();
   };
 
   private onScroll = (): void => {
     if (this.ticking || this.isDestroyed) return;
     this.ticking = true;
     window.requestAnimationFrame(() => {
-      this.updateCards();
+      this.update();
       this.ticking = false;
     });
   };
 
+  // ─── Core: measure() — mirrors Hill Robinson scripts.js measure() ─────────
+
   /**
-   * Measure the scroll runway identical to Hill Robinson scripts.js:
-   * Calculates scroll distance per card and total pinned lock distance.
+   * Calculates scrollPerCard and lockDistance.
+   * Mirrors Hill Robinson's getSpeedFactor / getEndPad / measure():
+   *
+   *   function getSpeedFactor() {
+   *     if (lastW < 451) return 0.85;
+   *     if (lastW < 769) return 1;
+   *     return 2;
+   *   }
+   *   function getEndPad() {
+   *     if (lastW < 451) return stableVH * 0.55;
+   *     if (lastW < 769) return stableVH * 0.45;
+   *     return stableVH * 0.2;
+   *   }
+   *   scrollPerCard = availH * speedFactor;
+   *   lockDistance  = (n - 1) * scrollPerCard + endPad;
    */
   private measure(): void {
     if (typeof window === 'undefined') return;
     const n = this.whyData.cards.length;
-    const vh = window.innerHeight;
     const vw = window.innerWidth;
+    const vh = window.innerHeight;
 
-    const speedFactor = vw < 768 ? 1.0 : 1.4;
-    this.scrollPerCard = Math.max(350, Math.round(vh * speedFactor));
-    const endPad = Math.round(vh * 0.35);
+    // Header height offset (matches Hill Robinson's headerH logic)
+    const headerH = vw <= 768 ? 70 : 90;
+    const availH = Math.max(200, vh - headerH);
+
+    // Speed factor and end pad (exact Hill Robinson values)
+    let speedFactor: number;
+    let endPad: number;
+    if (vw < 451) {
+      speedFactor = 0.85;
+      endPad = vh * 0.55;
+    } else if (vw < 769) {
+      speedFactor = 1.0;
+      endPad = vh * 0.45;
+    } else {
+      speedFactor = 2.0;
+      endPad = vh * 0.2;
+    }
+
+    this.scrollPerCard = availH * speedFactor;
     this.lockDistance = Math.max(0, (n - 1) * this.scrollPerCard + endPad);
   }
 
+  // ─── Core: update() — EXACT Hill Robinson update() function ──────────────
+
   /**
-   * Exact Hill Robinson card translation:
-   * Maps vertical scroll offset inside the pinned section into horizontal slide-in:
-   *   y = Math.max(0, -pin.top)
-   *   progress = clamp(0, n - 1, y / scrollPerCard)
-   *   local = clamp(0, 1, progress - i + 1)
-   *   x = 100 - local * 100
-   *   transform = translate3d(-50%, -50%, 0) translate3d(x + 'vw', 0, 0)
+   * Exact port of Hill Robinson scripts.js update():
+   *
+   *   var y = Math.max(0, -$pin[0].getBoundingClientRect().top);
+   *   var progress = Math.max(0, Math.min(n - 1, y / scrollPerCard));
+   *   $cards.each(function(i) {
+   *     var local = Math.max(0, Math.min(1, progress - i + 1));
+   *     var x = 100 - local * 100;
+   *     this.style.transform =
+   *       "translate3d(-50%, -50%, 0) translate3d(" + x + "vw, 0, 0)";
+   *   });
    */
-  private updateCards(): void {
+  private update(): void {
     if (!this.pinRef || !this.cardElements) return;
     const pin = this.pinRef.nativeElement;
     const cards = this.cardElements.toArray();
     const n = cards.length;
     if (n === 0) return;
 
-    const pinTop = pin.getBoundingClientRect().top;
-    const y = Math.max(0, -pinTop);
+    // y = vertical scroll consumed INSIDE the pin container
+    const y = Math.max(0, -pin.getBoundingClientRect().top);
+
+    // progress: 0 when no scroll, up to (n-1) when fully scrolled
     const progress = Math.max(0, Math.min(n - 1, y / this.scrollPerCard));
 
+    // Update active dot
     this.activeCardIndex = Math.min(n - 1, Math.floor(progress + 0.35));
 
-    // Direction multiplier: +1 in LTR (slide in from right), -1 in RTL (slide in from left)
-    const dir = this.isRtl ? -1 : 1;
-
-    // Check prefers-reduced-motion
+    // Reduced motion: instant snap, no translate animation
     const reducedMotion =
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    // RTL direction multiplier (HR doesn't have RTL, we add it)
+    const dir = this.isRtl ? -1 : 1;
+
     cards.forEach((cardRef, i) => {
       const el = cardRef.nativeElement;
+
       if (reducedMotion) {
         el.style.transform =
           i === this.activeCardIndex
             ? 'translate3d(-50%, -50%, 0)'
-            : 'translate3d(150vw, -50%, 0)';
-        el.style.opacity = i === this.activeCardIndex ? '1' : '0';
+            : `translate3d(${dir * 150}vw, -50%, 0)`;
         return;
       }
 
-      // local progress for card i: 0 when off-screen to the right, 1 when fully centered
+      // local: 0 → card is 100vw off-screen to the right
+      //         1 → card is fully centred (x = 0vw)
       const local = Math.max(0, Math.min(1, progress - i + 1));
       const x = (100 - local * 100) * dir;
 
-      // Subtle scale and ambient depth for cards underneath
-      const after = Math.max(0, progress - i);
-      const scale = Math.max(0.92, 1 - 0.05 * after);
-      const brightness = Math.max(0.78, 1 - 0.14 * after);
-
-      el.style.transform = `translate3d(-50%, -50%, 0) translate3d(${x.toFixed(2)}vw, 0, 0) scale(${scale.toFixed(3)})`;
-      el.style.filter = `brightness(${brightness.toFixed(2)})`;
+      // Exact Hill Robinson transform — no scale, no brightness (HR doesn't use them)
+      el.style.transform =
+        `translate3d(-50%, -50%, 0) translate3d(${x}vw, 0, 0)`;
     });
   }
+
+  // ─── Public: scrollToCard() — quick-jump for dot nav ─────────────────────
 
   scrollToCard(index: number): void {
     if (typeof window === 'undefined' || !this.pinRef) return;
     const pin = this.pinRef.nativeElement;
-    const pinAbsoluteTop = window.scrollY + pin.getBoundingClientRect().top;
-    const targetScrollY = pinAbsoluteTop + index * this.scrollPerCard + 15;
-    window.scrollTo({ top: targetScrollY, behavior: 'smooth' });
+    const pinAbsTop = window.scrollY + pin.getBoundingClientRect().top;
+    const target = pinAbsTop + index * this.scrollPerCard + 15;
+    window.scrollTo({ top: target, behavior: 'smooth' });
   }
 }

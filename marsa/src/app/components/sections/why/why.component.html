@@ -1,134 +1,125 @@
 <!-- ── Why Al Marsa — Hill Robinson Identical Sticky-Pinned Scroll ── -->
+<!--
+  EXACT Hill Robinson structure (from their scripts.js lines 31-39):
+    .all-cards-pin  (position: relative — the scroll runway wrapper)
+      .all-cards-hor  (position: sticky; top: 0; height: 100vh — the locked viewport)
+        .cardHor  (position: absolute; top/left: 50% — each card, JS drives x via translate3d)
+        .cardHor
+        .cardHor
+      .all-cards-spacer  (SIBLING of .all-cards-hor — NOT inside it — provides vertical runway)
+-->
 <section
   id="why"
   #pinContainer
-  class="all-cards-pin relative w-full bg-marsa-pearl dark:bg-marsa-dark-canvas"
+  class="all-cards-pin"
   [attr.dir]="isRtl ? 'rtl' : 'ltr'"
   aria-labelledby="why-title"
 >
-  <!-- Sticky Viewport Stage (pinned at top: 0 while user scrolls through the runway) -->
-  <div class="all-cards-hor sticky top-0 w-full h-screen overflow-hidden flex flex-col justify-between py-6 md:py-10 px-4 sm:px-6 md:px-12 z-20">
-    
-    <!-- Pinned Top Bar: Eyebrow + Section Title + Progress Indicator -->
-    <div class="w-full max-w-6xl mx-auto flex flex-col sm:flex-row sm:items-end justify-between gap-4 shrink-0 pt-16 md:pt-14 z-30 pointer-events-auto">
-      <div>
-        <p class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.25em] text-marsa-sea dark:text-marsa-sand font-bold mb-1.5">
-          <span class="w-6 h-[1.5px] bg-marsa-sea/40 dark:bg-marsa-sand/40"></span>
+  <!-- ── Sticky Viewport Stage ── -->
+  <div class="all-cards-hor" #horStage>
+
+    <!-- Section Header (pinned top) -->
+    <div class="why-header">
+      <div class="why-header__left">
+        <p class="why-eyebrow">
+          <span class="why-eyebrow__line"></span>
           <span>{{ text(whyData.heading) }}</span>
         </p>
-        <h2 id="why-title" class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-marsa-ink dark:text-marsa-dark-ink">
+        <h2 id="why-title" class="why-title">
           {{ text(whyData.lead) }}
         </h2>
       </div>
 
-      <!-- Slide Indicator & Quick Jumps -->
-      <div class="flex items-center gap-3 shrink-0 pb-1">
-        <span class="font-mono text-xs md:text-sm tracking-wider text-marsa-sea dark:text-marsa-sand font-bold">
+      <!-- Progress dots + counter -->
+      <div class="why-nav">
+        <span class="why-nav__counter">
           0{{ activeCardIndex + 1 }} / 0{{ whyData.cards.length }}
         </span>
-        <div class="flex items-center gap-1.5">
+        <div class="why-nav__dots">
           <button
             *ngFor="let c of whyData.cards; let idx = index"
             (click)="scrollToCard(idx)"
             [attr.aria-label]="(isRtl ? 'بطاقة ' : 'Card ') + (idx + 1)"
-            class="h-1.5 rounded-full transition-all duration-300"
-            [class.w-7]="idx === activeCardIndex"
-            [class.w-2]="idx !== activeCardIndex"
-            [class.bg-marsa-sea]="idx === activeCardIndex"
-            [class.dark:bg-marsa-sand]="idx === activeCardIndex"
-            [class.bg-marsa-warm/60]="idx !== activeCardIndex"
-            [class.dark:bg-white/20]="idx !== activeCardIndex"
+            class="why-dot"
+            [class.why-dot--active]="idx === activeCardIndex"
           ></button>
         </div>
       </div>
     </div>
 
-    <!-- Center Stage: The Sliding Cards Arena -->
-    <div class="relative w-full max-w-6xl mx-auto flex-1 flex items-center justify-center my-auto min-h-[460px] md:min-h-[520px]">
-      <article
-        *ngFor="let card of whyData.cards; let i = index"
-        #cardRef
-        class="cardHor absolute w-full rounded-[24px] sm:rounded-[32px] md:rounded-[40px] border border-marsa-warm/90 dark:border-white/[0.1] bg-white dark:bg-[#071719] shadow-2xl overflow-hidden"
-        [style.z-index]="i + 1"
-        [attr.data-card-index]="i"
-      >
-        <div class="flex flex-col lg:flex-row items-center p-6 sm:p-8 md:p-10 lg:p-12 gap-6 sm:gap-8 lg:gap-14">
-          <!-- Image Column (Left in LTR, Right in RTL) -->
-          <div class="w-full lg:w-[48%] xl:w-[46%] shrink-0">
-            <div class="relative w-full aspect-[16/10] sm:aspect-[16/11] lg:aspect-square rounded-2xl md:rounded-[28px] overflow-hidden bg-marsa-deep shadow-inner">
-              <img
-                [src]="card.image"
-                [alt]="text(card.title)"
-                class="w-full h-full object-cover"
-                loading="lazy"
-              />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none"></div>
-              <div class="absolute top-4 start-4 px-3.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white font-mono text-xs tracking-wider">
-                {{ text(card.eyebrow) }}
-              </div>
-            </div>
-          </div>
-
-          <!-- Content Column (Right in LTR, Left in RTL) -->
-          <div class="w-full lg:w-[52%] xl:w-[54%] flex flex-col justify-center text-start">
-            <div class="flex items-center gap-2 mb-2.5">
-              <span class="text-xs uppercase tracking-[0.2em] font-mono text-marsa-sea dark:text-marsa-sand font-bold">
-                {{ text(card.eyebrow) }}
-              </span>
-              <span class="w-1.5 h-1.5 rounded-full bg-marsa-sea/40 dark:bg-marsa-sand/40"></span>
-              <span class="text-xs font-mono text-marsa-ink/40 dark:text-marsa-pearl/40">0{{ i + 1 }} / 04</span>
-            </div>
-
-            <h3 class="text-2xl sm:text-3xl md:text-4xl font-bold text-marsa-ink dark:text-marsa-dark-ink tracking-tight mb-3.5 leading-snug">
-              {{ text(card.title) }}
-            </h3>
-
-            <p class="text-sm sm:text-base md:text-lg text-marsa-ink/75 dark:text-marsa-pearl/75 leading-relaxed mb-6 max-w-xl">
-              {{ text(card.description) }}
-            </p>
-
-            <div class="flex items-center gap-4 pt-1">
-              <a
-                routerLink="/"
-                fragment="how"
-                class="inline-flex items-center gap-3 px-6 py-2.5 sm:py-3 rounded-full bg-marsa-sea dark:bg-marsa-sand text-white dark:text-marsa-navy font-semibold text-xs sm:text-sm tracking-wide shadow-md hover:shadow-lg hover:bg-marsa-navy dark:hover:bg-marsa-sand/90 transition-all duration-300 group"
-              >
-                <span>{{ isRtl ? 'استكشف الفئات' : 'Explore Fleet' }}</span>
-                <svg
-                  width="15"
-                  height="15"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="transform transition-transform duration-300 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:rotate-180"
-                  aria-hidden="true"
-                >
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                  <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-              </a>
-            </div>
-          </div>
+    <!-- Cards (absolutely centered in stage — JS translates horizontally) -->
+    <article
+      *ngFor="let card of whyData.cards; let i = index"
+      #cardRef
+      class="cardHor"
+      [style.z-index]="i + 1"
+      [attr.data-card-index]="i"
+      [attr.aria-hidden]="i !== activeCardIndex ? 'true' : null"
+    >
+      <div class="cardHor__inner">
+        <!-- Image -->
+        <div class="cardHor__img-wrap">
+          <img
+            [src]="card.image"
+            [alt]="text(card.title)"
+            class="cardHor__img"
+            loading="lazy"
+          />
+          <div class="cardHor__img-overlay" aria-hidden="true"></div>
+          <span class="cardHor__badge">{{ text(card.eyebrow) }}</span>
         </div>
-      </article>
-    </div>
 
-    <!-- Bottom Scroll Indicator Hint -->
-    <div class="w-full text-center pb-2 pointer-events-none">
-      <span class="inline-flex items-center gap-2 text-[11px] font-mono uppercase tracking-widest text-marsa-ink/40 dark:text-white/40">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animate-bounce" aria-hidden="true">
-          <polyline points="7 13 12 18 17 13"></polyline>
-          <polyline points="7 6 12 11 17 6"></polyline>
-        </svg>
-        <span>{{ isRtl ? 'مرر للأسفل لاستعراض البطاقات' : 'Scroll down to reveal cards' }}</span>
-      </span>
-    </div>
+        <!-- Text -->
+        <div class="cardHor__body">
+          <div class="cardHor__meta">
+            <span class="cardHor__eyebrow">{{ text(card.eyebrow) }}</span>
+            <span class="cardHor__dot" aria-hidden="true"></span>
+            <span class="cardHor__num">0{{ i + 1 }} / 0{{ whyData.cards.length }}</span>
+          </div>
 
+          <h3 class="cardHor__title">{{ text(card.title) }}</h3>
+          <p class="cardHor__desc">{{ text(card.description) }}</p>
+
+          <a
+            routerLink="/"
+            fragment="how"
+            class="cardHor__cta"
+          >
+            <span>{{ isRtl ? 'استكشف الفئات' : 'Explore Fleet' }}</span>
+            <svg
+              width="15" height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="cardHor__cta-arrow"
+              aria-hidden="true"
+            >
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Scroll hint -->
+    <p class="why-scroll-hint" aria-hidden="true">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="why-scroll-hint__icon">
+        <polyline points="7 13 12 18 17 13"></polyline>
+        <polyline points="7 6 12 11 17 6"></polyline>
+      </svg>
+      <span>{{ isRtl ? 'مرر للأسفل لاستعراض البطاقات' : 'Scroll to reveal' }}</span>
+    </p>
   </div>
 
-  <!-- Spacer Runway: Provides the vertical scroll distance while sticky frame is locked -->
-  <div class="all-cards-spacer block w-full pointer-events-none" aria-hidden="true" [style.height.px]="lockDistance"></div>
+  <!-- Spacer runway: SIBLING of .all-cards-hor (exact Hill Robinson pattern) -->
+  <!-- Height is set dynamically by WhyComponent.measure() via [style.height.px] -->
+  <div
+    class="all-cards-spacer"
+    aria-hidden="true"
+    [style.height.px]="lockDistance"
+  ></div>
 </section>
