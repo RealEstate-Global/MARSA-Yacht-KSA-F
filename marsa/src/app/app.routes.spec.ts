@@ -5,14 +5,18 @@ import { routes } from './app.routes';
 const VALID_ANCHORS = new Set(['why', 'how', 'about', 'download']);
 
 describe('app routes', () => {
-  it('routes unknown paths and /404 to NotFoundComponent', () => {
+  it('resolves unknown paths and /404 to the NotFoundComponent', async () => {
     const wildcard = routes.find((route) => route.path === '**');
-    expect(wildcard).toBeDefined();
-    expect(typeof wildcard?.loadComponent).toBe('function');
-
     const notFound = routes.find((route) => route.path === '404');
-    expect(notFound).toBeDefined();
-    expect(typeof notFound?.loadComponent).toBe('function');
+    expect(wildcard?.loadComponent).toBeTypeOf('function');
+    expect(notFound?.loadComponent).toBeTypeOf('function');
+
+    const [wildcardComponent, notFoundComponent] = await Promise.all([
+      wildcard!.loadComponent!(),
+      notFound!.loadComponent!(),
+    ]);
+    expect(wildcardComponent).toBe(notFoundComponent);
+    expect(wildcardComponent).toHaveProperty('name', 'NotFoundComponent');
   });
 
   it('maps legacy section routes onto real lookbook section anchors', () => {
