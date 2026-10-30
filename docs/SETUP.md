@@ -1,68 +1,73 @@
-# Setup Guide
+# Setup Guide — Al Marsa
 
-## System Requirements
+Instructions for setting up the local development environment, testing, and deploying the Al Marsa lookbook application.
 
-- **Node.js**: 24.x (matches CI; 22.x also works)
-- **npm**: 10.x or higher
-- **Operating System**: Windows, macOS, or Linux
-- **Browser**: Modern browser with ES2022 support (Chrome, Firefox, Safari, Edge)
+---
 
-## Local Development Setup
+## 1. System Requirements
 
-### 1. Clone the Repository
+| Tool | Version | Notes |
+| :--- | :--- | :--- |
+| **Node.js** | `24.x` (LTS recommended) | `22.x` minimum supported |
+| **npm** | `10.x` or higher | Shipped with Node.js |
+| **OS** | Windows, macOS, or Linux | Cross-platform compatible |
+
+---
+
+## 2. Local Environment Setup
+
+### Step 1: Clone the Repository
 ```bash
 git clone https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F.git
 cd MARSA-Yacht-KSA-F
 ```
 
-### 2. Install Dependencies
+### Step 2: Install Dependencies
 ```bash
 cd marsa
 npm ci
 ```
 
-### 3. Start Development Server
+### Step 3: Launch Local Development Server
 ```bash
 npm run dev
 ```
+Open [http://localhost:4200](http://localhost:4200) in your browser. The application supports hot module replacement (HMR).
 
-The application will be available at [http://localhost:4200](http://localhost:4200)
+---
 
-### 4. Verify Setup
-- Open browser to `http://localhost:4200`
-- Check browser console for any errors
-- Run `npm run test` and `npm run typecheck` — both should pass
+## 3. Available NPM Scripts
 
-## IDE Setup
+All commands must be executed within the `marsa/` directory:
+
+| Script | Command | Purpose |
+| :--- | :--- | :--- |
+| `npm run dev` | `ng serve` | Runs local dev server on `http://localhost:4200` |
+| `npm run build` | `ng build` | Compiles optimized production bundle in `dist/public/browser` |
+| `npm run test` | `ng test` | Executes unit tests via Vitest in jsdom |
+| `npm run typecheck` | `tsc --noEmit` | Validates TypeScript and template type safety |
+| `npm run serve` | `npx serve dist/public/browser` | Previews production build locally |
+
+---
+
+## 4. IDE Recommendations
 
 ### Visual Studio Code
 Recommended extensions:
-- **Angular Language Service**
-- **Tailwind CSS IntelliSense**
-- **Prettier - Code formatter**
+- **Angular Language Service** (`Angular.ng-template`)
+- **Tailwind CSS IntelliSense** (`bradlc.vscode-tailwindcss`)
+- **Prettier - Code Formatter** (`esbenp.prettier-vscode`)
+- **EditorConfig for VS Code** (`EditorConfig.EditorConfig`)
 
-### WebStorm / IntelliJ IDEA
-- Angular support is built-in
+---
 
-## Build & Deployment
+## 5. Deployment Setup (Vercel)
 
-### Development Build
-```bash
-npm run build -- --configuration development
-```
-Output: `marsa/dist/public`
+The application is deployed on Vercel from the `main` branch.
 
-### Production Build
-```bash
-npm run build
-```
+- **Root Directory**: `marsa`
+- **Build Command**: `npm run build`
+- **Output Directory**: `dist/public/browser`
+- **Routing Rules**: Configured in `marsa/vercel.json` to rewrite all route paths to `/index.html` for Angular Router client-side routing.
 
-## Deployment
-
-The application is deployed on Vercel. Configuration lives in
-`marsa/vercel.json`: the build produces `dist/public/browser`, and all routes
-rewrite to `/index.html` so Angular Router handles deep links.
-
-## Need Help?
-
-Check the [DEVELOPMENT.md](./DEVELOPMENT.md) guidelines or open an issue.
+For questions or assistance, please open an issue or refer to [DEVELOPMENT.md](./DEVELOPMENT.md).

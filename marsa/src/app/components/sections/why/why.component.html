@@ -1,0 +1,174 @@
+<!-- ── Why Al Marsa — Image-Led Horizontal Slider ── -->
+<section
+  id="why"
+  class="w-full overflow-hidden bg-marsa-pearl dark:bg-marsa-dark-canvas"
+  [attr.dir]="isRtl ? 'rtl' : 'ltr'"
+  aria-labelledby="why-title"
+  tabindex="0"
+>
+
+  <!-- ── Section Header ─────────────────────────────────────────────────── -->
+  <div class="px-6 md:px-12 lg:px-16 pt-20 md:pt-28 pb-10 md:pb-14 flex flex-col md:flex-row md:items-end md:justify-between gap-6 reveal-up">
+
+    <div class="max-w-xl">
+      <!-- Eyebrow -->
+      <p class="eyebrow mb-4">
+        <span class="eyebrow-line"></span>
+        Why Al Marsa
+      </p>
+      <!-- Heading -->
+      <h2
+        id="why-title"
+        class="text-marsa-ink dark:text-marsa-dark-ink leading-[0.95] mb-5"
+      >
+        {{ text(whyData.heading) }}
+      </h2>
+      <!-- Lead -->
+      <p class="text-base md:text-lg text-marsa-ink/70 dark:text-marsa-dark-ink/65 leading-relaxed max-w-lg">
+        {{ text(whyData.lead) }}
+      </p>
+    </div>
+
+    <!-- Arrow controls (desktop) -->
+    <div class="hidden md:flex items-center gap-3 shrink-0 pb-1 reveal-right delay-200">
+      <button
+        id="why-slider-prev"
+        (click)="prev()"
+        [disabled]="!canPrev"
+        [attr.aria-label]="isRtl ? 'التالي' : 'Previous'"
+        class="why-nav-btn"
+        [class.opacity-30]="!canPrev"
+        [class.cursor-not-allowed]="!canPrev"
+      >
+        <!-- Left arrow (flipped to right in RTL via dir) -->
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </button>
+
+      <!-- Progress dots -->
+      <div class="flex items-center gap-1.5" role="tablist" [attr.aria-label]="isRtl ? 'البطاقات' : 'Slider cards'">
+        <button
+          *ngFor="let card of whyData.cards; let i = index"
+          role="tab"
+          [attr.aria-selected]="i === activeIndex"
+          [attr.aria-label]="(isRtl ? 'بطاقة' : 'Card') + ' ' + (i + 1)"
+          (click)="goToCard(i)"
+          class="why-dot transition-all duration-300"
+          [class.why-dot-active]="i === activeIndex"
+        ></button>
+      </div>
+
+      <button
+        id="why-slider-next"
+        (click)="next()"
+        [disabled]="!canNext"
+        [attr.aria-label]="isRtl ? 'السابق' : 'Next'"
+        class="why-nav-btn"
+        [class.opacity-30]="!canNext"
+        [class.cursor-not-allowed]="!canNext"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M9 18l6-6-6-6"/>
+        </svg>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- ── Horizontal Slider Track ────────────────────────────────────────── -->
+  <!--
+    The track uses:
+    - overflow-x: scroll with scrollbar hidden
+    - scroll-snap-type: x mandatory for snapping
+    - CSS gap for card spacing
+    - Padding left so first card aligns with page content edge;
+      padding right so last card doesn't hard-cut the viewport.
+  -->
+  <div
+    #track
+    class="why-track"
+    role="region"
+    aria-label="Why Al Marsa cards"
+    [attr.dir]="isRtl ? 'rtl' : 'ltr'"
+  >
+    <article
+      *ngFor="let card of whyData.cards; let i = index"
+      class="why-slide-card"
+      [attr.aria-label]="text(card.title)"
+      [class.why-slide-card--active]="i === activeIndex"
+    >
+
+      <!-- Image wrapper — fixed portrait aspect ratio 3:4 -->
+      <div class="why-card-img-wrap">
+        <img
+          [src]="card.image || ''"
+          [alt]="text(card.title)"
+          loading="lazy"
+          decoding="async"
+          class="why-card-img"
+          draggable="false"
+        />
+        <!-- Subtle gradient overlay at bottom for legibility -->
+        <div class="why-card-img-overlay" aria-hidden="true"></div>
+      </div>
+
+      <!-- Card content below image -->
+      <div class="why-card-body">
+        <!-- Eyebrow -->
+        <p class="why-card-eyebrow" *ngIf="card.eyebrow">
+          {{ text(card.eyebrow) }}
+        </p>
+        <!-- Title -->
+        <h3 class="why-card-title">
+          {{ text(card.title) }}
+        </h3>
+        <!-- Description -->
+        <p class="why-card-desc">
+          {{ text(card.description) }}
+        </p>
+      </div>
+
+    </article>
+  </div>
+
+  <!-- ── Mobile arrow controls + dots ──────────────────────────────────── -->
+  <div class="flex md:hidden items-center justify-between px-6 pt-6 pb-10 reveal-up delay-200">
+    <div class="flex items-center gap-2">
+      <button
+        (click)="prev()"
+        [disabled]="!canPrev"
+        [attr.aria-label]="isRtl ? 'التالي' : 'Previous'"
+        class="why-nav-btn-sm"
+        [class.opacity-30]="!canPrev"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </button>
+      <button
+        (click)="next()"
+        [disabled]="!canNext"
+        [attr.aria-label]="isRtl ? 'السابق' : 'Next'"
+        class="why-nav-btn-sm"
+        [class.opacity-30]="!canNext"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M9 18l6-6-6-6"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile dots -->
+    <div class="flex items-center gap-2">
+      <button
+        *ngFor="let card of whyData.cards; let i = index"
+        (click)="goToCard(i)"
+        [attr.aria-label]="(isRtl ? 'بطاقة' : 'Card') + ' ' + (i + 1)"
+        class="why-dot transition-all duration-300"
+        [class.why-dot-active]="i === activeIndex"
+      ></button>
+    </div>
+  </div>
+
+</section>

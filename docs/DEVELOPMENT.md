@@ -1,224 +1,136 @@
-# Development Guide
+# Development Guide — Al Marsa
 
-## Development Workflow
+Guidelines and conventions for developing features in the Al Marsa lookbook application.
 
-### 1. Starting Development
+---
+
+## 1. Quick Development Workflow
+
+### Starting the Local Server
 ```bash
 cd marsa
 npm run dev
 ```
-The dev server starts in watch mode, automatically recompiling on file changes.
+The server starts at `http://localhost:4200` with hot module reloading.
 
-### 2. Creating Components
-
-#### Standalone Component
-```typescript
-import { Component, input, ChangeDetectionStrategy } from '@angular/core';
-
-@Component({
-  selector: 'marsa-card',
-  standalone: true,
-  imports: [],
-  templateUrl: './card.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class CardComponent {
-  title = input.required<string>();
-}
-```
-
-### 3. Creating Services (signals-based)
-
-State in MARSA is managed with Angular signals — no RxJS subjects needed:
-
-```typescript
-import { Injectable, signal, computed } from '@angular/core';
-
-@Injectable({ providedIn: 'root' })
-export class DataService {
-  private readonly items = signal<Item[]>([]);
-
-  /** Derived state recomputes automatically. */
-  readonly count = computed(() => this.items().length);
-
-  addItem(item: Item): void {
-    this.items.update((current) => [...current, item]);
-  }
-}
-```
-
-See `src/app/services/site-preferences.service.ts` for the real implementation
-(locale + theme preferences backed by `localStorage`).
-
-### 4. Using Services in Components
-
-```typescript
-import { Component, inject } from '@angular/core';
-
-@Component({
-  selector: 'marsa-page',
-  standalone: true,
-  template: `<div>{{ preferences.locale() }}</div>`,
-})
-export class PageComponent {
-  readonly preferences = inject(SitePreferencesService);
-}
-```
-
-## Code Style Guidelines
-
-### TypeScript
-- Use strict type annotations (no implicit `any`)
-- Prefer interfaces for object shapes
-- Use constants for magic strings/numbers
-- Document complex logic with comments
-
-### Components
-- Keep components focused and single-responsibility
-- Use `ChangeDetectionStrategy.OnPush`
-- Leverage `OnDestroy` for cleanup (observers, intervals, subscriptions)
-- Subscriptions must be stored and unsubscribed (`RequestSubmissionService` flows)
-
-### Naming Conventions
-- **Components**: PascalCase + `Component` suffix (e.g., `HeroComponent`)
-- **Services**: PascalCase + `Service` suffix (e.g., `RequestSubmissionService`)
-- **Files**: names matching the class (e.g., `hero.component.ts`, `header.ts`)
-- **Interfaces**: PascalCase (e.g., `MarsaRequest`, `LocalizedText`)
-
-## File Organization
-
-```
-src/
-├── app/
-│   ├── components/
-│   │   ├── layout/           # header, footer
-│   │   └── sections/         # hero, intro, products, services, destinations,
-│   │                         # about, testimonials, cta
-│   ├── pages/                # home.component.ts (+ templates)
-│   ├── services/             # site-preferences, request-submission
-│   ├── data/                 # content.ts — all bilingual copy
-│   ├── testing/              # shared test helpers
-│   ├── app.component.ts      # Root component
-│   └── app.routes.ts         # Route configuration (section anchors)
-├── environments/             # environment.ts (requestEndpoint)
-└── styles.css                # Global styles
-```
-
-## Working with Routes
-
-Routes point at the single `HomeComponent` and scroll to section anchors
-(`#why`, `#how`, `#about`, `#download`); legacy provisioning-era paths map to
-the closest new section:
-
-```typescript
-export const routes: Routes = [
-  { path: '', loadComponent: () => import('./pages/home.component').then(m => m.HomeComponent), pathMatch: 'full' },
-  { path: 'services', loadComponent: ..., data: { anchor: 'how' } },
-  { path: '**', redirectTo: '' },
-];
-```
-
-Navigation must use `routerLink` with `fragment` (never raw `href="#..."`):
-```html
-<a routerLink="/" fragment="how">How it works</a>
-```
-
-## Styling
-
-### Global Styles
-Modify `src/styles.css` for global styles (Tailwind layers + custom utilities).
-
-### Tailwind CSS
-Use Tailwind classes in templates; the theme tokens live in `tailwind.config.js`
-under `theme.extend.colors.marsa`:
-```html
-<div class="flex items-center justify-between p-4">
-  <h1 class="text-2xl font-bold">Title</h1>
-</div>
-```
-
-## Bilingual Support
-
-All user-visible copy lives in `src/app/data/content.ts` as `LocalizedText`
-(`{ en, ar }`). Never inline user-facing strings in templates:
-
-```typescript
-constructor(public preferences: SitePreferencesService) {}
-
-text() {
-  return this.preferences.text({
-    en: 'Hello',
-    ar: 'مرحباً',
-  });
-}
-```
-
-RTL is applied via `dir="rtl"` on the page container. Keep styles
-direction-safe (avoid physical `left/right` where logical properties work).
-
-## Debugging
-
-### Browser DevTools
-- Use Angular DevTools browser extension
-- Inspect component tree and change detection
-- Monitor HTTP requests
-
-### Type Checking
+### Running Quality Checks
+Always verify before committing:
 ```bash
-npm run typecheck
-```
-
-### Tests
-```bash
-npm run test
-```
-
-Specs live next to their sources (`*.spec.ts`) and run with the
-`@angular/build:unit-test` builder (Vitest in jsdom — no browser needed).
-
-## Common Patterns
-
-### Async Operations
-```typescript
-this.submission
-  .submit(request)
-  .subscribe({
-    next: () => { /* confirmed delivery */ },
-    error: (error: unknown) => { /* honest failure state, never fake success */ },
-  });
-```
-
-### Subscription Cleanup
-```typescript
-private sendSubscription?: Subscription;
-
-submit(): void {
-  this.sendSubscription?.unsubscribe();
-  this.sendSubscription = service.submit(payload).subscribe({ ... });
-}
-
-ngOnDestroy(): void {
-  this.sendSubscription?.unsubscribe();
-}
-```
-
-## Commit Messages
-
-Follow conventional commit format:
-```
-type(scope): subject
-
-body
-
-footer
-```
-Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
-
-Example:
-```
-fix(forms): handle request submission correctly
+npm run typecheck    # Validate TypeScript types & template bindings
+npm run test         # Execute Vitest component specs
+npm run build        # Validate production bundle and budget
 ```
 
 ---
 
-For architecture details, see [ARCHITECTURE.md](./ARCHITECTURE.md)
+## 2. Component Development Conventions
+
+All components in Al Marsa are **standalone** and use **`ChangeDetectionStrategy.OnPush`**.
+
+### 2.1 Standard Component Blueprint
+```typescript
+import { Component, ChangeDetectionStrategy, inject, input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { SitePreferencesService } from '../../services/site-preferences.service';
+
+@Component({
+  selector: 'app-custom-section',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './custom-section.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class CustomSectionComponent {
+  readonly prefs = inject(SitePreferencesService);
+  
+  // Strongly-typed inputs using modern input signal syntax
+  readonly sectionTitle = input<string>();
+}
+```
+
+### 2.2 Section Structure Guidelines
+Every landing section must include:
+- A descriptive unique `id` (e.g. `id="why"`, `id="how"`) for anchor scrolling.
+- Accessible heading hierarchy (`h2` for section header, `h3` for cards/steps).
+- RTL-safe styling using Tailwind's directional utilities (`ms-*`, `me-*`, `text-start`, `text-end`).
+- Proper `aria-labelledby` or descriptive aria attributes.
+
+---
+
+## 3. Bilingual Copy Pattern (`LocalizedText`)
+
+All user-visible text is maintained in the `src/app/data/` directory using strongly-typed `LocalizedText` objects. **Never inline user-facing text directly in HTML templates.**
+
+```typescript
+// Define copy in src/app/data/*.data.ts:
+export const sectionData: SectionCopy = {
+  title: {
+    en: 'Why Al Marsa',
+    ar: 'ليش المرسى',
+  },
+  subtitle: {
+    en: 'Verified yachts, licensed captains, clear pricing.',
+    ar: 'يخوت معتمدة، قباطنة مرخصون، وأسعار واضحة.',
+  },
+};
+```
+
+```html
+<!-- Render in template using the active locale -->
+<h2>
+  {{ isRtl ? data.title.ar : data.title.en }}
+</h2>
+```
+
+---
+
+## 4. Slider & Interactive Component Patterns
+
+When building interactive UI elements like the Hill Robinson-inspired horizontal slider in `WhyComponent`:
+
+1. **Hardware-Accelerated CSS**: Prefer CSS scroll-snap (`scroll-snap-type: x mandatory`) over JavaScript animation loops.
+2. **RTL Direction Inversion**: Invert mouse/touch delta calculations when `isRtl` is true so dragging matches physical expectations.
+3. **Reduced Motion Compliance**: Check `window.matchMedia('(prefers-reduced-motion: reduce)')` to disable smooth scrolling for accessibility.
+4. **Observer Cleanup**: Always disconnect `ResizeObserver`, `IntersectionObserver`, and window event listeners in `ngOnDestroy()`.
+
+---
+
+## 5. Coding Standards
+
+### TypeScript
+- Strict type-checking is enforced (`noImplicitAny`, `strictNullChecks`).
+- Avoid type assertions (`as unknown as ...`) or non-null assertions (`!`).
+- Use dedicated interfaces in `src/app/models/` for all structured domain models.
+
+### CSS & Tailwind
+- Use custom Marsa design tokens: `text-marsa-sand`, `bg-marsa-navy`, `border-marsa-sea`.
+- Ensure dark and light mode compatibility with `dark:` variants.
+- Never use physical `left` / `right` utilities if logical `start` / `end` utilities apply.
+
+---
+
+## 6. Git & Conventional Commits
+
+Commit messages follow the [Conventional Commits](https://www.conventionalcommits.org/) specification:
+
+```text
+<type>(<scope>): <subject>
+
+[optional body]
+
+[optional footer]
+```
+
+### Common Types:
+- `feat`: A new user-facing feature or section enhancement
+- `fix`: A bug fix or visual defect correction
+- `docs`: Documentation updates or clarification
+- `style`: Formatting, whitespace, or non-functional styling cleanup
+- `refactor`: Code reorganization without functional changes
+- `test`: Adding or updating test cases
+- `chore`: Tooling, build config, or dependency updates
+
+### Example:
+```bash
+git commit -m "feat(why): add touch velocity drag to horizontal image slider"
+```

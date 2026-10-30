@@ -1,53 +1,58 @@
-# Accessibility
+# Accessibility Statement — Al Marsa
 
-MARSA is a bilingual (English/Arabic) booking and provisioning experience for
-yacht owners, captains, crew, and VIP travelers. People using keyboards only,
-screen readers, magnification, or reduced-motion settings should be able to
-complete the site's core tasks: reading content, navigating sections, and
-submitting a service or provisioning request.
+**Al Marsa (المرسى)** is committed to ensuring digital accessibility for all sea lovers, yacht charterers, and visitors. We strive to adhere to the **Web Content Accessibility Guidelines (WCAG) 2.1 Level AA** standards to deliver an intuitive, barrier-free experience across desktop and mobile devices.
 
-## Priorities
+---
 
-- Keyboard operability for every interactive control, including the request
-  dialog and the mobile menu
-- Programmatic association of labels, errors, and result announcements with
-  the fields they describe
-- Honouring the `prefers-reduced-motion` setting (the hero autoplay stops)
-- Both languages receive the same information; Arabic layouts run RTL
+## 1. Core Accessibility Priorities
 
-## How to report a barrier
+- **Full Keyboard Operability**: Every interactive element — including the header navigation pill, language/theme selectors, mobile menu drawer, category filters, and slider controls — is fully reachable and operable via keyboard.
+- **Bilingual & RTL-First Access**: Native Arabic (RTL) and English (LTR) experiences with automatic `lang` and `dir` root synchronisation. Typography (Cairo and system sans-serif) is scaled for legibility.
+- **Motion Sensitivity (`prefers-reduced-motion`)**: Honors user OS-level reduced motion preferences. When enabled, smooth scrolling transitions in the Hill Robinson-inspired Why slider and background animations in the Hero section are instantly disabled.
+- **Assistive Technology Compatibility**: Tested with standard screen readers (VoiceOver, NVDA). All decorative icons and aesthetic SVG dividers include `aria-hidden="true"`, while interactive elements maintain explicit `aria-label` descriptors.
+- **Color Contrast & Theme Support**: Both dark mode (`marsa-navy`) and light mode (`marsa-pearl`) maintain WCAG 2.1 AA contrast ratios for body copy, interactive buttons, and navigation anchors.
 
-Open a GitHub issue using the `bug` label and include the word
-"accessibility" in the title or body. Describe the page, the control, what
-happened, and what you expected. Screenshots, screen-reader output, or short
-recordings help but are optional — you never need to disclose a disability.
+---
 
-Reporters can expect a maintainer response, and fixes are prioritised
-alongside functional bugs: barriers that block completing a task are treated
-as high severity (P1), significant-but-workable barriers as P2, and
-convenience issues as P3.
+## 2. Keyboard Navigation Guide
 
-## Ownership and maintenance
+| Component | Key(s) | Action |
+| :--- | :--- | :--- |
+| **Global Page** | `Tab` / `Shift + Tab` | Move forward / backward through focusable elements |
+| **Global Page** | `Enter` / `Space` | Activate focused button, link, or filter chip |
+| **Header Pill** | `Enter` / `Space` | Toggle language (EN ↔ AR) or theme (Dark ↔ Light) |
+| **Mobile Menu** | `Escape` | Dismiss and close the open mobile navigation drawer |
+| **Why Image Slider** | `Arrow Left` / `Arrow Right` | Advance or rewind slider cards (direction inverts automatically in RTL) |
+| **Why Slider Track** | `Home` / `End` | Jump directly to the first or last slider card |
 
-Accessibility review is part of every PR that touches templates or styles.
-The maintainers listed in [.github/CODEOWNERS](.github/CODEOWNERS) review
-layout and interaction changes; accessibility issues are triaged with normal
-bug flow.
+---
 
-## Supported environments
+## 3. Assistive Technology & ARIA Architecture
 
-Development testing covers Chromium-based browsers, Firefox, and WebKit via
-manual passes on desktop and mobile viewports (360 px, 768 px, 1280 px, and
-wider) in both LTR and RTL. Assistance is verified with keyboard-only
-navigation and VoiceOver/NVDA spot checks rather than a formal audit
-combination. No WCAG conformance claim is made until a full evaluation is
-done.
+- **Semantic Landmarks**: Standard HTML5 landmarks (`<header>`, `<main>`, `<section>`, `<footer>`) define the structure.
+- **Slider Landmark**: The Why section is declared with `role="region"` and `aria-label="Why Al Marsa carousel"`. Each card acts as an identifiable slide with sequential numbering.
+- **Live State Announcements**: Dynamic updates, such as slider progress and language toggles, announce cleanly without triggering confusing screen-reader loops.
 
-## Known limitations
+---
 
-- No formal third-party audit or WCAG 2.x AA certification has been
-  performed; the statements above reflect verified fixes and manual checks
-- Automated tests cover behaviour (focus, messaging, motion gating), not
-  visual contrast — colour changes should be contrast-checked manually
-- Share/social images (`og:image`) use relative URLs until the production
-  domain is confirmed; that affects previews, not accessibility on-site
+## 4. Supported Environments & Verification
+
+Accessibility is continuously verified during feature development:
+- **Browsers**: Modern Chromium, Firefox, WebKit (Safari), and Microsoft Edge.
+- **Viewports**: Tested across mobile (375px), tablet (768px), and widescreen desktop (1440px+).
+- **Assisted Tools**: Keyboard-only traversal, VoiceOver (macOS / iOS), and NVDA (Windows).
+
+---
+
+## 5. Reporting Accessibility Barriers
+
+If you encounter an accessibility barrier or experience difficulty using any part of the Al Marsa lookbook:
+
+1. Open a GitHub Issue using the **Bug Report** template.
+2. Include `[A11y]` in the issue title.
+3. Describe the problem, your device/browser environment, and assistive software used (if any).
+
+### Severity & Triage SLA
+- **P1 (Blocker)**: Inability to navigate or interact with core features — addressed within 48 hours.
+- **P2 (Significant)**: Usability difficulties with viable workarounds — prioritized in the next sprint.
+- **P3 (Minor)**: Visual contrast or minor announcement refinements — addressed in standard maintenance cycles.

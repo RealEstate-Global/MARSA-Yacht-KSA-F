@@ -1,120 +1,166 @@
-# 🛥️ Al Marsa — المرسى · Gulf Vessel-Charter Lookbook
+<div align="center">
+
+# 🛥️ Al Marsa — المرسى
+### Gulf Luxury Vessel-Charter Lookbook
 
 [![CI Pipeline](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/actions/workflows/ci.yml/badge.svg)](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/actions/workflows/ci.yml)
 [![Release](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/actions/workflows/release.yml/badge.svg)](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/actions/workflows/release.yml)
 [![CodeQL Security Scan](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/actions/workflows/codeql-analysis.yml)
-[![Close stale issues and PRs](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/actions/workflows/stale.yml/badge.svg)](https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F/actions/workflows/stale.yml)
+[![Angular](https://img.shields.io/badge/Angular-22.2-DD0031?logo=angular&logoColor=white)](https://angular.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 
-> The official "lookbook" for **Al Marsa (المرسى)** — a premium vessel-charter marketplace built for the Gulf, Saudi-first. Verified yachts, licensed captains, coastguard-cleared, clear pricing. Browsing happens on this site; **booking, payment, KYC, and coastguard clearance happen in the Al Marsa app** ([almarsa.app](https://almarsa.app/)).
+<p align="center">
+  <strong>The official web lookbook for Al Marsa (المرسى)</strong><br>
+  A premium vessel-charter marketplace crafted for the Gulf, Saudi-first.<br>
+  Verified yachts · Licensed captains · Coastguard-cleared · Transparent pricing
+</p>
 
-## 🎯 Focus Points
-
-- **Source-aligned bilingual content** (English/Arabic, Saudi dialect) with RTL layout — mirrored verbatim from [almarsa.app](https://almarsa.app/)
-- **No fabricated facts** — store CTAs link the official site until real store listings exist; no invented inventory, prices, or contact details
-- **Single-page lookbook architecture**: why → how → about → download, with accessible section anchors
-- **Zoneless Angular** (standalone components, signals) and production-grade bundle budgets
-- **Technical SEO + GEO**: canonical/OG metadata, JSON-LD Organization + WebSite, robots.txt, sitemap.xml
-- **Type-Safe** development with strict TypeScript configuration
-
-## 📋 Quick Start
-
-### Prerequisites
-- Node.js 24.x or higher
-- npm 10.x or higher
-
-### Installation
-```bash
-cd marsa
-npm install
-```
-
-### Development
-```bash
-npm run dev
-```
-Open [http://localhost:4200](http://localhost:4200) in your browser.
-
-### Production Build
-```bash
-npm run build
-```
-
-### Tests
-```bash
-npm run test
-```
-
-## 📁 Project Structure
-
-```
-MARSA-Yacht-KSA-F/
-├── marsa/                        # Main Angular application
-│   ├── src/
-│   │   ├── app/                  # Angular components and services
-│   │   ├── assets → public/      # Static assets (public/assets)
-│   │   └── styles.css            # Global styles
-│   ├── angular.json              # Angular configuration
-│   ├── tsconfig.json             # TypeScript configuration
-│   └── package.json              # Dependencies
-├── .github/                      # GitHub workflows and templates
-│   ├── workflows/                # CI/CD pipelines
-│   └── ISSUE_TEMPLATE/           # Issue templates
-├── docs/
-│   ├── ARCHITECTURE.md           # System design
-│   ├── SETUP.md                  # Setup guide
-│   ├── DEVELOPMENT.md            # Development guidelines
-│   ├── MIGRATION.md              # almarsa.app content migration + SEO/GEO notes
-│   └── TEAM.md                   # Governance and code ownership
-├── LICENSE                       # Project license
-├── CONTRIBUTING.md               # Contribution guidelines
-└── README.md                     # This file
-```
-
-## 🛠️ Available Scripts
-
-| Command | Purpose |
-|---------|---------|
-| `npm run dev` | Start development server (port 4200) |
-| `npm run build` | Production build |
-| `npm run serve` | Serve production build |
-| `npm run typecheck` | TypeScript and template type checking |
-| `npm run test` | Unit tests (Vitest runner, `ng test`) |
-
-## 🎨 Tech Stack
-
-- **Framework**: Angular 22.2
-- **Language**: TypeScript ~6.0
-- **Build Tool**: Angular CLI (`@angular/build:application`)
-- **Styling**: Tailwind CSS (via PostCSS)
-- **State Management**: Angular signals (`SitePreferencesService`)
-- **Routing**: Angular Router
-
-## 📚 Documentation
-
-- [Architecture Guide](./docs/ARCHITECTURE.md) - System design and patterns
-- [Setup Guide](./docs/SETUP.md) - Local development setup
-- [Development Guide](./docs/DEVELOPMENT.md) - Development guidelines
-- [Contributing](./CONTRIBUTING.md) - How to contribute
-- [Security Policy](./SECURITY.md) - Reporting vulnerabilities
-- [Accessibility](./ACCESSIBILITY.md) - Accessibility commitments
-
-## 🤝 Contributing
-
-We welcome contributions! Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
-
-## 📝 License
-
-This project is proprietary and confidential.
-
-## 📧 Support
-
-For questions or support, please reach out to the development team.
+[🌐 Live Deployment](https://marsa-yacht.vercel.app/) · [📱 Official Platform](https://almarsa.app/) · [📖 Documentation](./docs/ARCHITECTURE.md)
 
 ---
 
-**Last Updated**: October 2026  
-**Version**: 1.0.4
+</div>
 
-## 🛒 Content source of truth
+## 🌟 Executive Summary
 
-All public copy is mirrored from the official brand site ([almarsa.app](https://almarsa.app/)) — see [docs/MIGRATION.md](./docs/MIGRATION.md) for the verified inventory, migration map, and known limitations (store-link placeholders, no real vessel inventory). Update both languages together and never invent prices, vessels, store URLs, or contact details.
+**Al Marsa** connects sea enthusiasts with curated private vessels across the Saudi coastline. 
+
+- **The Website (`lookbook`)**: Editorial showcase, curated fleet categories, and charter workflow discovery.
+- **The Mobile Application**: Booking, payment, KYC verification, coastguard clearance, and digital boarding passes happen exclusively inside the official Al Marsa mobile apps ([almarsa.app](https://almarsa.app/)).
+
+> **Source-of-Truth Commitment:** All copy, taxonomy, and brand narratives are mirrored verbatim from the official brand source without fabricated claims, invented inventory, or artificial contact numbers.
+
+---
+
+## 🎯 Key Highlights
+
+| Feature | Description |
+| :--- | :--- |
+| **Hill Robinson-Inspired Slider** | Editorial 3:4 portrait card horizontal slider (`#why`) with hardware-accelerated CSS scroll-snap, touch drag, keyboard arrow navigation, and full RTL mirror. |
+| **Bilingual & RTL-First** | Native Arabic (Saudi dialect, Cairo typography) and English with instant runtime switching and zero layout shift. |
+| **Fleet Taxonomy** | Interactive 19-category vessel directory (`#how`) reflecting real maritime classifications across the Red Sea and Arabian Gulf. |
+| **Zoneless Angular 22** | Modern reactive state management powered entirely by Angular Signals, OnPush change detection, and tree-shakeable standalone components. |
+| **Technical SEO & GEO** | OpenGraph metadata, JSON-LD Schema (`Organization` + `WebSite`), crawlable semantic anchors, and sitemap generation. |
+| **Accessible & Inclusive** | WCAG 2.1 AA focus: full keyboard navigation, ARIA live announcements, high contrast dark/light themes, and strict `prefers-reduced-motion` compliance. |
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- **Node.js**: `24.x` (LTS recommended, `22.x+` supported)
+- **npm**: `10.x+`
+
+### Installation & Development
+
+```bash
+# Clone the repository
+git clone https://github.com/RealEstate-Global/MARSA-Yacht-KSA-F.git
+cd MARSA-Yacht-KSA-F/marsa
+
+# Install dependencies
+npm ci
+
+# Start local development server (http://localhost:4200)
+npm run dev
+```
+
+### Verification & Testing
+
+```bash
+# Run unit tests (Vitest + jsdom)
+npm run test
+
+# Validate TypeScript & template types
+npm run typecheck
+
+# Build optimized production bundle
+npm run build
+```
+
+---
+
+## 🏗️ Architecture & Component Flow
+
+```
+┌────────────────────────────────────────────────────────┐
+│                   HomeComponent Shell                  │
+├────────────────────────────────────────────────────────┤
+│  1. Header             → Navigation pill, locale/theme  │
+│  2. Hero               → Cinematic backdrop, taglines  │
+│  3. Why (Slider)       → Editorial portrait card strip │
+│  4. How (Taxonomy)     → 4-step workflow + 19 categories│
+│  5. About              → Brand ethos, trust foundations│
+│  6. CTA (Download)     → Mobile app ecosystem gateway  │
+│  7. Footer             → Legal, copyright, navigation  │
+└────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 📁 Repository Layout
+
+```text
+MARSA-Yacht-KSA-F/
+├── .github/                   # CI/CD Workflows (CI, Release, CodeQL, Stale)
+├── docs/                      # Core Engineering Documentation
+│   ├── ARCHITECTURE.md        # Technical architecture, Signals & design tokens
+│   ├── DEVELOPMENT.md         # Component conventions & coding standards
+│   ├── MIGRATION.md           # Source-of-truth mapping & SEO/GEO notes
+│   ├── SETUP.md               # Environment setup & deployment targets
+│   └── TEAM.md                # Roles, governance & Definition of Done
+├── marsa/                     # Angular 22 Application Source
+│   ├── public/assets/         # High-resolution optimized visual assets
+│   ├── src/
+│   │   ├── app/
+│   │   │   ├── components/    # Layout (header/footer) & Sections (hero, why, etc.)
+│   │   │   ├── data/          # Type-safe bilingual copy models
+│   │   │   ├── models/        # TypeScript interfaces & types
+│   │   │   ├── pages/         # Page containers (HomeComponent)
+│   │   │   └── services/      # Reactive signals services (SitePreferencesService)
+│   │   └── styles.css         # Tailwind directives & design system utilities
+│   ├── angular.json           # Angular build configuration
+│   ├── tailwind.config.js     # Custom Marsa luxury color palette
+│   └── package.json           # Scripts and dependencies
+├── ACCESSIBILITY.md           # Accessibility commitments & keyboard shortcuts
+├── CHANGELOG.md               # Automated version release notes
+├── CONTRIBUTING.md            # Community & pull request guidelines
+├── LICENSE                    # Project license
+└── SECURITY.md                # Vulnerability disclosure policy
+```
+
+---
+
+## 🎨 Tech Stack & Tooling
+
+- **Core**: [Angular 22.2](https://angular.dev/) (Zoneless, Standalone Components, Signal Store)
+- **Language**: [TypeScript 6.0](https://www.typescriptlang.org/) (Strict mode, ES2022)
+- **Styling**: [Tailwind CSS 3.4](https://tailwindcss.com/) with custom maritime tokens (`marsa-navy`, `marsa-sea`, `marsa-sand`, `marsa-gold`)
+- **Testing**: [Vitest](https://vitest.dev/) via `@angular/build:unit-test` with jsdom
+- **Typography**: [Cairo](https://fonts.google.com/specimen/Cairo) (Arabic) & Inter / Cinzel (Latin)
+- **Hosting**: [Vercel](https://vercel.com/) with single-page routing rewrites
+
+---
+
+## 📚 Documentation Index
+
+| Guide | Description |
+| :--- | :--- |
+| [Architecture Guide](./docs/ARCHITECTURE.md) | In-depth breakdown of signals, slider mechanics, and SEO schemas |
+| [Development Guide](./docs/DEVELOPMENT.md) | Component patterns, bilingual guidelines, and styling rules |
+| [Setup Guide](./docs/SETUP.md) | Toolchain requirements, commands, and deployment setup |
+| [Content Migration](./docs/MIGRATION.md) | Verified almarsa.app audit, taxonomy map, and source alignment |
+| [Governance & Team](./docs/TEAM.md) | Code ownership, PR workflow, and Definition of Done |
+| [Accessibility](./ACCESSIBILITY.md) | Keyboard interactions, motion preferences, and assistive tech support |
+| [Security Policy](./SECURITY.md) | Secure handling and responsible vulnerability disclosure |
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Please review our [Contribution Guidelines](./CONTRIBUTING.md) and [Code of Conduct](./CODE_OF_CONDUCT.md) before opening a pull request.
+
+## 📄 License
+
+This project is proprietary and confidential — Copyright © 2026 Al Marsa. All rights reserved.

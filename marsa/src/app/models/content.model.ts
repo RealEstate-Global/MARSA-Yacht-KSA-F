@@ -2,6 +2,10 @@ import { LocalizedText } from './locale.model';
 export { LocalizedText } from './locale.model';
 
 export interface ValueItem {
+  /** Optional full-bleed image for the image-led slider layout. */
+  image?: string;
+  /** Optional localized eyebrow label (e.g. '01 — Fleet'). */
+  eyebrow?: LocalizedText;
   title: LocalizedText;
   description: LocalizedText;
 }

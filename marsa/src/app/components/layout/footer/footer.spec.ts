@@ -31,5 +31,10 @@ describe('Footer', () => {
     expect(linksData.social.whatsapp).toBe('https://wa.me/966596068889');
     expect(linksData.social.instagram).toBe('https://almarsa.app/');
   });
+
+  it('computes current year dynamically via function', () => {
+    expect(component.getCurrentYear()).toBe(new Date().getFullYear());
+    expect(component.currentYear).toBe(new Date().getFullYear());
+  });
 });
 

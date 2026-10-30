@@ -1,73 +1,58 @@
 # MARSA — Team, Ownership & Engineering Workflow
 
-This document is the working agreement for contributors to the MARSA Yacht KSA repository. The application lives in `marsa/` and is an Angular/TypeScript project.
+This document defines the governance agreement and engineering standards for contributors to the MARSA Yacht KSA repository.
 
-## Team responsibilities
+---
 
-| Area | Primary owner | Supporting owner(s) | Scope |
-|---|---|---|---|
-| Product direction & architecture | @samir-akram | @Mostafa-SAID7 | Requirements, architecture decisions, cross-team coordination |
-| Full-stack technical lead | @Mostafa-SAID7 | @samir-akram | Technical direction, reviews, integration and release readiness |
-| Frontend & UI implementation | @eng-shimo | @Mostafa-SAID7 | Angular components, routes, responsive behavior, accessibility, RTL/LTR |
-| Backend / integrations | @mohamed-monged | @Mostafa-SAID7 | API/integration design and implementation when relevant to the current architecture |
-| QA & test strategy | @eng-loola | @Mostafa-SAID7 | Test plans, regression checks, reproducible defect reports |
-| DevOps & CI/CD | @dev-elbasha | @Mostafa-SAID7 | GitHub Actions, build/release workflow, deployment and operational configuration |
-| UI/UX & media | @ashraqat-salim | @eng-shimo | Design handoff, approved visual assets, interaction and layout feedback |
-| Content & SEO | @cw-hakam | @samir-akram | Content quality, metadata, discoverability and editorial consistency |
-| Repository/business owner | @companyrealestate | @Mostafa-SAID7 | Business approvals, repository administration and access decisions |
+## 1. Team Responsibilities
 
-## Repository access — observed at setup time
+| Area | Primary Owner | Supporting Owner(s) | Scope |
+| :--- | :--- | :--- | :--- |
+| **Product Direction & Architecture** | @samir-akram | @Mostafa-SAID7 | Architectural decisions, requirements roadmap, cross-functional alignment |
+| **Full-Stack Technical Lead** | @Mostafa-SAID7 | @samir-akram | Technical quality, PR approvals, release readiness |
+| **Frontend & UI Implementation** | @eng-shimo | @Mostafa-SAID7 | Angular components, slider interactions, responsive layouts, RTL/LTR design |
+| **Backend & Integrations** | @mohamed-monged | @Mostafa-SAID7 | API design, service integration, external redirects |
+| **QA & Test Strategy** | @eng-loola | @Mostafa-SAID7 | Test plans, Vitest component specs, cross-browser regression checks |
+| **DevOps & CI/CD** | @dev-elbasha | @Mostafa-SAID7 | GitHub Actions, Vercel deployments, CodeQL & Dependabot config |
+| **UI/UX & Media Design** | @ashraqat-salim | @eng-shimo | Visual assets, editorial photography curation, typography & micro-interactions |
+| **Content & Technical SEO** | @cw-hakam | @samir-akram | Verbatim brand copy, Saudi Arabic localization, schema markup, GEO |
+| **Repository Owner** | @companyrealestate | @Mostafa-SAID7 | Executive approvals, repository permissions, brand governance |
 
-The following access was returned by GitHub when this governance change was prepared:
+---
 
-| GitHub login | Observed repository permission | Guidance |
-|---|---|---|
-| @companyrealestate | Admin | Keep as repository/business owner |
-| @Mostafa-SAID7 | Admin | Consider reducing to Maintain if repository administration is not part of the role |
-| @samir-akram | Write | Appropriate for architecture and code review |
-| @dev-elbasha | Write | Appropriate for CI/CD contributions; keep production secrets separately scoped |
-| @eng-shimo | Write | Appropriate for frontend contributions |
-| @eng-loola | Write | Appropriate for QA and test contributions |
-| @cw-hakam | Write | Appropriate where content/SEO changes are committed |
-| @ashraqat-salim | Read | Upgrade to Triage or Write only if the role needs issue triage or direct asset commits |
-| @mohamed-monged | Read | Upgrade to Write before assigning direct implementation work or CODEOWNERS review duties |
+## 2. Branch & Pull Request Workflow
 
-These are observations, not permission changes. This documentation does not grant, revoke, or upgrade access. Re-check access before relying on this table.
+1. **Feature Branches**: Branch from `main` using descriptive naming:
+   - `feat/why-slider-enhancements`
+   - `fix/locale-switch-layout`
+   - `docs/modernize-readme`
+   - `chore/update-dependencies`
+2. **Atomic Commits**: Keep commits concise and adhere to Conventional Commits.
+3. **Pull Request Protocol**:
+   - Link related issue tickets (`Closes #...`).
+   - Include visual screenshots or screen recordings for any UI/UX change.
+   - Request review from designated code owners in [.github/CODEOWNERS](../.github/CODEOWNERS).
+   - Require passing CI workflows (build, typecheck, tests, CodeQL).
+4. **Merge Strategy**: Use **Squash and Merge** to maintain a clean linear commit history on `main`.
 
-## Branch and pull-request workflow
+---
 
-1. Create a focused branch from `main`, for example `feat/short-description`, `fix/short-description`, `docs/short-description`, or `chore/short-description`.
-2. Keep commits small and explain the reason for the change.
-3. Open a pull request against `main`; describe the user impact, link related issues, and include screenshots for visual changes.
-4. Request review from the relevant code owner(s). Authors should not approve their own pull requests.
-5. Resolve review comments and wait for required CI checks before merging.
-6. Prefer squash merging for a clean, readable history. Do not commit secrets, credentials, personal data, generated build output, or unapproved licensed assets.
+## 3. Definition of Done (DoD)
 
-## Definition of Done
+Before any pull request can be approved and merged into `main`, it must satisfy:
 
-- [ ] The change matches an agreed requirement and has a clear acceptance criterion.
-- [ ] Type checking and the relevant tests pass; run `npm run typecheck`, `npm run test`, and `npm run build` from `marsa/` as applicable.
-- [ ] UI changes are checked at mobile and desktop sizes, in English/LTR and Arabic/RTL, and in supported themes.
-- [ ] Accessibility, loading, empty, and error states have been considered where relevant.
-- [ ] Documentation, metadata, and tests are updated when needed.
-- [ ] The PR has the required review and CI checks; no secrets or unrelated changes are included.
+- [ ] **Typecheck**: `npm run typecheck` passes with zero errors.
+- [ ] **Tests**: `npm run test` passes all Vitest specs in jsdom.
+- [ ] **Build Budget**: `npm run build` succeeds within performance budgets.
+- [ ] **Bidirectional Verification**: Tested in English (LTR) and Arabic (RTL) across viewports (mobile 375px, tablet 768px, desktop 1280px+).
+- [ ] **Accessibility Check**: Full keyboard operability, ARIA attributes, and `prefers-reduced-motion` compliance.
+- [ ] **Brand Truthfulness**: No fabricated claims, artificial ratings, or unverified contact data.
+- [ ] **Security Review**: No secrets, sensitive tokens, or unapproved dependencies included.
 
-## Security and operational access
+---
 
-- Store credentials in approved GitHub Actions secrets or the deployment platform's secret manager, never in source control or issue/PR comments.
-- Use least privilege for repository roles, deployment environments, cloud credentials, and tokens.
-- Require review for workflow, dependency, release, and deployment changes.
-- Report vulnerabilities privately using the process in [SECURITY.md](../SECURITY.md); do not publish exploit details in a public issue.
-- Repository code owners are review routing only. They do not grant repository access and do not by themselves enforce required reviews.
+## 4. Security & Access Standards
 
-## Recommended GitHub settings
-
-A repository administrator should verify these settings in GitHub after reviewing the team's release needs:
-
-- Protect `main` with a pull request before merge and at least one approval from someone other than the author.
-- Require approval of the most recent reviewable push when appropriate, dismiss stale approvals after new commits, and require conversation resolution.
-- Require successful CI checks for build, type checking, and tests once the corresponding check names are confirmed in Actions.
-- Restrict force pushes and branch deletion on `main`; do not enable bypasses casually.
-- Enable secret scanning and push protection where available, and review organization/repository access periodically.
-
-These settings are recommendations only; this document does not change branch protection or collaborator permissions.
+- Store production tokens exclusively in approved GitHub Secrets or Vercel environment managers.
+- Enforce branch protection on `main` requiring minimum 1 approving review and passing status checks.
+- Report all vulnerabilities privately through GitHub Security Advisories or by contacting the lead maintainer directly.

@@ -104,7 +104,7 @@
 
       <!-- Bottom bar -->
       <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-[11px] font-mono text-marsa-ink/70 dark:text-marsa-pearl/75 tracking-widest uppercase border-t border-marsa-warm/60 dark:border-white/10 pt-6">
-        <span>&#169;&nbsp;{{ currentYear }}&nbsp;{{ text(footerData.rights) }}</span>
+        <span>&#169;&nbsp;{{ getCurrentYear() }}&nbsp;{{ text(footerData.rights) }}</span>
         <div class="flex flex-wrap items-center gap-4 sm:gap-6">
           <div class="flex items-center gap-2">
             <a [href]="linksData.social.whatsapp" target="_blank" rel="noopener noreferrer" [attr.aria-label]="text(footerData.social.whatsapp)" class="hover:text-[#25D366] transition-colors">WhatsApp</a>

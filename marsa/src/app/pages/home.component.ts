@@ -12,7 +12,7 @@ import { SitePreferencesService } from '../services/site-preferences.service';
 import { Header } from '../components/layout/header/header';
 import { Footer } from '../components/layout/footer/footer';
 import { HeroComponent } from '../components/sections/hero/hero.component';
-import { IntroComponent } from '../components/sections/intro/intro.component';
+import { WhyComponent } from '../components/sections/why/why.component';
 import { ProductsComponent } from '../components/sections/products/products.component';
 import { AboutComponent } from '../components/sections/about/about.component';
 import { CtaComponent } from '../components/sections/cta/cta.component';
@@ -34,7 +34,7 @@ import { CtaComponent } from '../components/sections/cta/cta.component';
     Header,
     Footer,
     HeroComponent,
-    IntroComponent,
+    WhyComponent,
     ProductsComponent,
     AboutComponent,
     CtaComponent,

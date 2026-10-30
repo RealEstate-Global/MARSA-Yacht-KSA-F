@@ -1,53 +1,48 @@
-# Security Policy
+# Security Policy — Al Marsa
 
-MARSA is a bilingual customer-facing web application for Saudi marine
-hospitality and yacht provisioning. Keeping guest data and the trust of owners,
-captains, and crew safe matters.
+Al Marsa takes the security and integrity of our codebase, infrastructure, and user trust seriously. This policy outlines our security practices and instructions for reporting vulnerabilities.
 
-## Supported Versions
+---
 
-The application is continuously deployed from `main` (currently version
-1.0.x). Only the latest build deployed from `main` receives security fixes —
-there are no long-lived maintenance branches or released version lines.
+## 1. Supported Versions
 
-## Reporting a Vulnerability
+Security updates and patches are applied continuously to the `main` branch. 
 
-Please do **not** open a public issue for anything you believe is exploitable.
+| Version | Supported | Status |
+| :--- | :--- | :--- |
+| `1.0.x` (`main`) | ✅ Yes | Continuously deployed to production |
+| `< 1.0.0` | ❌ No | Deprecated legacy prototypes |
 
-1. Report privately via GitHub Security Advisories ("Report a vulnerability"
-   button on the repository's Security tab, available to maintainers and
-   authorized reporters), **or**
-2. Contact a repository maintainer directly through GitHub
-   ([@Mostafa-SAID7](https://github.com/Mostafa-SAID7)).
+---
 
-When reporting, include:
+## 2. Security Architecture & Posture
 
-- A description of the issue and its impact
-- Steps to reproduce (URLs, code paths, proof-of-concept where possible)
-- Any relevant logs or screenshots — **never** include live credentials,
-  tokens, or personal data
+- **Zero In-App PII Collection**: As a web lookbook, the website does not collect, store, or process user credentials, payment details, or identification documents. All booking transactions, KYC identity checks, and Coastguard maritime permits are managed securely within the native Al Marsa mobile applications ([almarsa.app](https://almarsa.app/)).
+- **Content Security & Safe Linking**: All outbound links to the official Al Marsa ecosystem use `rel="noopener noreferrer"` to protect against reverse tabnabbing and window manipulation.
+- **Automated Scanning**:
+  - **GitHub CodeQL**: Automated static analysis runs on every pull request and push to `main` to identify potential vulnerabilities.
+  - **Dependabot**: Monitors and automatically issues pull requests for vulnerable npm dependencies and GitHub Actions workflows.
+- **No Secrets in Source Control**: API keys, deployment tokens, and environment secrets are managed strictly through encrypted GitHub Secrets and Vercel environment managers.
 
-You can expect an acknowledgement within 7 days and status updates while the
-report is being triaged. Findings will be fixed as soon as practical and
-credited where the reporter wishes. Reports that are declined will receive an
-explanation.
+---
 
-## Security Practices in this Repository
+## 3. Reporting a Vulnerability
 
-- CodeQL scans run on every push/PR to `main` and weekly
-- Dependabot keeps npm and GitHub Actions dependencies current
-- CI runs typecheck, unit tests, and the production build before merge
-- No secrets are committed to version control
-- Dynamic backend configuration (e.g., the request endpoint) lives outside
-  source control and is never invented as fake wiring
+If you discover a security vulnerability, please report it privately:
 
-## In-Scope Concerns
+1. **GitHub Security Advisory (Preferred)**:
+   - Go to the **Security** tab of the repository.
+   - Click **Report a vulnerability** to open a confidential report.
+2. **Direct Maintainer Contact**:
+   - Reach out directly to the technical lead via GitHub: [@Mostafa-SAID7](https://github.com/Mostafa-SAID7).
 
-- Cross-site scripting through template rendering or unsafe HTML
-- Dependency vulnerabilities in the Angular application (`marsa/package.json`)
-- Workflow and permissions issues in `.github/workflows/`
-- Personal data collection or exposure through the request forms
+### Please include in your report:
+- A clear description of the vulnerability and its potential impact.
+- Step-by-step reproduction instructions (URLs, code snippets, or proof of concept).
+- Relevant environment details (browser, operating system, device).
+- **Never include live secrets, tokens, or personal data in reports.**
 
-Out-of-scope: social engineering, automated scanner noise without a
-demonstrated impact path, and infrastructure concerns outside this repository
-(e.g., the hosting account or domain registration).
+### Response Time & Disclosure
+- You will receive an initial acknowledgement within **48 hours**.
+- We will coordinate a remediation timeline before any public disclosure.
+- Security researchers who report confirmed vulnerabilities in accordance with this policy will be credited upon release.

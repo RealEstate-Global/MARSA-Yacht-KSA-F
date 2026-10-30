@@ -1,163 +1,81 @@
-# Contributing to MARSA
+# Contributing to Al Marsa
 
-Thank you for your interest in contributing to MARSA! We welcome contributions from the community.
+Thank you for your interest in contributing to **Al Marsa (المرسى)**! We are building a world-class luxury yacht lookbook for the Gulf, and we appreciate contributions from the community and engineering team.
 
-## Getting Started
+---
 
-1. **Fork the repository** on GitHub
-2. **Clone your fork** locally
-3. **Follow the [Setup Guide](./docs/SETUP.md)** to set up your development environment
-4. **Read the [Development Guide](./docs/DEVELOPMENT.md)** for coding standards
+## 1. Code of Conduct
 
-## Development Workflow
+All contributors and maintainers are expected to adhere to our [Code of Conduct](./CODE_OF_CONDUCT.md). Please treat everyone with respect, kindness, and professionalism.
 
-### 1. Create a Feature Branch
+---
+
+## 2. Getting Started
+
+1. **Fork & Clone**: Fork the repository on GitHub and clone your fork locally.
+2. **Environment Setup**: Follow our [Setup Guide](./docs/SETUP.md) to install dependencies (`Node.js 24.x`, `npm ci`).
+3. **Coding Standards**: Read the [Development Guide](./docs/DEVELOPMENT.md) for architecture rules, standalone component patterns, and bilingual handling.
+
+---
+
+## 3. Development Workflow
+
+### Create a Focused Branch
+Always branch from `main`:
 ```bash
 git checkout -b feat/your-feature-name
+# or
+git checkout -b fix/your-bug-fix
 ```
 
-### 2. Make Your Changes
-- Write clean, well-documented code
-- Follow the coding standards in [Development Guide](./docs/DEVELOPMENT.md)
-- Keep commits atomic and focused
-
-### 3. Test Your Changes
+### Validate Before Committing
+Run all verification scripts from the `marsa/` directory:
 ```bash
-npm run typecheck
-npm run build
+cd marsa
+npm run typecheck    # TypeScript & Angular template check
+npm run test         # Component unit tests with Vitest
+npm run build        # Production bundle compilation
 ```
 
-### 4. Commit Your Changes
-Use conventional commit messages:
+### Write Conventional Commits
+Commit messages must follow the [Conventional Commits](https://www.conventionalcommits.org/) format:
 ```bash
-git commit -m "feat(scope): description"
+git commit -m "feat(slider): add touch swipe dampening to why section"
+git commit -m "fix(locale): ensure cairo font applies correctly in RTL"
+git commit -m "docs(readme): modernize architecture overview"
 ```
 
-### 5. Push to Your Fork
-```bash
-git push origin feat/your-feature-name
-```
+---
 
-### 6. Create a Pull Request
-- Provide a clear description of your changes
-- Reference related issues using `#issue-number`
-- Ensure CI checks pass
+## 4. Submitting a Pull Request
 
-## Pull Request Guidelines
+1. Push your branch to your GitHub fork:
+   ```bash
+   git push origin feat/your-feature-name
+   ```
+2. Open a Pull Request targeting `main`.
+3. Complete the pull request template:
+   - Provide a concise summary of the problem and your solution.
+   - Attach screenshots or recordings for any UI/UX or responsive layout changes.
+   - Link related issue numbers (e.g. `Fixes #123`).
+4. Ensure all GitHub Actions CI checks pass.
+5. Request review from the designated code owners in [.github/CODEOWNERS](./.github/CODEOWNERS).
 
-### PR Title
-Use conventional commit format for clarity:
-- `feat(scope): description`
-- `fix(scope): description`
-- `docs(scope): description`
+---
 
-### PR Description
-Include:
-- What problem does this solve?
-- How does it solve it?
-- Related issues (use `Closes #123`)
-- Screenshots (if applicable)
+## 5. Definition of Done Checklist
 
-### Code Quality
-- TypeScript strict mode compliance
-- No unused variables or imports
-- Follow existing code patterns
-- Add comments for complex logic
+Every pull request must satisfy:
+- [ ] TypeScript strict mode compliance with no implicit `any`.
+- [ ] Change verified in both **English (LTR)** and **Arabic (RTL)**.
+- [ ] Responsive layout checked at mobile (375px), tablet (768px), and desktop (1280px+).
+- [ ] Accessibility validated (keyboard navigation, ARIA landmarks, `prefers-reduced-motion`).
+- [ ] No fabricated claims, invented inventory, or live credentials.
 
-## Reporting Issues
+---
 
-### Bug Reports
-Use the [bug report template](./.github/ISSUE_TEMPLATE/bug_report.md)
+## 6. Questions or Need Help?
 
-Include:
-- Clear description of the bug
-- Steps to reproduce
-- Expected vs actual behavior
-- Environment details (OS, browser, versions)
-
-### Feature Requests
-Use the [feature request template](./.github/ISSUE_TEMPLATE/feature_request.md)
-
-Include:
-- Clear description of the feature
-- Problem it solves
-- Proposed implementation
-- Alternative solutions
-
-## Code Standards
-
-### TypeScript
-- Strict mode enabled
-- No implicit `any` types
-- Use interfaces for object shapes
-- Document complex logic
-
-### Components
-- Standalone components only
-- OnPush change detection
-- Proper cleanup on destroy
-- Clear input/output contracts
-
-### Services
-- Use dependency injection
-- Export as singleton when appropriate
-- Handle errors gracefully
-- Document public API
-
-### Naming
-- PascalCase for classes and interfaces
-- camelCase for variables and methods
-- kebab-case for file names
-- Descriptive names that convey intent
-
-## Commit Message Format
-
-```
-type(scope): subject
-
-body
-
-footer
-```
-
-**Type**: feat, fix, docs, style, refactor, test, chore  
-**Scope**: Optional - which part of the app  
-**Subject**: Imperative, present tense, < 50 chars  
-
-**Body**: Detailed explanation (if needed)  
-**Footer**: Reference issues, breaking changes
-
-Example:
-```
-feat(components): add bilingual label component
-
-Implemented new label component that supports both
-English and Arabic text with automatic RTL support.
-
-Closes #45
-```
-
-## Review Process
-
-1. **Automated Checks**: CI/CD pipeline runs
-2. **Code Review**: Maintainers review code quality
-3. **Feedback**: Comments and suggestions provided
-4. **Revisions**: Address feedback with new commits
-5. **Merge**: Approved PRs are merged to main
-
-## Community Guidelines
-
-- Be respectful and professional
-- Assume good intentions
-- Focus on code, not the coder
-- Help others learn and grow
-- Report concerns to maintainers
-
-## Questions?
-
-- Check [Setup Guide](./docs/SETUP.md)
-- Read [Development Guide](./docs/DEVELOPMENT.md)
-- Review [Architecture Guide](./docs/ARCHITECTURE.md)
-- Open a discussion issue
-
-Thank you for contributing! 🎉
+- Check the [Architecture Guide](./docs/ARCHITECTURE.md)
+- Check the [Migration Notes](./docs/MIGRATION.md)
+- Reach out to the maintainers or open a GitHub discussion.

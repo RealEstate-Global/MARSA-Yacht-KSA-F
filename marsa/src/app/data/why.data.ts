@@ -2,7 +2,9 @@ import { WhyCopy } from '../models/content.model';
 
 /**
  * "Why Al Marsa" section copy.
- * Source: https://almarsa.app/ — captured 2026-10-29.
+ * Redesigned for the image-led horizontal slider — each card has a full-bleed
+ * portrait image (3:4 aspect), eyebrow label, title, and short description.
+ * Source: https://almarsa.app/ — captured & refined 2026-10-30.
  */
 export const whyData: WhyCopy = {
   heading: { en: 'Why Al Marsa', ar: 'لماذا المرسى' },
@@ -12,31 +14,39 @@ export const whyData: WhyCopy = {
   },
   cards: [
     {
-      title: { en: 'Verified vessels', ar: 'قوارب ويخوت موثّقة' },
+      image: '/assets/why-card-01.jpg',
+      eyebrow: { en: '01 — Fleet', ar: '٠١ — الأسطول' },
+      title: { en: 'Premium Yacht Experiences', ar: 'تجارب يخوت فاخرة' },
       description: {
-        en: 'Yachts and boats that clear our listing bar — what you see is what you charter.',
-        ar: 'يخوت وقوارب معتمدة ومطابقة لأعلى المعايير — ما تراه هو ما تستأجره بدقة.',
+        en: 'Beautifully selected yachts and unforgettable experiences on the water. Every vessel is verified — what you see is exactly what you charter.',
+        ar: 'يخوت مختارة بعناية وتجارب لا تُنسى على الماء. كل سفينة موثّقة — ما تراه هو ما تستأجره بالضبط.',
       },
     },
     {
-      title: { en: 'Licensed captains', ar: 'قباطنة مرخّصون' },
+      image: '/assets/why-card-02.jpg',
+      eyebrow: { en: '02 — Trust', ar: '٠٢ — الثقة' },
+      title: { en: 'Trusted Charter Experience', ar: 'تجربة حجز موثوقة' },
       description: {
-        en: 'When the vessel needs a captain, you get a licensed pro on the trip.',
-        ar: 'عندما تتطلب الرحلة كابتن، نوفر لك قبطاناً محترفاً ومرخصاً لقيادة رحلتك بأمان.',
+        en: 'Clear information, transparent expectations, and confidence throughout the booking journey. Rates up front. No mystery math.',
+        ar: 'معلومات واضحة، وتوقعات شفافة، وثقة في كل مرحلة من مراحل الحجز. أسعار من البداية. دون أي رسوم خفية.',
       },
     },
     {
-      title: { en: 'Clear pricing', ar: 'أسعار واضحة' },
+      image: '/assets/why-card-03.jpg',
+      eyebrow: { en: '03 — App', ar: '٠٣ — التطبيق' },
+      title: { en: 'Seamless App Booking', ar: 'حجز سلس عبر التطبيق' },
       description: {
-        en: 'Rates up front. No mystery math on the web — totals land in the app.',
-        ar: 'أسعار واضحة وشفافة من البداية. دون أي رسوم خفية — القيمة الإجمالية مؤكدة في التطبيق.',
+        en: 'Discover your next yacht and manage every detail of your booking through the Al Marsa app. Coastguard clearance handled automatically.',
+        ar: 'اكتشف يختك التالي وأدر كل تفاصيل حجزك عبر تطبيق المرسى. تصاريح حرس السواحل تتم آلياً.',
       },
     },
     {
-      title: { en: 'Coastguard-cleared', ar: 'تصاريح بحرية معتمدة' },
+      image: '/assets/why-card-04.jpg',
+      eyebrow: { en: '04 — Service', ar: '٠٤ — الخدمة' },
+      title: { en: 'Personalised Service', ar: 'خدمة مخصصة' },
       description: {
-        en: "Regulatory clearance is part of the flow so you're ready to cast off.",
-        ar: 'استخراج التصاريح الرسمية مدمج ضمن خطوات الحجز لتكون جاهزاً للإبحار فوراً وبكل سهولة.',
+        en: 'A more thoughtful charter experience, with licensed captains and attentive support when you need it. Your voyage, fully protected and cleared.',
+        ar: 'تجربة تأجير أكثر اهتماماً، مع قباطنة مرخصين ودعم متواصل حين تحتاجه. رحلتك بحماية تامة ومعتمدة.',
       },
     },
   ],
