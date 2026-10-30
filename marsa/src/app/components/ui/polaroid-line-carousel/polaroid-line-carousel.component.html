@@ -1,0 +1,74 @@
+﻿<div class="pl-container" [class]="className">
+
+  <!-- String Canvas Stage -->
+  <div
+    #rootRef
+    class="pl-root"
+    dir="ltr"
+    [attr.data-drag]="dragging ? '1' : '0'"
+    role="region"
+    aria-roledescription="carousel"
+    [attr.aria-label]="ariaLabel"
+    tabindex="0"
+    (mouseenter)="isHovered = true"
+    (mouseleave)="isHovered = false"
+    (keydown)="onKey($event)"
+    (pointerdown)="onDown($event)"
+    (pointermove)="onMove($event)"
+    (pointerup)="onUp($event)"
+    (pointercancel)="onUp($event)"
+    [style.height]="computedHeight"
+    [style.--pl-bg]="background"
+    [style.--pl-ink]="ink"
+    [style.--pl-cw]="size.cw + 'px'"
+  >
+    <!-- Sagging Wire/String SVG -->
+    <svg class="pl-string" aria-hidden="true">
+      <path #pathRef fill="none" [attr.stroke]="string" stroke-width="1.8" stroke-linecap="round" />
+    </svg>
+
+    <!-- Repeated Cards for Seamless Infinite Track -->
+    <div
+      *ngFor="let item of displayCards; let j = index"
+      #cardRef
+      class="pl-card"
+      [attr.data-j]="j"
+      [attr.data-slide]="item.slideIndex"
+      [attr.data-on]="item.slideIndex === active ? '1' : '0'"
+      [attr.aria-hidden]="item.slideIndex === active ? null : 'true'"
+      (click)="goToItem(j)"
+    >
+      <div class="pl-print">
+        <div class="pl-shot">
+          <img
+            *ngIf="slideImages[item.slideIndex]"
+            [src]="slideImages[item.slideIndex]"
+            [alt]="slides[item.slideIndex]?.alt || slides[item.slideIndex]?.title || ''"
+            draggable="false"
+            loading="lazy"
+          />
+        </div>
+        <div class="pl-note">{{ slides[item.slideIndex]?.title || '' }}</div>
+      </div>
+      <div class="pl-peg"></div>
+    </div>
+  </div>
+
+  <!-- Caption Text Under Active Card (Clean Typography Only) -->
+  <div class="pl-details-wrap">
+    <div class="pl-caption-box" [attr.dir]="isRtl ? 'rtl' : 'ltr'">
+      <h3 *ngIf="currentSlide.title" class="pl-cap-title">
+        {{ currentSlide.title }}
+      </h3>
+      <p *ngIf="currentSlide.caption" class="pl-cap-desc">
+        {{ currentSlide.caption }}
+      </p>
+    </div>
+  </div>
+
+  <!-- Screen-reader live region -->
+  <div class="pl-sr" aria-live="polite">
+    {{ 'Print ' + (active + 1) + ' of ' + slides.length + (currentSlide.title ? ': ' + currentSlide.title : '') }}
+  </div>
+
+</div>

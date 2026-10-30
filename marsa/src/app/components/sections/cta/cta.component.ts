@@ -4,11 +4,12 @@ import { downloadData } from '../../../data/download.data';
 import { linksData } from '../../../data/links.data';
 import { SitePreferencesService } from '../../../services/site-preferences.service';
 import { LucideArrowUpRight } from '@lucide/angular';
+import { ButtonComponent } from '../../ui';
 
 @Component({
   selector: 'app-cta',
   standalone: true,
-  imports: [CommonModule, LucideArrowUpRight],
+  imports: [CommonModule, LucideArrowUpRight, ButtonComponent],
   templateUrl: './cta.component.html',
 })
 export class CtaComponent {

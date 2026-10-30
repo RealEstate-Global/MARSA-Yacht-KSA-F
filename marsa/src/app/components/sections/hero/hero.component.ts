@@ -5,11 +5,12 @@ import { heroData } from '../../../data/hero.data';
 import { sliderData } from '../../../data/slider.data';
 import { SitePreferencesService } from '../../../services/site-preferences.service';
 import { LucideArrowUpRight, LucideArrowDown, LucideMouse } from '@lucide/angular';
+import { ButtonComponent } from '../../ui';
 
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [CommonModule, RouterLink, LucideArrowUpRight, LucideArrowDown, LucideMouse],
+  imports: [CommonModule, RouterLink, LucideArrowUpRight, LucideArrowDown, LucideMouse, ButtonComponent],
   templateUrl: './hero.component.html',
 })
 export class HeroComponent implements OnInit, OnDestroy {

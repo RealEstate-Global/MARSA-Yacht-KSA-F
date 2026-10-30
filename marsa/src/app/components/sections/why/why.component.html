@@ -11,11 +11,10 @@
   </div>
 
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 md:mb-10 text-center">
-    <!-- Eyebrow -->
-    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-marsa-sea/10 dark:bg-marsa-dark-sand/10 border border-marsa-sea/20 dark:border-marsa-dark-sand/20 text-marsa-sea dark:text-marsa-dark-sand text-xs font-mono tracking-widest uppercase mb-3">
-      <span class="w-2 h-2 rounded-full bg-marsa-sea dark:bg-marsa-dark-sand animate-pulse"></span>
-      <span>{{ text(whyData.heading) }}</span>
-    </div>
+    <!-- Eyebrow Badge -->
+    <app-badge [pulse]="true" variant="default" customClass="mb-3">
+      {{ text(whyData.heading) }}
+    </app-badge>
 
     <!-- Title -->
     <h2
@@ -31,7 +30,7 @@
   </div>
 
   <!-- ── Polaroid Line Carousel Component ── -->
-  <div class="relative w-full">
+  <div class="relative w-full isolate">
     <app-polaroid-line-carousel
       [slides]="slides"
       [height]="'560px'"
@@ -49,10 +48,10 @@
   <!-- Bottom Action / CTA Bar -->
   <div class="relative max-w-4xl mx-auto mt-6 px-4 text-center">
     <div class="inline-flex flex-wrap items-center justify-center gap-4">
-      <a
+      <app-button
         routerLink="/"
         fragment="how"
-        class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-marsa-sea hover:bg-marsa-sea-deep text-white text-sm font-semibold tracking-wide shadow-lg hover:shadow-marsa-sea/30 transition-all duration-300 hover:scale-105"
+        variant="sea"
       >
         <span>{{ isRtl ? 'استكشف أسطول اليخوت' : 'Explore Fleet' }}</span>
         <svg
@@ -70,15 +69,15 @@
           <line x1="5" y1="12" x2="19" y2="12"></line>
           <polyline points="12 5 19 12 12 19"></polyline>
         </svg>
-      </a>
+      </app-button>
 
-      <a
+      <app-button
         routerLink="/"
         fragment="download"
-        class="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-marsa-sea/30 dark:border-white/20 hover:border-marsa-sea text-marsa-ink dark:text-white hover:bg-marsa-sea/5 dark:hover:bg-white/5 text-sm font-semibold transition-all duration-300"
+        variant="outline"
       >
         <span>{{ isRtl ? 'تحميل تطبيق المرسى' : 'Download Al Marsa App' }}</span>
-      </a>
+      </app-button>
     </div>
   </div>
 </section>

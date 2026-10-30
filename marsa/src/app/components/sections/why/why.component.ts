@@ -10,7 +10,9 @@ import { SitePreferencesService } from '../../../services/site-preferences.servi
 import {
   PolaroidLineCarouselComponent,
   Slide,
-} from '../../ui/polaroid-line-carousel/polaroid-line-carousel.component';
+  BadgeComponent,
+  ButtonComponent,
+} from '../../ui';
 
 /**
  * Why Al Marsa — Interactive Polaroid Line Carousel Section.
@@ -19,7 +21,13 @@ import {
 @Component({
   selector: 'app-why',
   standalone: true,
-  imports: [CommonModule, RouterLink, PolaroidLineCarouselComponent],
+  imports: [
+    CommonModule,
+    RouterLink,
+    PolaroidLineCarouselComponent,
+    BadgeComponent,
+    ButtonComponent,
+  ],
   templateUrl: './why.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

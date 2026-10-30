@@ -4,6 +4,46 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --marsa-ink: #142a2b;
+  --marsa-deep: #0d2a2d;
+  --marsa-sea: #1e5c5d;
+  --marsa-sea-bright: #367f79;
+  --marsa-sea-soft: #dce9e3;
+  --marsa-sand: #e8d39c;
+  --marsa-sand-deep: #c6aa6c;
+  --marsa-pearl: #f7f3ea;
+  --marsa-warm: #e8e3d8;
+  --marsa-muted: #718083;
+  --marsa-surface: #f5f2eb;
+  --marsa-canvas: #f0ece2;
+  --marsa-card: #ffffff;
+  --marsa-border: rgba(232, 227, 216, 0.8);
+  --scrollbar-track: #f5f2eb;
+  --scrollbar-thumb: #2f7772;
+  --scrollbar-thumb-hover: #17494b;
+}
+
+.dark {
+  --marsa-ink: #f4f1e7;
+  --marsa-deep: #040d0f;
+  --marsa-sea: #87c7ba;
+  --marsa-sea-bright: #b0e0cf;
+  --marsa-sea-soft: #183637;
+  --marsa-sand: #ead7a8;
+  --marsa-sand-deep: #dcc58f;
+  --marsa-pearl: #0d2224;
+  --marsa-warm: #112b2d;
+  --marsa-muted: #a2b0ab;
+  --marsa-surface: #0d2224;
+  --marsa-canvas: #07121a;
+  --marsa-card: #0c1a1d;
+  --marsa-border: rgba(255, 255, 255, 0.08);
+  --scrollbar-track: #07121a;
+  --scrollbar-thumb: #3a756f;
+  --scrollbar-thumb-hover: #87c7ba;
+}
+
 @layer base {
   * {
     @apply box-border;
@@ -11,61 +51,59 @@
 
   html {
     @apply scroll-smooth;
+    scrollbar-gutter: stable;
   }
 
-  /* ── Scrollbar — light mode ── */
-  /* Track uses marsa-pearl (#f5f2eb) to match body background */
+  /* ── Custom Scrollbar (CAiR Turbo luxury style: 6px, arrows/buttons removed) ── */
   html,
   body {
     scrollbar-width: thin;
-    scrollbar-color: #2f7772 #f5f2eb;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
   }
 
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-
-  ::-webkit-scrollbar-button {
-    display: none;
+    width: 6px;
+    height: 6px;
   }
 
   ::-webkit-scrollbar-track {
-    background: #f5f2eb;
-    border-radius: 999px;
+    background: var(--scrollbar-track);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #2f7772;
-    border-radius: 999px;
+    background: var(--scrollbar-thumb);
+    border-radius: 10px;
   }
 
-  ::-webkit-scrollbar-thumb:hover,
-  ::-webkit-scrollbar-thumb:active {
-    background: #17494b;
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
   }
 
-  /* ── Scrollbar — dark mode ── */
-  html.dark,
-  body.dark {
-    scrollbar-color: #a8d4c7 #07121a;
+  /* Completely remove/hide arrows/buttons from top & bottom */
+  ::-webkit-scrollbar-button {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    background: transparent !important;
   }
 
-  html.dark::-webkit-scrollbar-track,
-  .dark ::-webkit-scrollbar-track {
-    background: #07121a;
+  ::-webkit-scrollbar-button:single-button {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
   }
 
-  html.dark::-webkit-scrollbar-thumb,
-  .dark ::-webkit-scrollbar-thumb {
-    background: #a8d4c7;
+  ::-webkit-scrollbar-button:vertical:decrement,
+  ::-webkit-scrollbar-button:vertical:increment,
+  ::-webkit-scrollbar-button:horizontal:decrement,
+  ::-webkit-scrollbar-button:horizontal:increment {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
   }
 
-  html.dark::-webkit-scrollbar-thumb:hover,
-  html.dark::-webkit-scrollbar-thumb:active,
-  .dark ::-webkit-scrollbar-thumb:hover,
-  .dark ::-webkit-scrollbar-thumb:active {
-    background: #83bcb1;
+  ::-webkit-scrollbar-corner {
+    background: transparent;
   }
 
   body {
@@ -185,6 +223,18 @@
     @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full border border-marsa-warm dark:border-white/15 bg-white/80 dark:bg-white/[0.04] text-marsa-ink dark:text-marsa-pearl hover:border-marsa-sea hover:text-marsa-sea dark:hover:border-marsa-dark-sand dark:hover:text-marsa-dark-sand font-semibold text-xs tracking-wider transition-all duration-300 shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-[0.98];
   }
 
+  .marsa-btn-sea {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-marsa-sea hover:bg-marsa-deep text-white font-semibold text-xs tracking-wider transition-all duration-300 shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98];
+  }
+
+  .marsa-btn-outline {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full border border-marsa-sea/30 dark:border-white/20 hover:border-marsa-sea text-marsa-ink dark:text-white hover:bg-marsa-sea/5 dark:hover:bg-white/5 font-semibold text-xs tracking-wider transition-all duration-300;
+  }
+
+  .marsa-btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-marsa-ink/80 dark:text-marsa-dark-ink/80 hover:text-marsa-sea dark:hover:text-marsa-dark-sand hover:bg-black/5 dark:hover:bg-white/5 font-medium text-xs tracking-wider transition-all duration-200;
+  }
+
   .marsa-card {
     @apply rounded-marsa-md border border-marsa-warm/80 dark:border-white/[0.08] bg-white dark:bg-marsa-dark-card shadow-[0_4px_24px_rgba(20,42,43,0.04)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.36)] p-6 flex flex-col gap-3 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_32px_rgba(20,42,43,0.08)] dark:hover:shadow-[0_12px_32px_rgba(0,0,0,0.5)];
   }
@@ -201,46 +251,42 @@
     @apply flex items-center justify-center w-8 h-8 rounded-full border border-marsa-warm/80 dark:border-white/20 hover:border-marsa-sea dark:hover:border-marsa-sand hover:bg-marsa-sea/10 dark:hover:bg-marsa-sand/10 text-marsa-ink/65 dark:text-white/70 hover:text-marsa-sea dark:hover:text-marsa-sand transition-all duration-300;
   }
 
-  /* ── Why Al Marsa — Hill Robinson Sticky-Pinned Scroll ── */
-  .all-cards-pin {
-    position: relative;
-    width: 100%;
+  /* ── Centralized Luxury Form & Input Primitives ── */
+  .marsa-form-label {
+    @apply block text-xs font-semibold uppercase tracking-wider text-marsa-ink/80 dark:text-marsa-dark-ink/80 mb-1.5;
   }
 
-  .all-cards-hor {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
+  .marsa-form-hint {
+    @apply text-[11px] text-marsa-muted dark:text-marsa-dark-muted mt-1;
   }
 
-  .cardHor {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: calc(100% - 2rem);
-    max-width: 1100px;
-    max-height: calc(100vh - 170px);
-    transform: translate3d(-50%, -50%, 0);
-    will-change: transform, filter;
-    transition: filter 0.25s ease;
+  .marsa-form-error {
+    @apply text-[11px] text-red-600 dark:text-red-400 mt-1 font-medium;
   }
 
-  @media (min-width: 768px) {
-    .cardHor {
-      width: min(90vw, 1100px);
-      max-height: calc(100vh - 160px);
-    }
+  .marsa-input {
+    @apply w-full px-4 py-3 rounded-marsa-sm border border-marsa-line/70 dark:border-white/15 bg-white dark:bg-marsa-dark-surface text-marsa-ink dark:text-marsa-dark-ink placeholder-marsa-muted/60 dark:placeholder-white/30 text-sm transition-all duration-200 focus:outline-none focus:border-marsa-sea dark:focus:border-marsa-dark-sand focus:ring-2 focus:ring-marsa-sea/20 dark:focus:ring-marsa-dark-sand/20 disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
-  .all-cards-spacer {
-    display: block;
-    width: 100%;
-    pointer-events: none;
+  .marsa-textarea {
+    @apply marsa-input resize-y min-h-[100px];
   }
+
+  .marsa-select {
+    @apply marsa-input appearance-none bg-no-repeat cursor-pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23718083' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-position: right 1rem center;
+    background-size: 1.2rem;
+  }
+
+  [dir="rtl"] .marsa-select {
+    background-position: left 1rem center;
+  }
+
+  .marsa-checkbox {
+    @apply w-4 h-4 rounded border-marsa-line/80 dark:border-white/20 text-marsa-sea focus:ring-marsa-sea/30 dark:focus:ring-marsa-dark-sand/30 accent-marsa-sea dark:accent-marsa-dark-sand cursor-pointer transition-colors;
+  }
+
 }
 
 @layer utilities {
@@ -352,411 +398,4 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-
-  .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   Why Al Marsa — Hill Robinson Identical Sticky-Pinned Horizontal Scroll
-   Ported from Hill Robinson scripts.js lines 31-39.
-   Structure:
-     .all-cards-pin      (position: relative — scroll runway wrapper)
-       .all-cards-hor    (position: sticky; top:0; height:100vh — viewport lock)
-         .cardHor        (position: absolute; top:50%; left:50% — each card)
-       .all-cards-spacer (SIBLING of .all-cards-hor — vertical runway height)
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-/* 1. Pin container */
-.all-cards-pin {
-  position: relative;
-  overflow: visible; /* sticky inside must NOT have overflow:hidden on parent */
-  width: 100%;
-}
-
-/* 2. Sticky stage — exactly like HR's .all-cards-hor */
-.all-cards-hor {
-  position: sticky;
-  top: 0;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  background-color: var(--color-canvas, #f5f2eb);
-}
-
-/* dark mode background */
-.dark .all-cards-hor {
-  background-color: #07121a;
-}
-
-/* 3. Individual cards — absolutely centred, JS drives X offset */
-.cardHor {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  /* All cards start 100vw to the right; JS overrides transform on every rAF */
-  transform: translate3d(-50%, -50%, 0) translate3d(100vw, 0, 0);
-  width: min(90vw, 960px);
-  /* Performance */
-  will-change: transform;
-  backface-visibility: hidden;
-}
-
-/* Card inner layout */
-.cardHor__inner {
-  display: flex;
-  flex-direction: column;
-  border-radius: 28px;
-  overflow: hidden;
-  background: #ffffff;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.12);
-}
-
-.dark .cardHor__inner {
-  background: #071719;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
-}
-
-@media (min-width: 900px) {
-  .cardHor__inner {
-    flex-direction: row;
-    min-height: 460px;
-    max-height: 540px;
-  }
-}
-
-/* Image column */
-.cardHor__img-wrap {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 10;
-  overflow: hidden;
-  background: #0d2e35;
-  flex-shrink: 0;
-}
-
-@media (min-width: 900px) {
-  .cardHor__img-wrap {
-    width: 50%;
-    aspect-ratio: unset;
-  }
-}
-
-.cardHor__img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.6s ease;
-}
-
-.cardHor:hover .cardHor__img {
-  transform: scale(1.03);
-}
-
-.cardHor__img-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 60%);
-  pointer-events: none;
-}
-
-.cardHor__badge {
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-  padding: 0.3rem 0.85rem;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.2);
-  color: #ffffff;
-  font-family: var(--font-mono, monospace);
-  font-size: 0.7rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-}
-
-[dir="rtl"] .cardHor__badge {
-  left: unset;
-  right: 1rem;
-}
-
-/* Body column */
-.cardHor__body {
-  padding: 2rem 2rem 2.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 0;
-  flex: 1;
-}
-
-@media (min-width: 900px) {
-  .cardHor__body {
-    padding: 2.5rem 3rem;
-  }
-}
-
-.cardHor__meta {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
-}
-
-.cardHor__eyebrow {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: #2f7772;
-}
-
-.dark .cardHor__eyebrow {
-  color: #a8d4c7;
-}
-
-.cardHor__dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: rgba(47, 119, 114, 0.35);
-}
-
-.cardHor__num {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.7rem;
-  color: rgba(27, 40, 56, 0.45);
-}
-
-.dark .cardHor__num {
-  color: rgba(245, 242, 235, 0.4);
-}
-
-.cardHor__title {
-  font-size: clamp(1.4rem, 3vw, 2.25rem);
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  color: #1b2838;
-  margin: 0 0 0.85rem;
-}
-
-.dark .cardHor__title {
-  color: #f5f2eb;
-}
-
-.cardHor__desc {
-  font-size: clamp(0.875rem, 1.5vw, 1rem);
-  line-height: 1.7;
-  color: rgba(27, 40, 56, 0.72);
-  margin: 0 0 1.75rem;
-  max-width: 46ch;
-}
-
-.dark .cardHor__desc {
-  color: rgba(245, 242, 235, 0.7);
-}
-
-.cardHor__cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.65rem 1.5rem;
-  border-radius: 999px;
-  background: #2f7772;
-  color: #ffffff;
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-decoration: none;
-  align-self: flex-start;
-  transition: background 0.25s ease, box-shadow 0.25s ease;
-  box-shadow: 0 4px 16px rgba(47, 119, 114, 0.3);
-}
-
-.cardHor__cta:hover {
-  background: #17494b;
-  box-shadow: 0 6px 20px rgba(47, 119, 114, 0.45);
-}
-
-.dark .cardHor__cta {
-  background: #a8d4c7;
-  color: #07121a;
-}
-
-.dark .cardHor__cta:hover {
-  background: #83bcb1;
-}
-
-.cardHor__cta-arrow {
-  transition: transform 0.25s ease;
-}
-
-.cardHor__cta:hover .cardHor__cta-arrow {
-  transform: translateX(3px);
-}
-
-[dir="rtl"] .cardHor__cta:hover .cardHor__cta-arrow {
-  transform: translateX(-3px);
-}
-
-/* 4. Section header (pinned at top of sticky stage) */
-.why-header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 30;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 5.5rem 2rem 1rem;
-  pointer-events: none;
-}
-
-@media (min-width: 640px) {
-  .why-header {
-    padding: 5.5rem 3rem 1rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .why-header {
-    padding: 5rem 4rem 1rem;
-  }
-}
-
-.why-header__left {
-  pointer-events: none;
-}
-
-.why-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-mono, monospace);
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: #2f7772;
-  margin: 0 0 0.4rem;
-}
-
-.dark .why-eyebrow {
-  color: #a8d4c7;
-}
-
-.why-eyebrow__line {
-  display: inline-block;
-  width: 1.25rem;
-  height: 1.5px;
-  background: rgba(47, 119, 114, 0.45);
-}
-
-.why-title {
-  font-size: clamp(1.5rem, 4vw, 3rem);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  color: #1b2838;
-  margin: 0;
-}
-
-.dark .why-title {
-  color: #f5f2eb;
-}
-
-/* Dot nav */
-.why-nav {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  flex-shrink: 0;
-  pointer-events: auto;
-}
-
-.why-nav__counter {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: #2f7772;
-}
-
-.dark .why-nav__counter {
-  color: #a8d4c7;
-}
-
-.why-nav__dots {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-}
-
-.why-dot {
-  height: 6px;
-  border-radius: 999px;
-  border: none;
-  cursor: pointer;
-  transition: width 0.3s ease, background 0.3s ease;
-  width: 8px;
-  background: rgba(47, 119, 114, 0.3);
-  padding: 0;
-}
-
-.why-dot--active {
-  width: 28px;
-  background: #2f7772;
-}
-
-.dark .why-dot {
-  background: rgba(255,255,255,0.2);
-}
-
-.dark .why-dot--active {
-  background: #a8d4c7;
-}
-
-/* Scroll hint */
-.why-scroll-hint {
-  position: absolute;
-  bottom: 1.25rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-family: var(--font-mono, monospace);
-  font-size: 0.65rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(27, 40, 56, 0.4);
-  margin: 0;
-  pointer-events: none;
-  white-space: nowrap;
-}
-
-.dark .why-scroll-hint {
-  color: rgba(255,255,255,0.35);
-}
-
-.why-scroll-hint__icon {
-  animation: bounce-slow 2.2s ease-in-out infinite;
-}
-
-/* 5. Runway spacer (SIBLING of .all-cards-hor — NOT inside it) */
-.all-cards-spacer {
-  display: block;
-  width: 100%;
-  pointer-events: none;
-  min-height: 200px; /* safety fallback; overridden by [style.height.px] */
 }

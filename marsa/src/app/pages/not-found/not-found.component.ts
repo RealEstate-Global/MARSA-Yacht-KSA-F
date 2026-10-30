@@ -8,6 +8,7 @@ import { SitePreferencesService } from '../../services/site-preferences.service'
 import { Header } from '../../components/layout/header/header';
 import { Footer } from '../../components/layout/footer/footer';
 import { LucideCompass, LucideHome, LucideArrowUpRight } from '@lucide/angular';
+import { ButtonComponent, BadgeComponent } from '../../components/ui';
 
 @Component({
   selector: 'marsa-not-found',
@@ -20,6 +21,8 @@ import { LucideCompass, LucideHome, LucideArrowUpRight } from '@lucide/angular';
     LucideCompass,
     LucideHome,
     LucideArrowUpRight,
+    ButtonComponent,
+    BadgeComponent,
   ],
   templateUrl: './not-found.component.html',
 })
@@ -40,7 +43,9 @@ export class NotFoundComponent implements AfterViewInit, OnDestroy {
         (entries) => entries.forEach((entry) => entry.isIntersecting && entry.target.classList.add('is-visible')),
         { threshold: 0.1 },
       );
-      this.el.nativeElement.querySelectorAll('.reveal, .reveal-up, .reveal-scale').forEach((element) => this.observer?.observe(element));
+      this.el.nativeElement
+        .querySelectorAll('.reveal, .reveal-up, .reveal-left, .reveal-right, .reveal-scale')
+        .forEach((element) => this.observer?.observe(element));
     }
   }
 

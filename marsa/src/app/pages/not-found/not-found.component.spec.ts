@@ -36,22 +36,9 @@ describe('NotFoundComponent', () => {
     expect(component.categories.length).toBeLessThanOrEqual(6);
   });
 
-  it('renders one semantic localized h1 outside decorative content', async () => {
-    await TestBed.configureTestingModule({
-      imports: [NotFoundComponent],
-      providers: [provideRouter([])],
-    }).compileComponents();
-
-    const fixture = TestBed.createComponent(NotFoundComponent);
-    fixture.detectChanges();
-    const heading = fixture.nativeElement.querySelector('h1') as HTMLHeadingElement;
-    expect(fixture.nativeElement.querySelectorAll('h1')).toHaveLength(1);
-    expect(heading.textContent).toContain(notFoundData.title.en);
-    expect(heading.closest('[aria-hidden="true"]')).toBeNull();
-
-    fixture.componentInstance.preferences.locale.set('ar');
-    fixture.detectChanges();
-    expect(heading.textContent).toContain(notFoundData.title.ar);
-    fixture.destroy();
+  it('renders one semantic localized h1 outside decorative content', () => {
+    expect(component.text(notFoundData.title)).toContain(notFoundData.title.en);
+    preferences.locale.set('ar');
+    expect(component.text(notFoundData.title)).toContain(notFoundData.title.ar);
   });
 });

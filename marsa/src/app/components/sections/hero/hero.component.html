@@ -34,39 +34,43 @@
           {{ text(currentSlide().body) }}
         </p>
 
-        <!-- CTA Buttons -->
-        <div class="flex flex-col sm:flex-row gap-4 items-start reveal-up delay-400">
-          <a class="marsa-btn-primary"
-            routerLink="/" fragment="download">
+        <!-- CTA + Slide Indicator — same line -->
+        <div class="flex flex-row items-center justify-between gap-4 reveal-up delay-400 flex-wrap sm:flex-nowrap">
+
+          <!-- CTA Button -->
+          <app-button
+            routerLink="/"
+            fragment="download"
+            variant="primary"
+          >
             {{ text(heroData.primary) }}
             <svg lucideArrowUpRight class="w-3.5 h-3.5" aria-hidden="true"></svg>
-          </a>
+          </app-button>
+
+          <!-- Pagination Dots & Counter Pill -->
+          <div class="flex items-center gap-3 bg-marsa-deep/60 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10 shrink-0">
+            <span class="text-[11px] font-mono tracking-widest text-marsa-sand font-semibold" aria-hidden="true">
+              0{{ activeSlideIndex() + 1 }}<span class="text-white/40">/0{{ slides.length }}</span>
+            </span>
+            <div class="h-3 w-px bg-white/20" aria-hidden="true"></div>
+            <div class="flex items-center gap-0.5" role="tablist" [attr.aria-label]="text({ en: 'Slider pagination', ar: 'التنقل بين الشرائح' })">
+              <button *ngFor="let slide of slides; let i = index"
+                (click)="setSlide(i)"
+                class="flex items-center justify-center w-6 h-6"
+                [attr.aria-label]="goToSlideLabel(i)"
+                [attr.aria-current]="i === activeSlideIndex() ? 'true' : null">
+                <span class="rounded-full transition-all duration-500 ease-out shadow-sm"
+                  [ngClass]="{
+                    'w-7 h-2 bg-marsa-sand': i === activeSlideIndex(),
+                    'w-2 h-2 bg-white/30 hover:bg-white/60': i !== activeSlideIndex()
+                  }" aria-hidden="true"></span>
+              </button>
+            </div>
+          </div>
+
         </div>
       </div>
 
-      <!-- Bottom UI Controls -->
-      <div class="absolute bottom-20 md:bottom-24 left-0 w-full flex items-center justify-between px-6 md:px-10 max-w-5xl mx-auto left-1/2 -translate-x-1/2 z-40">
-        <!-- Pagination Dots & Counter -->
-        <div class="flex items-center gap-3 bg-marsa-deep/60 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10">
-          <span class="text-[11px] font-mono tracking-widest text-marsa-sand font-semibold" aria-hidden="true">
-            0{{ activeSlideIndex() + 1 }}<span class="text-white/40">/0{{ slides.length }}</span>
-          </span>
-          <div class="h-3 w-px bg-white/20" aria-hidden="true"></div>
-          <div class="flex items-center gap-0.5" role="tablist" [attr.aria-label]="text({ en: 'Slider pagination', ar: 'التنقل بين الشرائح' })">
-            <button *ngFor="let slide of slides; let i = index"
-              (click)="setSlide(i)"
-              class="flex items-center justify-center w-6 h-6"
-              [attr.aria-label]="goToSlideLabel(i)"
-              [attr.aria-current]="i === activeSlideIndex() ? 'true' : null">
-              <span class="rounded-full transition-all duration-500 ease-out shadow-sm"
-                [ngClass]="{
-                  'w-7 h-2 bg-marsa-sand': i === activeSlideIndex(),
-                  'w-2 h-2 bg-white/30 hover:bg-white/60': i !== activeSlideIndex()
-                }" aria-hidden="true"></span>
-            </button>
-          </div>
-        </div>
-      </div>
 
       <!-- Curved Bottom Divider -->
       <div class="absolute bottom-0 left-0 w-full z-40 pointer-events-none" style="height: 90px;">

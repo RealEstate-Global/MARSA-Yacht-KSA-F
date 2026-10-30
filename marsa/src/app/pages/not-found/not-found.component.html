@@ -1,26 +1,36 @@
 <div
-  class="min-h-screen flex flex-col justify-between bg-marsa-pearl dark:bg-marsa-dark-canvas text-marsa-ink dark:text-marsa-dark-ink transition-colors duration-300"
+  class="relative min-h-screen flex flex-col justify-between bg-marsa-pearl dark:bg-marsa-dark-canvas text-marsa-ink dark:text-marsa-dark-ink transition-colors duration-300 overflow-hidden"
   [attr.dir]="preferences.locale() === 'ar' ? 'rtl' : 'ltr'"
 >
+  <!-- Atmospheric Nautical Glow -->
+  <div class="absolute inset-0 pointer-events-none opacity-40 dark:opacity-25" aria-hidden="true">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[450px] bg-gradient-to-b from-marsa-sea/20 to-transparent rounded-full blur-3xl"></div>
+  </div>
+
   <!-- Header -->
   <marsa-header></marsa-header>
 
   <!-- 404 Main Content -->
-  <main class="flex-1 flex items-center justify-center pt-28 pb-16 px-6">
-    <div class="w-full max-w-2xl mx-auto text-center reveal-up">
-      <!-- Badge -->
-      <div class="marsa-badge bg-marsa-sea/10 dark:bg-marsa-dark-sea/15 border border-marsa-sea/20 dark:border-marsa-dark-sea/30 text-marsa-sea dark:text-marsa-dark-sea mb-8">
-        <svg lucideCompass class="w-4 h-4 animate-spin-slow" aria-hidden="true"></svg>
-        <span>{{ text(notFoundData.badge) }}</span>
+  <main class="relative z-10 flex-1 flex items-center justify-center pt-32 sm:pt-40 pb-20 px-6">
+    <div class="w-full max-w-2xl mx-auto text-center animate-rise">
+
+      <!-- Eyebrow Badge -->
+      <div class="flex justify-center mb-6">
+        <app-badge variant="default" [pulse]="true">
+          <svg lucideCompass class="w-4 h-4 animate-[spin_16s_linear_infinite]" aria-hidden="true"></svg>
+          <span>{{ text(notFoundData.badge) }}</span>
+        </app-badge>
       </div>
 
       <!-- Decorative 404 numeral; the localized page title remains accessible below. -->
-      <div class="relative mb-3 select-none" aria-hidden="true">
-        <span class="text-[clamp(90px,16vw,170px)] font-bold font-mono tracking-tighter text-marsa-sea/15 dark:text-white/10 leading-none block">
+      <div class="relative mb-2 select-none" aria-hidden="true">
+        <span class="text-[clamp(100px,18vw,190px)] font-bold font-mono tracking-tighter text-marsa-sea/15 dark:text-white/10 leading-none block select-none">
           404
         </span>
       </div>
-      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-marsa-ink dark:text-marsa-dark-ink drop-shadow-sm mb-6">
+
+      <!-- Semantic Page Title -->
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-marsa-ink dark:text-marsa-dark-ink drop-shadow-sm mb-5">
         {{ text(notFoundData.title) }}
       </h1>
 
@@ -29,21 +39,24 @@
         {{ text(notFoundData.description) }}
       </p>
 
-      <!-- Action Buttons -->
+      <!-- Reusable Action Buttons -->
       <div class="flex flex-wrap items-center justify-center gap-4 mb-14">
-        <a
+        <app-button
           routerLink="/"
-          class="marsa-btn-primary">
+          variant="primary"
+        >
           <svg lucideHome class="w-4 h-4" aria-hidden="true"></svg>
-          {{ text(notFoundData.homeCta) }}
-        </a>
-        <a
+          <span>{{ text(notFoundData.homeCta) }}</span>
+        </app-button>
+
+        <app-button
           routerLink="/"
           fragment="how"
-          class="marsa-btn-secondary">
-          {{ text(notFoundData.exploreCta) }}
+          variant="secondary"
+        >
+          <span>{{ text(notFoundData.exploreCta) }}</span>
           <svg lucideArrowUpRight class="w-3.5 h-3.5" aria-hidden="true"></svg>
-        </a>
+        </app-button>
       </div>
 
       <!-- Popular Charter Links -->
@@ -61,6 +74,7 @@
           </a>
         </div>
       </div>
+
     </div>
   </main>
 

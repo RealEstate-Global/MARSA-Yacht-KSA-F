@@ -11,11 +11,14 @@
              listings exist — one neutral "Visit Al Marsa" to the official
              site. See docs/MIGRATION.md §7. -->
         <div class="flex justify-center">
-          <a class="marsa-btn-primary"
-            [href]="linksData.official" target="_blank" rel="noopener">
+          <app-button
+            [href]="linksData.official"
+            target="_blank"
+            variant="primary"
+          >
             {{ text(downloadData.visit) }}
             <svg lucideArrowUpRight class="w-3.5 h-3.5" aria-hidden="true"></svg>
-          </a>
+          </app-button>
         </div>
       </div>
     </section>

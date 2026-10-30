@@ -31,11 +31,19 @@ export class Header {
   readonly navData = navData;
   readonly preferences: SitePreferencesService;
   isMenuOpen = false;
+  scrolled = false;
 
   @ViewChild('menuToggle') private menuToggle?: ElementRef<HTMLButtonElement>;
 
   constructor(preferences: SitePreferencesService) {
     this.preferences = preferences;
+  }
+
+  @HostListener('window:scroll')
+  onWindowScroll(): void {
+    if (typeof window !== 'undefined') {
+      this.scrolled = window.scrollY > 20;
+    }
   }
 
   text(value: { en: string; ar: string }): string {
@@ -64,5 +72,9 @@ export class Header {
 
   isLightTheme(): boolean {
     return this.preferences.theme() === 'light';
+  }
+
+  toggleTheme(event: MouseEvent): void {
+    this.preferences.toggleTheme(event);
   }
 }
