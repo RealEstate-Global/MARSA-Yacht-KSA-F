@@ -1,76 +1,31 @@
 import {
   Component,
-  ElementRef,
-  OnDestroy,
   OnInit,
-  ViewChild,
-  ViewChildren,
-  QueryList,
-  AfterViewInit,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { whyData } from '../../../data/why.data';
 import { SitePreferencesService } from '../../../services/site-preferences.service';
+import {
+  PolaroidLineCarouselComponent,
+  Slide,
+} from '../../ui/polaroid-line-carousel/polaroid-line-carousel.component';
 
 /**
- * Why Al Marsa — Hill Robinson Identical Sticky-Pinned Scroll.
- *
- * Ported verbatim from Hill Robinson scripts.js lines 31-39:
- *
- *   var $pin = $('.all-cards-pin');
- *   var $track = $pin.find('.all-cards-hor');
- *   var $cards = $track.find('.cardHor');
- *
- *   function update() {
- *     var scrollPerCard = $pin.data('scrollPerCard') || 1;
- *     var y = Math.max(0, -$pin[0].getBoundingClientRect().top);
- *     var progress = Math.max(0, Math.min(n - 1, y / scrollPerCard));
- *     $cards.each(function(i) {
- *       var local = Math.max(0, Math.min(1, progress - i + 1));
- *       var x = 100 - local * 100;
- *       this.style.transform =
- *         "translate3d(-50%, -50%, 0) translate3d(" + x + "vw, 0, 0)";
- *     });
- *   }
- *
- * Key structural requirements (from their HTML):
- *   .all-cards-pin   → position: relative  (scroll runway wrapper)
- *   .all-cards-hor   → position: sticky; top: 0; height: 100vh  (locked viewport)
- *   .cardHor         → position: absolute; top: 50%; left: 50%  (each card)
- *   .all-cards-spacer → SIBLING of .all-cards-hor  (vertical runway length)
- *
- * RTL-aware: direction multiplied by -1 for Arabic locale.
+ * Why Al Marsa — Interactive Polaroid Line Carousel Section.
+ * Instant photos pegged to a sagging string with spring and swing physics.
  */
 @Component({
   selector: 'app-why',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, PolaroidLineCarouselComponent],
   templateUrl: './why.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WhyComponent implements OnInit, AfterViewInit, OnDestroy {
+export class WhyComponent implements OnInit {
   readonly whyData = whyData;
-
-  /** The outer pin container — used to read getBoundingClientRect().top */
-  @ViewChild('pinContainer') private pinRef?: ElementRef<HTMLElement>;
-
-  /** The sticky stage — used only for height measurement */
-  @ViewChild('horStage') private stageRef?: ElementRef<HTMLElement>;
-
-  /** The individual card elements — JS drives their transform */
-  @ViewChildren('cardRef') private cardElements!: QueryList<ElementRef<HTMLElement>>;
-
-  /** Active card index for dot nav */
   activeCardIndex = 0;
-
-  /** Vertical runway height (px) — bound to spacer [style.height.px] */
-  lockDistance = 2400;
-
-  private isDestroyed = false;
-  private ticking = false;
-
-  /** Cached scroll-per-card distance (px) — updated on resize */
-  private scrollPerCard = 650;
 
   constructor(public preferences: SitePreferencesService) {}
 
@@ -82,155 +37,64 @@ export class WhyComponent implements OnInit, AfterViewInit, OnDestroy {
     return val ? this.preferences.text(val) : '';
   }
 
+  get slides(): Slide[] {
+    const defaultYachtSlides: Slide[] = [
+      {
+        image: '/assets/why-card-01.jpg',
+        title: this.isRtl ? 'تجارب يخوت فاخرة' : 'Premium Yacht Experiences',
+        caption: this.isRtl
+          ? 'يخوت مختارة بعناية وتجارب لا تُنسى على مياه البحر الأحمر.'
+          : 'Beautifully curated luxury yachts with verified charters and five-star crew.',
+        alt: this.isRtl ? 'يخوت فاخرة' : 'Luxury Yacht Fleet',
+      },
+      {
+        image: '/assets/why-card-02.jpg',
+        title: this.isRtl ? 'ثقة وموثوقية تامة' : 'Trusted Charter Experience',
+        caption: this.isRtl
+          ? 'أسعار واضحة، تصاريح رسمية، ومتابعة فورية لكل خطوة.'
+          : 'Clear upfront pricing, verified captain credentials, and coastguard compliance.',
+        alt: this.isRtl ? 'تجربة موثوقة' : 'Trusted Experience',
+      },
+      {
+        image: '/assets/why-card-03.jpg',
+        title: this.isRtl ? 'حجز سلس عبر التطبيق' : 'Seamless App Booking',
+        caption: this.isRtl
+          ? 'استكشف أسطولنا واحجز رحلتك البحرية في دقائق عبر التطبيق.'
+          : 'Discover, customize and confirm your voyage in minutes on iOS and Android.',
+        alt: this.isRtl ? 'تطبيق المرسى' : 'Al Marsa App',
+      },
+      {
+        image: '/assets/why-card-04.jpg',
+        title: this.isRtl ? 'خدمة مخصصة وضيافة' : 'Personalised Service',
+        caption: this.isRtl
+          ? 'قباطنة مرخصون وضيافة بحرية استثنائية طوال فترة إبحارك.'
+          : 'Tailored itineraries, private chefs, watersports, and attentive concierge.',
+        alt: this.isRtl ? 'خدمة مخصصة' : 'Personalized Concierge',
+      },
+      {
+        image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1800&auto=format&fit=crop',
+        title: this.isRtl ? 'أفق البحر الأحمر' : 'Red Sea Coastal Horizons',
+        caption: this.isRtl
+          ? 'أروع الجزر والمراسي الطبيعية الممتدة على طول الساحل.'
+          : 'Discover secluded reefs, vibrant coral islands, and calm anchorages.',
+        alt: this.isRtl ? 'سواحل البحر الأحمر' : 'Red Sea Coastline',
+      },
+      {
+        image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1800&auto=format&fit=crop',
+        title: this.isRtl ? 'لحظات الغروب الهادئة' : 'Private Sunset Anchor',
+        caption: this.isRtl
+          ? 'استمتع بأمسيات لا تُنسى في الخلجان الخاصة والهادئة.'
+          : 'Unwind as the golden hour settles over pristine waters and tranquil coves.',
+        alt: this.isRtl ? 'غروب البحر' : 'Sunset on the water',
+      },
+    ];
+
+    return defaultYachtSlides;
+  }
+
   ngOnInit(): void {}
 
-  ngAfterViewInit(): void {
-    if (typeof window === 'undefined') return;
-    this.measure();
-    this.update();
-    window.addEventListener('scroll', this.onScroll, { passive: true });
-    window.addEventListener('resize', this.onResize, { passive: true });
-    window.addEventListener('orientationchange', this.onResize, { passive: true });
-  }
-
-  ngOnDestroy(): void {
-    this.isDestroyed = true;
-    if (typeof window === 'undefined') return;
-    window.removeEventListener('scroll', this.onScroll);
-    window.removeEventListener('resize', this.onResize);
-    window.removeEventListener('orientationchange', this.onResize);
-  }
-
-  // ─── Private event handlers ───────────────────────────────────────────────
-
-  private onResize = (): void => {
-    this.measure();
-    this.update();
-  };
-
-  private onScroll = (): void => {
-    if (this.ticking || this.isDestroyed) return;
-    this.ticking = true;
-    window.requestAnimationFrame(() => {
-      this.update();
-      this.ticking = false;
-    });
-  };
-
-  // ─── Core: measure() — mirrors Hill Robinson scripts.js measure() ─────────
-
-  /**
-   * Calculates scrollPerCard and lockDistance.
-   * Mirrors Hill Robinson's getSpeedFactor / getEndPad / measure():
-   *
-   *   function getSpeedFactor() {
-   *     if (lastW < 451) return 0.85;
-   *     if (lastW < 769) return 1;
-   *     return 2;
-   *   }
-   *   function getEndPad() {
-   *     if (lastW < 451) return stableVH * 0.55;
-   *     if (lastW < 769) return stableVH * 0.45;
-   *     return stableVH * 0.2;
-   *   }
-   *   scrollPerCard = availH * speedFactor;
-   *   lockDistance  = (n - 1) * scrollPerCard + endPad;
-   */
-  private measure(): void {
-    if (typeof window === 'undefined') return;
-    const n = this.whyData.cards.length;
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-
-    // Header height offset (matches Hill Robinson's headerH logic)
-    const headerH = vw <= 768 ? 70 : 90;
-    const availH = Math.max(200, vh - headerH);
-
-    // Speed factor and end pad (exact Hill Robinson values)
-    let speedFactor: number;
-    let endPad: number;
-    if (vw < 451) {
-      speedFactor = 0.85;
-      endPad = vh * 0.55;
-    } else if (vw < 769) {
-      speedFactor = 1.0;
-      endPad = vh * 0.45;
-    } else {
-      speedFactor = 2.0;
-      endPad = vh * 0.2;
-    }
-
-    this.scrollPerCard = availH * speedFactor;
-    this.lockDistance = Math.max(0, (n - 1) * this.scrollPerCard + endPad);
-  }
-
-  // ─── Core: update() — EXACT Hill Robinson update() function ──────────────
-
-  /**
-   * Exact port of Hill Robinson scripts.js update():
-   *
-   *   var y = Math.max(0, -$pin[0].getBoundingClientRect().top);
-   *   var progress = Math.max(0, Math.min(n - 1, y / scrollPerCard));
-   *   $cards.each(function(i) {
-   *     var local = Math.max(0, Math.min(1, progress - i + 1));
-   *     var x = 100 - local * 100;
-   *     this.style.transform =
-   *       "translate3d(-50%, -50%, 0) translate3d(" + x + "vw, 0, 0)";
-   *   });
-   */
-  private update(): void {
-    if (!this.pinRef || !this.cardElements) return;
-    const pin = this.pinRef.nativeElement;
-    const cards = this.cardElements.toArray();
-    const n = cards.length;
-    if (n === 0) return;
-
-    // y = vertical scroll consumed INSIDE the pin container
-    const y = Math.max(0, -pin.getBoundingClientRect().top);
-
-    // progress: 0 when no scroll, up to (n-1) when fully scrolled
-    const progress = Math.max(0, Math.min(n - 1, y / this.scrollPerCard));
-
-    // Update active dot
-    this.activeCardIndex = Math.min(n - 1, Math.floor(progress + 0.35));
-
-    // Reduced motion: instant snap, no translate animation
-    const reducedMotion =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    // RTL direction multiplier (HR doesn't have RTL, we add it)
-    const dir = this.isRtl ? -1 : 1;
-
-    cards.forEach((cardRef, i) => {
-      const el = cardRef.nativeElement;
-
-      if (reducedMotion) {
-        el.style.transform =
-          i === this.activeCardIndex
-            ? 'translate3d(-50%, -50%, 0)'
-            : `translate3d(${dir * 150}vw, -50%, 0)`;
-        return;
-      }
-
-      // local: 0 → card is 100vw off-screen to the right
-      //         1 → card is fully centred (x = 0vw)
-      const local = Math.max(0, Math.min(1, progress - i + 1));
-      const x = (100 - local * 100) * dir;
-
-      // Exact Hill Robinson transform — no scale, no brightness (HR doesn't use them)
-      el.style.transform =
-        `translate3d(-50%, -50%, 0) translate3d(${x}vw, 0, 0)`;
-    });
-  }
-
-  // ─── Public: scrollToCard() — quick-jump for dot nav ─────────────────────
-
-  scrollToCard(index: number): void {
-    if (typeof window === 'undefined' || !this.pinRef) return;
-    const pin = this.pinRef.nativeElement;
-    const pinAbsTop = window.scrollY + pin.getBoundingClientRect().top;
-    const target = pinAbsTop + index * this.scrollPerCard + 15;
-    window.scrollTo({ top: target, behavior: 'smooth' });
+  onCarouselChange(index: number): void {
+    this.activeCardIndex = index;
   }
 }
