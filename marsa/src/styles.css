@@ -13,7 +13,7 @@
     @apply scroll-smooth;
   }
 
-  /* ── Scrollbar — light mode ── */
+  /* ── Scrollbar — light mode (CAiR-Turbo geometry: 6px track, no arrows) ── */
   /* Track uses marsa-pearl (#f5f2eb) to match body background */
   html,
   body {
@@ -22,8 +22,8 @@
   }
 
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
   }
 
   ::-webkit-scrollbar-button {
@@ -37,7 +37,7 @@
 
   ::-webkit-scrollbar-thumb {
     background: #2f7772;
-    border-radius: 999px;
+    border-radius: 10px;
   }
 
   ::-webkit-scrollbar-thumb:hover,
