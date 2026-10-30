@@ -16,10 +16,4 @@ export const footerData: FooterCopy = {
     en: '© 2026 Al Marsa. All rights reserved.',
     ar: '© ٢٠٢٦ المرسى. جميع الحقوق محفوظة.',
   },
-  social: {
-    instagram: { en: 'Al Marsa on Instagram', ar: 'المرسى على إنستغرام' },
-    x: { en: 'Al Marsa on X', ar: 'المرسى على إكس' },
-    linkedin: { en: 'Al Marsa on LinkedIn', ar: 'المرسى على لينكدإن' },
-    share: { en: 'Visit Al Marsa official site', ar: 'زيارة موقع المرسى الرسمي' },
-  },
 };
