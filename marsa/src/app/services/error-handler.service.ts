@@ -1,9 +1,10 @@
 import { ErrorHandler, Injectable } from '@angular/core';
 
 /**
- * Global Error Handler providing an application-wide error boundary.
- * Captures uncaught frontend exceptions cleanly, prevents unexpected UI crashes,
- * and records runtime diagnostic telemetry safely.
+ * Application-wide Angular error handler.
+ * Retains a small in-memory diagnostic summary and logs framework-handled
+ * errors to the console. This is not a UI error boundary and does not send
+ * telemetry to an external service.
  */
 @Injectable({ providedIn: 'root' })
 export class GlobalErrorHandler implements ErrorHandler {
@@ -16,7 +17,7 @@ export class GlobalErrorHandler implements ErrorHandler {
 
     // Safe error reporting in browser/node environments
     if (typeof console !== 'undefined' && console.error) {
-      console.error('[Al Marsa Frontend Error Boundary]:', error);
+      console.error('[Al Marsa Angular Error]:', error);
     }
   }
 
