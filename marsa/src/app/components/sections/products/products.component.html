@@ -3,20 +3,20 @@
   <div class="max-w-5xl mx-auto px-6 md:px-8 py-20 md:py-28 bg-transparent text-marsa-ink dark:text-marsa-dark-ink border-t border-marsa-warm/50 dark:border-marsa-dark-pearl/10">
 
     <div class="mb-14 reveal-up">
-      <h2 id="how-title" class="mb-5">{{ text(copy.how.heading) }}</h2>
-      <p class="text-lg opacity-70 max-w-xl leading-relaxed">{{ text(copy.how.lead) }}</p>
+      <h2 id="how-title" class="mb-5 text-marsa-ink dark:text-marsa-dark-ink">{{ text(howData.heading) }}</h2>
+      <p class="text-lg text-marsa-ink/80 dark:text-marsa-dark-ink/70 max-w-xl leading-relaxed">{{ text(howData.lead) }}</p>
     </div>
 
     <!-- Four moves: browse (web) → book/pay/clear/check-in (app) -->
     <ol class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 list-none">
       <li
-        *ngFor="let step of copy.how.steps; let i = index"
-        class="reveal-up rounded-marsa-md border border-marsa-warm/60 dark:border-white/10 bg-marsa-card dark:bg-marsa-dark-card p-6 flex flex-col gap-3"
+        *ngFor="let step of howData.steps; let i = index"
+        class="reveal-up rounded-marsa-md border border-marsa-warm dark:border-white/10 bg-white dark:bg-marsa-dark-card shadow-[0_4px_24px_rgba(20,42,43,0.04)] p-6 flex flex-col gap-3 transition-transform hover:-translate-y-1 duration-300"
         [style.transition-delay]="(i * 100) + 'ms'"
         [attr.aria-labelledby]="'how-step-' + i">
-        <span class="text-3xl font-bold text-marsa-sand-deep dark:text-marsa-dark-sand" aria-hidden="true">{{ i + 1 }}</span>
-        <h3 id="{{ 'how-step-' + i }}" class="text-base font-bold -tracking-[0.02em]">{{ text(step.title) }}</h3>
-        <p class="text-sm opacity-60 leading-relaxed">{{ text(step.description) }}</p>
+        <span class="text-3xl font-bold text-marsa-sea dark:text-marsa-dark-sand font-mono" aria-hidden="true">{{ i + 1 }}</span>
+        <h3 id="{{ 'how-step-' + i }}" class="text-base font-bold text-marsa-ink dark:text-marsa-dark-ink -tracking-[0.02em]">{{ text(step.title) }}</h3>
+        <p class="text-sm text-marsa-ink/75 dark:text-marsa-dark-ink/65 leading-relaxed">{{ text(step.description) }}</p>
       </li>
     </ol>
 
@@ -24,11 +24,11 @@
          no inventory. Mirrors units you can browse there before booking
          in the app. -->
     <div class="mt-14 reveal-up delay-200">
-      <h3 class="text-[13px] font-medium tracking-wide opacity-70 mb-5">{{ text(copy.how.categoriesHeading) }}</h3>
+      <h3 class="text-[13px] font-semibold tracking-wider uppercase text-marsa-ink/75 dark:text-marsa-dark-ink/70 mb-5">{{ text(howData.categoriesHeading) }}</h3>
       <ul class="flex flex-wrap gap-2.5">
         <li
           *ngFor="let category of categories"
-          class="px-4 py-1.5 rounded-full border border-marsa-warm dark:border-white/15 text-[13px] font-medium opacity-80">
+          class="px-4 py-1.5 rounded-full border border-marsa-warm dark:border-white/15 bg-white/80 dark:bg-white/[0.04] text-marsa-ink/85 dark:text-white/85 text-[13px] font-medium shadow-sm transition-all hover:border-marsa-sea/40 hover:bg-white">
           {{ text(category.label) }}
         </li>
       </ul>

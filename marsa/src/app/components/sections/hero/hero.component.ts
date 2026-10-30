@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { copy } from '../../../data/content';
+import { heroData } from '../../../data/hero.data';
+import { sliderData } from '../../../data/slider.data';
 import { SitePreferencesService } from '../../../services/site-preferences.service';
 import { LucideArrowUpRight, LucideArrowDown, LucideMouse } from '@lucide/angular';
 
@@ -12,23 +13,23 @@ import { LucideArrowUpRight, LucideArrowDown, LucideMouse } from '@lucide/angula
   templateUrl: './hero.component.html',
 })
 export class HeroComponent implements OnInit, OnDestroy {
-  copy = copy;
+  readonly heroData = heroData;
+  readonly slideItems = heroData.slides;
 
   // The former second entry duplicated marsa-hero.jpg byte-for-byte, making
   // the first auto-advance a no-op (issue #38). Each slide is now distinct.
   // AVIF cuts every slide to ~40% of its former JPEG weight.
-  slides = [
-    '/assets/marsa-hero.avif',
-    '/assets/marsa-deck.avif',
-    '/assets/marsa-marina.avif',
-    '/assets/marsa-coastline.avif',
-  ];
+  slides = heroData.slides.map((s) => s.image);
 
   // Signal so the zoneless scheduler picks up timer-driven slide changes.
   activeSlideIndex = signal(0);
   private slideInterval: ReturnType<typeof setInterval> | undefined;
 
   constructor(public preferences: SitePreferencesService) {}
+
+  currentSlide() {
+    return this.slideItems[this.activeSlideIndex()] ?? this.slideItems[0];
+  }
 
   ngOnInit() {
     this.startSlider();
@@ -88,7 +89,7 @@ export class HeroComponent implements OnInit, OnDestroy {
   }
 
   goToSlideLabel(index: number): string {
-    const base = this.text(copy.slider.goToSlide);
+    const base = this.text(sliderData.goToSlide);
     return `${base} ${index + 1}`;
   }
 

@@ -3,13 +3,13 @@
       <div class="max-w-5xl mx-auto px-6 md:px-8 py-20 md:py-28 bg-transparent text-marsa-ink dark:text-marsa-dark-ink border-t border-marsa-warm/50 dark:border-marsa-dark-pearl/10">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
         <div class="relative h-72 md:h-96 rounded-marsa-md overflow-hidden order-2 md:order-1 reveal-right">
-          <img src="/assets/marsa-marina.avif" [alt]="text(copy.about.imageAlt)" loading="lazy" decoding="async" class="w-full h-full object-cover" />
+          <img src="/assets/marsa-marina.avif" [alt]="text(aboutData.imageAlt)" loading="lazy" decoding="async" class="w-full h-full object-cover" />
           <div class="absolute inset-0 bg-gradient-to-t from-marsa-deep/50 to-transparent"></div>
         </div>
         <div class="order-1 md:order-2 reveal-left delay-200">
-          <h2 id="about-title" class="mb-6">{{ text(copy.about.heading) }}</h2>
-          <p class="mb-5 leading-relaxed">{{ text(copy.about.body1) }}</p>
-          <p class="opacity-60 leading-relaxed">{{ text(copy.about.body2) }}</p>
+          <h2 id="about-title" class="mb-6">{{ text(aboutData.heading) }}</h2>
+          <p class="mb-5 leading-relaxed">{{ text(aboutData.body1) }}</p>
+          <p class="opacity-60 leading-relaxed">{{ text(aboutData.body2) }}</p>
         </div>
       </div>
       </div>

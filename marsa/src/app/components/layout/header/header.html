@@ -6,7 +6,7 @@
          toggles sit at right-3; right-16 <sm / right-40 sm..md keeps clear gaps
          at 320px, 375px, and 640px). Desktop md+: back in flow. -->
     <a class="flex items-center gap-2.5 hover:opacity-75 transition-opacity shrink-0 absolute right-16 sm:right-40 top-1/2 -translate-y-1/2 md:static md:translate-y-0"
-      routerLink="/" [attr.aria-label]="text(copy.nav.home)" (click)="closeMenu()">
+    routerLink="/" [attr.aria-label]="text(navData.home)" (click)="closeMenu()">
       <span class="flex gap-[3px] items-end" aria-hidden="true">
         <span class="w-[3px] h-3.5 bg-marsa-sand rounded-full"></span>
         <span class="w-[3px] h-5 bg-marsa-sand rounded-full"></span>
@@ -18,10 +18,10 @@
     </a>
 
     <!-- Desktop Nav (fragments keep browser history/refresh consistent) -->
-    <nav class="hidden md:flex items-center gap-7 flex-1 justify-center text-xs font-medium" [attr.aria-label]="text(copy.nav.menu)">
-      <a routerLink="/" fragment="why"   class="text-marsa-pearl/70 hover:text-marsa-pearl transition-colors tracking-wide">{{ text(copy.nav.why) }}</a>
-      <a routerLink="/" fragment="how"   class="text-marsa-pearl/70 hover:text-marsa-pearl transition-colors tracking-wide">{{ text(copy.nav.how) }}</a>
-      <a routerLink="/" fragment="about" class="text-marsa-pearl/70 hover:text-marsa-pearl transition-colors tracking-wide">{{ text(copy.nav.about) }}</a>
+    <nav class="hidden md:flex items-center gap-7 flex-1 justify-center text-xs font-medium" [attr.aria-label]="text(navData.menu)">
+      <a routerLink="/" fragment="why"   class="text-marsa-pearl/70 hover:text-marsa-pearl transition-colors tracking-wide">{{ text(navData.why) }}</a>
+      <a routerLink="/" fragment="how"   class="text-marsa-pearl/70 hover:text-marsa-pearl transition-colors tracking-wide">{{ text(navData.how) }}</a>
+      <a routerLink="/" fragment="about" class="text-marsa-pearl/70 hover:text-marsa-pearl transition-colors tracking-wide">{{ text(navData.about) }}</a>
     </nav>
 
     <!-- Actions -->
@@ -30,14 +30,14 @@
 
       <!-- Theme toggle -->
       <button class="flex items-center justify-center w-8 h-8 rounded-full hover:bg-white/10 transition-colors text-marsa-pearl/70 hover:text-marsa-pearl"
-        type="button" (click)="preferences.toggleTheme($event)" [attr.aria-label]="text(copy.nav.switchTheme)">
+        type="button" (click)="preferences.toggleTheme($event)" [attr.aria-label]="text(navData.switchTheme)">
         <svg *ngIf="isLightTheme()" lucideSun    class="w-4 h-4" aria-hidden="true"></svg>
         <svg *ngIf="!isLightTheme()" lucideMoon   class="w-4 h-4" aria-hidden="true"></svg>
       </button>
 
       <!-- Locale toggle — accessible name includes the visible EN/ع labels -->
       <button class="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 text-[11px] font-medium text-marsa-pearl/70 hover:text-marsa-pearl hover:bg-white/10 rounded-full transition-colors"
-        type="button" (click)="preferences.toggleLocale()" [attr.aria-label]="text(copy.nav.language) + ' — EN/ع'">
+        type="button" (click)="preferences.toggleLocale()" [attr.aria-label]="text(navData.language) + ' — EN/ع'">
         <svg lucideGlobe class="w-3.5 h-3.5" aria-hidden="true"></svg>
         <span [class.font-bold]="preferences.locale() === 'en'" [class.opacity-50]="preferences.locale() !== 'en'">EN</span>
         <span class="opacity-40">/</span>
@@ -47,7 +47,7 @@
       <!-- Download CTA (desktop) — anchor to the #download section -->
       <a class="hidden md:inline-flex items-center gap-1.5 px-4 py-2 bg-marsa-sand hover:bg-marsa-sand-deep text-marsa-deep font-bold text-[11px] rounded-full transition-all hover:scale-105 tracking-wide"
         routerLink="/" fragment="download" (click)="closeMenu()">
-        {{ text(copy.nav.download) }}
+        {{ text(navData.download) }}
         <svg lucideArrowUpRight class="w-3.5 h-3.5" aria-hidden="true"></svg>
       </a>
     </div>
@@ -60,7 +60,7 @@
       type="button" (click)="toggleMenu()"
       [attr.aria-expanded]="isMenuOpen"
       aria-controls="mobile-menu"
-      [attr.aria-label]="isMenuOpen ? text(copy.nav.close) : text(copy.nav.menu)">
+      [attr.aria-label]="isMenuOpen ? text(navData.close) : text(navData.menu)">
       <svg *ngIf="!isMenuOpen" lucideMenu class="w-5 h-5" aria-hidden="true"></svg>
       <svg *ngIf="isMenuOpen"  lucideX    class="w-5 h-5" aria-hidden="true"></svg>
     </button>
@@ -76,11 +76,11 @@
   class="md:hidden fixed inset-0 z-[45] bg-marsa-deep/95 backdrop-blur-lg pt-24 px-6 pb-6 overflow-y-auto
          animate-[fade_0.4s_ease_both]">
   <div class="space-y-1">
-    <p class="eyebrow text-marsa-pearl/50 mb-6">{{ text(copy.nav.menu) }}</p>
+    <p class="eyebrow text-marsa-pearl/50 mb-6">{{ text(navData.menu) }}</p>
 
     <!-- Language switch: reachable on small screens, same behaviour as desktop -->
     <button class="w-full flex items-center gap-2 px-2 py-4 text-lg font-semibold text-marsa-pearl border-b border-white/10 hover:text-marsa-sand transition-colors"
-      type="button" (click)="preferences.toggleLocale()" [attr.aria-label]="text(copy.nav.language) + ' — EN/ع'">
+      type="button" (click)="preferences.toggleLocale()" [attr.aria-label]="text(navData.language) + ' — EN/ع'">
       <svg lucideGlobe class="w-5 h-5 opacity-60" aria-hidden="true"></svg>
       <span [class.font-bold]="preferences.locale() === 'en'" [class.opacity-50]="preferences.locale() !== 'en'">EN</span>
       <span class="opacity-40">/</span>
@@ -88,18 +88,18 @@
     </button>
 
     <a routerLink="/" fragment="why"   class="flex items-center justify-between py-4 text-lg font-semibold text-marsa-pearl border-b border-white/10 hover:text-marsa-sand transition-colors" (click)="closeMenu()">
-      {{ text(copy.nav.why) }} <svg lucideArrowUpRight class="w-5 h-5 opacity-40" aria-hidden="true"></svg>
+      {{ text(navData.why) }} <svg lucideArrowUpRight class="w-5 h-5 opacity-40" aria-hidden="true"></svg>
     </a>
     <a routerLink="/" fragment="how"   class="flex items-center justify-between py-4 text-lg font-semibold text-marsa-pearl border-b border-white/10 hover:text-marsa-sand transition-colors" (click)="closeMenu()">
-      {{ text(copy.nav.how) }} <svg lucideArrowUpRight class="w-5 h-5 opacity-40" aria-hidden="true"></svg>
+      {{ text(navData.how) }} <svg lucideArrowUpRight class="w-5 h-5 opacity-40" aria-hidden="true"></svg>
     </a>
     <a routerLink="/" fragment="about" class="flex items-center justify-between py-4 text-lg font-semibold text-marsa-pearl border-b border-white/10 hover:text-marsa-sand transition-colors" (click)="closeMenu()">
-      {{ text(copy.nav.about) }} <svg lucideArrowUpRight class="w-5 h-5 opacity-40" aria-hidden="true"></svg>
+      {{ text(navData.about) }} <svg lucideArrowUpRight class="w-5 h-5 opacity-40" aria-hidden="true"></svg>
     </a>
     <div class="pt-8">
       <a class="w-full flex items-center justify-center gap-2 py-3.5 px-6 bg-marsa-sand hover:bg-marsa-sand-deep text-marsa-deep font-bold text-sm rounded-full transition-all"
         routerLink="/" fragment="download" (click)="closeMenu()">
-        {{ text(copy.nav.download) }}
+        {{ text(navData.download) }}
         <svg lucideArrowUpRight class="w-4 h-4" aria-hidden="true"></svg>
       </a>
     </div>

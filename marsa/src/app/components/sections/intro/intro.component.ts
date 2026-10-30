@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { copy } from '../../../data/content';
+import { whyData } from '../../../data/why.data';
 import { SitePreferencesService } from '../../../services/site-preferences.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { SitePreferencesService } from '../../../services/site-preferences.servi
   templateUrl: './intro.component.html',
 })
 export class IntroComponent {
-  copy = copy;
+  readonly whyData = whyData;
 
   constructor(public preferences: SitePreferencesService) {}
 

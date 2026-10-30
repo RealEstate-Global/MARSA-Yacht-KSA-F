@@ -1,7 +1,7 @@
 import { Component, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { copy } from '../../../data/content';
+import { navData } from '../../../data/navigation.data';
 import { SitePreferencesService } from '../../../services/site-preferences.service';
 import {
   LucideArrowUpRight,
@@ -28,7 +28,7 @@ import {
   templateUrl: './header.html',
 })
 export class Header {
-  readonly copy = copy;
+  readonly navData = navData;
   readonly preferences: SitePreferencesService;
   isMenuOpen = false;
 

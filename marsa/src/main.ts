@@ -5,7 +5,8 @@ import {
   withComponentInputBinding,
 } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
-import { provideZonelessChangeDetection } from '@angular/core';
+import { ErrorHandler, provideZonelessChangeDetection } from '@angular/core';
+import { GlobalErrorHandler } from './app/services/error-handler.service';
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
 
@@ -15,7 +16,9 @@ bootstrapApplication(AppComponent, {
     // CD driven by signals/template events only. Everything that changes state
     // outside a template listener (slider timer, HTTP submission) uses signals.
     provideZonelessChangeDetection(),
-    // HttpClient backs the request-service submission flow
+    // Global error boundary service to safely catch runtime failures
+    { provide: ErrorHandler, useClass: GlobalErrorHandler },
+    // HttpClient backs any request-service submission flow
     provideHttpClient(),
     provideRouter(
       routes,

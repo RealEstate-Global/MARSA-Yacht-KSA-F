@@ -62,5 +62,19 @@ describe('HeroComponent motion preferences', () => {
     component.activeSlideIndex.set(1);
     expect(component.slideLoads(0)).toBe(false);
     expect(component.slideLoads(2)).toBe(true);
+    component.ngOnDestroy();
+  });
+
+  it('updates currentSlide content dynamically when the active slide changes', () => {
+    stubMatchMedia(true);
+    const component = new HeroComponent(new SitePreferencesService());
+    expect(component.currentSlide().badge.en).toContain('Verified Fleet');
+
+    component.activeSlideIndex.set(1);
+    expect(component.currentSlide().badge.en).toContain('Private Charters');
+
+    component.activeSlideIndex.set(2);
+    expect(component.currentSlide().badge.en).toContain('Marina');
+    component.ngOnDestroy();
   });
 });

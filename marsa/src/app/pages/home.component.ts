@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { copy } from '../data/content';
 import { SitePreferencesService } from '../services/site-preferences.service';
 import { Header } from '../components/layout/header/header';
 import { Footer } from '../components/layout/footer/footer';
@@ -23,6 +22,9 @@ import { CtaComponent } from '../components/sections/cta/cta.component';
  * Booking, payment, KYC, coastguard clearance, and check-in happen in the
  * Al Marsa app — this page never collects user data, so there is no form
  * and no submission service here.
+ *
+ * All site copy is consumed by each child component via their own domain data
+ * imports — HomeComponent acts as a layout shell only.
  */
 @Component({
   selector: 'marsa-home',
@@ -41,7 +43,6 @@ import { CtaComponent } from '../components/sections/cta/cta.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements AfterViewInit, OnDestroy {
-  readonly copy = copy;
   readonly preferences: SitePreferencesService;
 
   private readonly route: ActivatedRoute;

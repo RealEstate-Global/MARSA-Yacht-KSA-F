@@ -19,38 +19,52 @@
 
       <!-- Main Content -->
       <div class="relative z-30 w-full max-w-5xl mx-auto px-6 md:px-8 mb-6 md:mb-12">
-        <h1 id="hero-title" class="text-[clamp(44px,7vw,88px)] font-bold leading-[0.94] -tracking-[0.04em] mb-6 max-w-2xl reveal-up delay-200 drop-shadow-md">
-          {{ text(copy.hero.title) }}
+        <!-- Dynamic Slide Pillar Badge -->
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-marsa-sand text-xs font-semibold tracking-wider uppercase mb-5">
+          <span class="w-1.5 h-1.5 rounded-full bg-marsa-sand animate-pulse" aria-hidden="true"></span>
+          <span>{{ text(currentSlide().badge) }}</span>
+          <span class="opacity-40" aria-hidden="true">·</span>
+          <span class="text-white/80 font-normal normal-case">{{ text(currentSlide().highlight) }}</span>
+        </div>
+
+        <h1 id="hero-title" class="text-[clamp(44px,7vw,88px)] font-bold leading-[0.94] -tracking-[0.04em] mb-6 max-w-2xl reveal-up delay-200 drop-shadow-md min-h-[1.9em] transition-opacity duration-500">
+          {{ text(currentSlide().title) }}
         </h1>
-        <p class="text-base md:text-lg text-marsa-pearl/80 mb-10 max-w-md leading-relaxed reveal-up delay-300 drop-shadow-md">
-          {{ text(copy.hero.body) }}
+        <p class="text-base md:text-lg text-marsa-pearl/80 mb-10 max-w-lg leading-relaxed reveal-up delay-300 drop-shadow-md min-h-[3.2em] transition-opacity duration-500">
+          {{ text(currentSlide().body) }}
         </p>
 
         <!-- CTA Buttons -->
         <div class="flex flex-col sm:flex-row gap-4 items-start reveal-up delay-400">
           <a class="inline-flex items-center gap-2.5 px-7 py-3.5 bg-marsa-sand hover:bg-marsa-sand-deep text-marsa-deep font-bold text-[12px] tracking-wide rounded-full transition-all hover:scale-105"
             routerLink="/" fragment="download">
-            {{ text(copy.hero.primary) }}
+            {{ text(heroData.primary) }}
             <svg lucideArrowUpRight class="w-3.5 h-3.5" aria-hidden="true"></svg>
           </a>
         </div>
       </div>
 
       <!-- Bottom UI Controls -->
-      <div class="absolute bottom-20 md:bottom-24 left-0 w-full flex items-center px-6 md:px-10 max-w-6xl mx-auto left-1/2 -translate-x-1/2 z-40">
-        <!-- Pagination Dots — 24px hit targets with the visible pill inside -->
-        <div class="flex items-center gap-0.5">
-          <button *ngFor="let slide of slides; let i = index"
-            (click)="setSlide(i)"
-            class="flex items-center justify-center w-6 h-6"
-            [attr.aria-label]="goToSlideLabel(i)"
-            [attr.aria-current]="i === activeSlideIndex() ? 'true' : null">
-            <span class="rounded-full transition-all duration-500 ease-out shadow-sm"
-              [ngClass]="{
-                'w-8 h-2.5 bg-marsa-sand': i === activeSlideIndex(),
-                'w-2.5 h-2.5 bg-white/30 hover:bg-white/60': i !== activeSlideIndex()
-              }" aria-hidden="true"></span>
-          </button>
+      <div class="absolute bottom-20 md:bottom-24 left-0 w-full flex items-center justify-between px-6 md:px-10 max-w-5xl mx-auto left-1/2 -translate-x-1/2 z-40">
+        <!-- Pagination Dots & Counter -->
+        <div class="flex items-center gap-3 bg-marsa-deep/60 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10">
+          <span class="text-[11px] font-mono tracking-widest text-marsa-sand font-semibold" aria-hidden="true">
+            0{{ activeSlideIndex() + 1 }}<span class="text-white/40">/0{{ slides.length }}</span>
+          </span>
+          <div class="h-3 w-px bg-white/20" aria-hidden="true"></div>
+          <div class="flex items-center gap-0.5" role="tablist" [attr.aria-label]="text({ en: 'Slider pagination', ar: 'التنقل بين الشرائح' })">
+            <button *ngFor="let slide of slides; let i = index"
+              (click)="setSlide(i)"
+              class="flex items-center justify-center w-6 h-6"
+              [attr.aria-label]="goToSlideLabel(i)"
+              [attr.aria-current]="i === activeSlideIndex() ? 'true' : null">
+              <span class="rounded-full transition-all duration-500 ease-out shadow-sm"
+                [ngClass]="{
+                  'w-7 h-2 bg-marsa-sand': i === activeSlideIndex(),
+                  'w-2 h-2 bg-white/30 hover:bg-white/60': i !== activeSlideIndex()
+                }" aria-hidden="true"></span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -62,7 +76,7 @@
         
         <!-- Mouse Icon Container -->
         <div class="absolute top-5 left-1/2 -translate-x-1/2 pointer-events-auto text-marsa-deep dark:text-marsa-dark-ink">
-          <a routerLink="/" fragment="why" [attr.aria-label]="text(copy.hero.scroll)" class="hover:text-marsa-sea dark:hover:text-marsa-dark-sea transition-colors flex flex-col items-center">
+          <a routerLink="/" fragment="why" [attr.aria-label]="text(heroData.scroll)" class="hover:text-marsa-sea dark:hover:text-marsa-dark-sea transition-colors flex flex-col items-center">
             <svg lucideMouse class="w-5 h-5 opacity-60 mb-1" strokeWidth="1.5" aria-hidden="true"></svg>
             <svg lucideArrowDown class="w-3 h-3 opacity-40 animate-bounce-slow" aria-hidden="true"></svg>
           </a>

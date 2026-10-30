@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { copy } from '../../../data/content';
+import { downloadData } from '../../../data/download.data';
+import { linksData } from '../../../data/links.data';
 import { SitePreferencesService } from '../../../services/site-preferences.service';
 import { LucideArrowUpRight } from '@lucide/angular';
 
@@ -11,7 +12,8 @@ import { LucideArrowUpRight } from '@lucide/angular';
   templateUrl: './cta.component.html',
 })
 export class CtaComponent {
-  copy = copy;
+  readonly downloadData = downloadData;
+  readonly linksData = linksData;
 
   constructor(public preferences: SitePreferencesService) {}
 

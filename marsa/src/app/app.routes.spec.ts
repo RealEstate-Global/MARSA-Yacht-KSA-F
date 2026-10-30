@@ -1,14 +1,23 @@
 import { describe, it, expect } from 'vitest';
 import { routes } from './app.routes';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 /** Section anchors that exist on the aligned lookbook page. */
 const VALID_ANCHORS = new Set(['why', 'how', 'about', 'download']);
 
 describe('app routes', () => {
-  it('redirects unknown paths to the home route', () => {
+  it('resolves unknown paths and /404 to the NotFoundComponent', async () => {
     const wildcard = routes.find((route) => route.path === '**');
-    expect(wildcard).toBeDefined();
-    expect(wildcard?.redirectTo).toBe('');
+    const notFound = routes.find((route) => route.path === '404');
+    expect(wildcard?.loadComponent).toBeTypeOf('function');
+    expect(notFound?.loadComponent).toBeTypeOf('function');
+
+    const [wildcardComponent, notFoundComponent] = await Promise.all([
+      wildcard!.loadComponent!(),
+      notFound!.loadComponent!(),
+    ]);
+    expect(wildcardComponent).toBe(notFoundComponent);
+    expect(wildcardComponent).toBe(NotFoundComponent);
   });
 
   it('maps legacy section routes onto real lookbook section anchors', () => {
