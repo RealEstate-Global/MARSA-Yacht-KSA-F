@@ -16,7 +16,7 @@
     "@angular/cli": "^22.2.4",
     "@angular/compiler-cli": "^22.2.3",
     "@types/node": "^26.6.5",
-    "autoprefixer": "^10.6.1",
+    "autoprefixer": "^10.6.2",
     "jsdom": "~27.4.0",
     "postcss": "^8.5.29",
     "tailwindcss": "^3.4.19",
